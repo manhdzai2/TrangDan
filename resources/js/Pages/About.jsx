@@ -1,7 +1,7 @@
 import React from 'react';
 import RecruitmentLayout from '../Layouts/RecruitmentLayout';
 import { Head, usePage, Link } from '@inertiajs/react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
     Target, 
     Rocket, 
@@ -22,9 +22,41 @@ import {
     Network,
     GraduationCap,
     CheckCircle2,
-    Award
+    Award,
+    Maximize2,
+    X
 } from 'lucide-react';
 import { useTranslation } from '@/Hooks/useTranslation';
+
+const ImageModal = ({ src, isOpen, onClose }) => (
+    <AnimatePresence>
+        {isOpen && (
+            <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={onClose}
+                className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 md:p-12 cursor-zoom-out"
+            >
+                <motion.div
+                    initial={{ scale: 0.9, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    exit={{ scale: 0.9, opacity: 0 }}
+                    className="relative max-w-7xl max-h-full"
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    <button 
+                        onClick={onClose}
+                        className="absolute -top-16 right-0 p-3 bg-white/10 hover:bg-white/20 text-white rounded-full transition-colors"
+                    >
+                        <X className="h-6 w-6" />
+                    </button>
+                    <img src={src} alt="Preview" className="w-full h-full object-contain rounded-2xl shadow-2xl border border-white/10" />
+                </motion.div>
+            </motion.div>
+        )}
+    </AnimatePresence>
+);
 
 const Card = ({ title, description, icon, delay = 0 }) => (
     <motion.div 
@@ -51,7 +83,7 @@ const InfoRow = ({ label, value, icon: Icon }) => (
         </div>
         <div>
             <div className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-1">{label}</div>
-            <div className="text-slate-700 dark:text-slate-300 font-bold italic">{value}</div>
+            <div className="text-slate-700 dark:text-slate-300 font-bold italic text-sm">{value}</div>
         </div>
     </div>
 );
@@ -91,6 +123,7 @@ const SectionHeader = ({ subtitle, title, description, dark = false }) => (
 
 export default function About() {
     const { __ } = useTranslation();
+    const [selectedImage, setSelectedImage] = React.useState(null);
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -108,6 +141,12 @@ export default function About() {
     return (
         <RecruitmentLayout>
             <Head title={__('About Us')} />
+            
+            <ImageModal 
+                isOpen={!!selectedImage} 
+                src={selectedImage} 
+                onClose={() => setSelectedImage(null)} 
+            />
 
             {/* Hero Section - Legal Profile */}
             <section className="min-h-screen relative flex items-center pt-32 pb-20 overflow-hidden bg-white dark:bg-slate-950 transition-colors duration-500">
@@ -123,7 +162,7 @@ export default function About() {
                 </div>
 
                 <div className="max-w-7xl mx-auto px-12 w-full relative z-10">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                         <motion.div variants={containerVariants} initial="hidden" animate="visible">
                             <motion.div variants={itemVariants} className="inline-flex items-center gap-3 px-6 py-2.5 bg-[#EEF8F9] dark:bg-[#002B33] text-[#006D7E] rounded-full text-[10px] font-black uppercase tracking-[0.3em] mb-10 border border-[#006D7E]/10">
                                 <FileText className="h-4 w-4" /> {__('About Legal Profile')}
@@ -133,7 +172,7 @@ export default function About() {
                                 {__('Creating')} <br /> <span className="text-[#006D7E]">{__('Real Values')}</span>
                             </motion.h1>
 
-                            <motion.p variants={itemVariants} className="text-xl text-slate-500 dark:text-slate-400 font-medium italic mb-12 leading-relaxed max-w-3xl">
+                            <motion.p variants={itemVariants} className="text-xl text-slate-500 dark:text-slate-400 font-medium italic mb-12 leading-relaxed max-w-xl">
                                 {__('About Intro Summary')}
                             </motion.p>
 
@@ -145,18 +184,35 @@ export default function About() {
                         </motion.div>
 
                         <motion.div 
-                            initial={{ opacity: 0, x: 50 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 1, delay: 0.5 }}
-                            className="bg-white dark:bg-slate-900 p-12 rounded-[60px] shadow-2xl border border-slate-100 dark:border-white/5 relative group"
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            transition={{ duration: 1 }}
+                            className="relative group"
                         >
-                            <div className="absolute top-0 right-0 w-32 h-32 bg-[#EEF8F9] dark:bg-[#002B33] rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl group-hover:scale-110 transition duration-700"></div>
-                            <div className="space-y-2 relative z-10">
-                                <InfoRow icon={Building} label={__('About Biz Name Label')} value={__('About Biz Name')} />
-                                <InfoRow icon={Scale} label={__('About Biz Type Label')} value={__('About Biz Type')} />
-                                <InfoRow icon={FileText} label={__('About Tax ID Label')} value={__('About Tax ID')} />
-                                <InfoRow icon={MapPin} label={__('About Location Label')} value={__('About Location')} />
-                                <InfoRow icon={Users} label={__('About Representative Label')} value={__('About Representative')} />
+                            <div className="absolute -inset-10 bg-[#006D7E]/10 blur-[100px] rounded-full group-hover:bg-[#006D7E]/20 transition duration-700"></div>
+                            <div className="relative glass-effect p-8 rounded-[60px] border border-slate-100 dark:border-white/5 overflow-hidden shadow-2xl">
+                                <motion.div 
+                                    whileHover={{ scale: 1.05 }}
+                                    className="relative h-[500px] rounded-[40px] overflow-hidden overflow-hidden cursor-zoom-in"
+                                    onClick={() => setSelectedImage('/images/building.jpg.png')}
+                                >
+                                    <img src="/images/building.jpg.png" alt="Almus Tech Building" className="w-full h-full object-cover" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-[#004D5C]/80 via-transparent to-transparent"></div>
+                                    <div className="absolute bottom-10 left-10 text-white">
+                                        <div className="text-[10px] font-black uppercase tracking-widest opacity-60 mb-2">Headquarters</div>
+                                        <div className="text-2xl font-black italic tracking-tight">ALMUS TECH OFFICE</div>
+                                    </div>
+                                    <div className="absolute top-8 right-8 h-12 w-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                                        <Maximize2 className="h-5 w-5" />
+                                    </div>
+                                </motion.div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
+                                    <InfoRow icon={Building} label={__('About Biz Name Label')} value={__('About Biz Name')} />
+                                    <InfoRow icon={FileText} label={__('About Tax ID Label')} value={__('About Tax ID')} />
+                                    <InfoRow icon={Scale} label={__('About Biz Type Label')} value={__('About Biz Type')} />
+                                    <InfoRow icon={Users} label={__('About Representative Label')} value={__('About Representative')} />
+                                </div>
                             </div>
                         </motion.div>
                     </div>
@@ -211,10 +267,25 @@ export default function About() {
                         title={__('Jobs Division Title')}
                     />
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
-                        <Card icon={<Cpu className="h-8 w-8" />} title={__('About Activity Production')} description={__('About Activity Production Detail')} delay={0.1} />
-                        <Card icon={<Shield className="h-8 w-8" />} title={__('About Activity QC')} description={__('About Activity QC Detail')} delay={0.2} />
-                        <Card icon={<Award className="h-8 w-8" />} title={__('About Activity Finish')} description={__('About Activity Finish Detail')} delay={0.3} />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+                         <div className="grid grid-cols-1 gap-8">
+                            <Card icon={<Cpu className="h-8 w-8" />} title={__('About Activity Production')} description={__('About Activity Production Detail')} delay={0.1} />
+                            <Card icon={<Shield className="h-8 w-8" />} title={__('About Activity QC')} description={__('About Activity QC Detail')} delay={0.2} />
+                            <Card icon={<Award className="h-8 w-8" />} title={__('About Activity Finish')} description={__('About Activity Finish Detail')} delay={0.3} />
+                        </div>
+                        <motion.div 
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            className="relative group h-[600px] rounded-[60px] overflow-hidden shadow-2xl cursor-zoom-in"
+                            onClick={() => setSelectedImage('/images/Picture6.png')}
+                        >
+                            <img src="/images/Picture6.png" alt="Factory Process" className="w-full h-full object-cover" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-[#004D5C]/60 to-transparent"></div>
+                            <div className="absolute top-8 right-8 h-12 w-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                                <Maximize2 className="h-5 w-5" />
+                            </div>
+                        </motion.div>
                     </div>
                 </div>
             </section>
@@ -222,64 +293,92 @@ export default function About() {
             {/* Regulations Section */}
             <section className="py-40 bg-slate-50 dark:bg-slate-900 relative overflow-hidden transition-colors duration-500">
                 <div className="max-w-7xl mx-auto px-12 relative z-10">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
-                        <div>
-                            <SectionHeader 
-                                subtitle={__('About Reg Title')}
-                                title={__('About Reg Discipline Title')}
-                                description={__('About Reg Discipline Detail')}
-                            />
-                            <div className="space-y-8">
-                                <motion.div 
-                                    whileHover={{ x: 20 }}
-                                    className="p-8 bg-white dark:bg-slate-800 rounded-[40px] shadow-lg flex gap-6 items-center"
-                                >
-                                    <div className="h-16 w-16 bg-[#EEF8F9] dark:bg-[#002B33] rounded-3xl flex items-center justify-center text-[#006D7E] shrink-0"><Clock className="h-8 w-8" /></div>
-                                    <div>
-                                        <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{__('About Reg Time Title')}</div>
-                                        <div className="text-slate-700 dark:text-slate-300 font-bold italic">{__('About Reg Time Detail')}</div>
-                                    </div>
-                                </motion.div>
+                    <SectionHeader subtitle={__('About Reg Title')} title={__('About Reg Discipline Title')} />
+                    
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mt-20">
+                        {/* Workshop rules image */}
+                        <motion.div 
+                            initial={{ opacity: 0, x: -30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
+                            className="relative group bg-white dark:bg-slate-800 p-8 rounded-[60px] shadow-xl overflow-hidden cursor-zoom-in"
+                            onClick={() => setSelectedImage('/images/workshop_rules.jpg.png')}
+                        >
+                            <div className="absolute -top-10 -right-10 w-40 h-40 bg-[#006D7E]/10 rounded-full blur-3xl"></div>
+                            <div className="text-[10px] font-black text-[#006D7E] uppercase tracking-widest mb-6 px-4">{__('About Reg Discipline Title')}</div>
+                            <img src="/images/workshop_rules.jpg.png" alt="Workshop Rules" className="w-full rounded-[40px] shadow-inner mb-6" />
+                            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/10 backdrop-blur-[2px]">
+                                <Maximize2 className="h-10 w-10 text-white" />
                             </div>
-                        </div>
-                        <div className="relative">
-                            <div className="bg-[#004D5C] p-2 dark:bg-slate-800 rounded-[80px] rotate-3 shadow-2xl relative overflow-hidden group">
-                                <div className="bg-white dark:bg-slate-900 p-20 rounded-[78px] -rotate-3 transition duration-700 group-hover:rotate-0">
-                                    <div className="flex flex-col items-center text-center">
-                                        <Zap className="h-24 w-24 text-[#006D7E] mb-10 animate-pulse" />
-                                        <h4 className="text-3xl font-black text-[#004D5C] dark:text-[#CCEBF0] italic tracking-tighter mb-6 underline decoration-[#006D7E]/30">{__('About Reg 5S Title')}</h4>
-                                        <p className="text-slate-500 italic font-medium">{__('About Reg 5S Detail')}</p>
-                                    </div>
-                                </div>
+                        </motion.div>
+
+                        {/* 5S Rules image */}
+                        <motion.div 
+                            initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
+                            className="relative group bg-white dark:bg-slate-800 p-8 rounded-[60px] shadow-xl overflow-hidden cursor-zoom-in"
+                            onClick={() => setSelectedImage('/images/5s_rules.jpg.png')}
+                        >
+                            <div className="absolute -top-10 -left-10 w-40 h-40 bg-[#006D7E]/10 rounded-full blur-3xl"></div>
+                            <div className="text-[10px] font-black text-[#006D7E] uppercase tracking-widest mb-6 px-4">{__('About Reg 5S Title')}</div>
+                            <img src="/images/5s_rules.jpg.png" alt="5S Rules" className="w-full rounded-[40px] shadow-inner mb-6" />
+                            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/10 backdrop-blur-[2px]">
+                                <Maximize2 className="h-10 w-10 text-white" />
                             </div>
-                        </div>
+                        </motion.div>
+                    </div>
+
+                    <div className="mt-20 flex justify-center">
+                        <motion.div 
+                            whileHover={{ x: 20 }}
+                            className="px-12 py-8 bg-white dark:bg-slate-800 rounded-[50px] shadow-lg flex gap-10 items-center border border-[#006D7E]/10"
+                        >
+                            <div className="h-20 w-20 bg-[#EEF8F9] dark:bg-[#002B33] rounded-[30px] flex items-center justify-center text-[#006D7E] shrink-0"><Clock className="h-10 w-10" /></div>
+                            <div>
+                                <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">{__('About Reg Time Title')}</div>
+                                <div className="text-xl text-slate-700 dark:text-slate-300 font-bold italic">{__('About Reg Time Detail')}</div>
+                            </div>
+                        </motion.div>
                     </div>
                 </div>
             </section>
 
             {/* QC Information Security */}
-            <section className="py-40 bg-[#004D5C] relative overflow-hidden group">
+            <section className="py-40 bg-[#004D5C] relative overflow-hidden group transition-colors duration-500">
                 <div className="absolute top-0 right-0 w-2/3 h-full bg-gradient-to-l from-[#006D7E]/20 to-transparent blur-3xl opacity-50"></div>
                 <div className="max-w-7xl mx-auto px-12 relative z-10">
                     <div className="text-center mb-24">
                         <SectionHeader dark subtitle={__('About Security QC Title')} title={__('Lock Information')} />
                     </div>
                     
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
-                        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="p-10 border border-white/10 rounded-[50px] bg-white/5 backdrop-blur-sm">
-                            <div className="flex items-center gap-6 mb-8 text-white">
-                                <Shield className="h-10 w-10 text-emerald-400" />
-                                <h4 className="text-2xl font-black italic tracking-tight">{__('About QC Importance')}</h4>
-                            </div>
-                            <p className="text-white/60 text-lg italic leading-relaxed">{__('About Security QC Importance')}</p>
-                        </motion.div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-24 items-center">
+                        <div className="space-y-12">
+                            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="p-10 border border-white/10 rounded-[50px] bg-white/5 backdrop-blur-sm">
+                                <div className="flex items-center gap-6 mb-8 text-white">
+                                    <Shield className="h-10 w-10 text-emerald-400" />
+                                    <h4 className="text-2xl font-black italic tracking-tight">{__('About QC Importance')}</h4>
+                                </div>
+                                <p className="text-white/60 text-lg italic leading-relaxed">{__('About Security QC Importance')}</p>
+                            </motion.div>
 
-                        <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="p-10 border border-white/10 rounded-[50px] bg-white/5 backdrop-blur-sm">
-                            <div className="flex items-center gap-6 mb-8 text-white">
-                                <Lock className="h-10 w-10 text-amber-400" />
-                                <h4 className="text-2xl font-black italic tracking-tight">{__('About QC Measures')}</h4>
+                            <motion.div initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 }} className="p-10 border border-white/10 rounded-[50px] bg-white/5 backdrop-blur-sm">
+                                <div className="flex items-center gap-6 mb-8 text-white">
+                                    <Lock className="h-10 w-10 text-amber-400" />
+                                    <h4 className="text-2xl font-black italic tracking-tight">{__('About QC Measures')}</h4>
+                                </div>
+                                <p className="text-white/60 text-lg italic leading-relaxed">{__('About Security QC Measures')}</p>
+                            </motion.div>
+                        </div>
+                        
+                        <motion.div 
+                            initial={{ opacity: 0, x: 50 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true }}
+                            className="relative aspect-square rounded-[80px] overflow-hidden shadow-2xl group cursor-zoom-in border-4 border-white/5"
+                            onClick={() => setSelectedImage('/images/Picture7.png')}
+                        >
+                            <img src="/images/Picture7.png" alt="OQC Process" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700" />
+                            <div className="absolute inset-0 bg-gradient-to-tr from-[#004D5C] via-transparent to-transparent opacity-60"></div>
+                            <div className="absolute top-10 right-10 h-16 w-16 bg-black/40 backdrop-blur-md rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                                <Maximize2 className="h-6 w-6" />
                             </div>
-                            <p className="text-white/60 text-lg italic leading-relaxed">{__('About Security QC Measures')}</p>
                         </motion.div>
                     </div>
                 </div>
@@ -293,19 +392,23 @@ export default function About() {
                         title={__('About Org CEO')}
                     />
 
-                    <div className="max-w-4xl mx-auto">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 text-center">
-                            <motion.div whileHover={{ y: -10 }} className="p-10 bg-slate-50 dark:bg-slate-900 rounded-[50px] border border-slate-100 dark:border-white/5 group">
-                                <Network className="h-12 w-12 text-[#006D7E] mx-auto mb-6 group-hover:scale-110 transition duration-500" />
-                                <h5 className="text-xl font-black text-[#004D5C] dark:text-[#CCEBF0] italic tracking-tighter mb-4">{__('About Org Production Dir')}</h5>
-                                <p className="text-slate-400 text-sm italic">{__('About Org Units')}</p>
-                            </motion.div>
-                            <motion.div whileHover={{ y: -10 }} className="p-10 bg-slate-50 dark:bg-slate-900 rounded-[50px] border border-slate-100 dark:border-white/5 group">
-                                <Briefcase className="h-12 w-12 text-[#006D7E] mx-auto mb-6 group-hover:scale-110 transition duration-500" />
-                                <h5 className="text-xl font-black text-[#004D5C] dark:text-[#CCEBF0] italic tracking-tighter mb-4">{__('About Org Admin Dir')}</h5>
-                                <p className="text-slate-400 text-sm italic">{__('About Org Admin Unit')}</p>
-                            </motion.div>
-                        </div>
+                    <div className="max-w-5xl mx-auto relative group">
+                        <div className="absolute -inset-10 bg-[#006D7E]/5 blur-[100px] rounded-full"></div>
+                        <motion.div 
+                            initial={{ opacity: 0, y: 50 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            onClick={() => setSelectedImage('/images/org_chart.jpg.png')}
+                            className="relative glass-effect p-4 rounded-[60px] shadow-2xl border border-slate-100 dark:border-white/5 overflow-hidden cursor-zoom-in"
+                        >
+                            <img src="/images/org_chart.jpg.png" alt="Organization Chart" className="w-full h-auto rounded-[50px]" />
+                            <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-[#004D5C]/10 backdrop-blur-[2px]">
+                                <div className="bg-white/90 dark:bg-slate-900/90 p-6 rounded-[40px] shadow-2xl flex items-center gap-4 text-[#006D7E]">
+                                    <Maximize2 className="h-6 w-6" />
+                                    <span className="text-[10px] font-black uppercase tracking-widest">{__('View Full Screen')}</span>
+                                </div>
+                            </div>
+                        </motion.div>
                     </div>
                 </div>
             </section>
@@ -330,7 +433,7 @@ export default function About() {
                                     {[__('About Intern Goal 1'), __('About Intern Goal 2'), __('About Intern Goal 3')].map((goal, i) => (
                                         <div key={i} className="flex gap-4 items-center group">
                                             <div className="h-8 w-8 bg-[#EEF8F9] dark:bg-[#002B33] rounded-lg flex items-center justify-center text-[#006D7E] group-hover:bg-[#006D7E] group-hover:text-white transition duration-500"><CheckCircle2 className="h-4 w-4" /></div>
-                                            <div className="text-slate-600 dark:text-slate-400 font-bold italic">{goal}</div>
+                                            <div className="text-slate-600 dark:text-slate-400 font-bold italic text-sm">{goal}</div>
                                         </div>
                                     ))}
                                 </div>
@@ -352,7 +455,7 @@ export default function About() {
                                             <div className="absolute left-0 top-0 h-full w-0.5 bg-slate-200 dark:bg-slate-700"></div>
                                             <div className="absolute left-[-5px] top-0 h-3 w-3 rounded-full bg-[#006D7E] group-hover:scale-150 transition duration-500 shadow-[0_0_10px_rgba(0,109,126,0.5)]"></div>
                                             <div className="text-[10px] font-black text-[#006D7E] uppercase tracking-widest mb-2">{item.week}</div>
-                                            <div className="text-slate-500 dark:text-slate-400 font-medium italic">{item.desc}</div>
+                                            <div className="text-slate-500 dark:text-slate-400 font-medium italic text-sm">{item.desc}</div>
                                         </div>
                                     ))}
                                 </div>
