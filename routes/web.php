@@ -22,9 +22,6 @@ Route::get('/culture', function () {
     return Inertia::render('Culture');
 })->name('culture');
 
-Route::get('/process', function () {
-    return Inertia::render('Process');
-})->name('process');
 
 Route::get('/about', function () {
     return Inertia::render('About');

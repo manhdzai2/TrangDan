@@ -83,8 +83,7 @@ export default function RecruitmentLayout({ children }) {
                         {[
                             { name: __('Home'), href: '/' },
                             { name: __('About Us'), href: '/about' },
-                            { name: __('Vacancies'), href: '/jobs' },
-                            { name: __('Process'), href: '/process' }
+                            { name: __('Vacancies'), href: '/jobs' }
                         ].map((item) => (
                             <Link 
                                 key={item.name}
@@ -197,9 +196,6 @@ export default function RecruitmentLayout({ children }) {
                             </Link></li>
                             <li><Link href="/jobs" className="text-slate-400 dark:text-slate-500 text-sm font-bold hover:text-[#006D7E] transition-all duration-300 italic group flex items-center gap-2">
                                 {__('Vacancies')} <ArrowUpRight className="h-3 w-3 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300" />
-                            </Link></li>
-                            <li><Link href="/process" className="text-slate-400 dark:text-slate-500 text-sm font-bold hover:text-[#006D7E] transition-all duration-300 italic group flex items-center gap-2">
-                                {__('Process')} <ArrowUpRight className="h-3 w-3 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300" />
                             </Link></li>
                             <li><Link href="/culture" className="text-slate-400 dark:text-slate-500 text-sm font-bold hover:text-[#006D7E] transition-all duration-300 italic group flex items-center gap-2">
                                 {__('Culture')} <ArrowUpRight className="h-3 w-3 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300" />

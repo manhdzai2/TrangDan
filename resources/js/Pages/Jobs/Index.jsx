@@ -4,7 +4,8 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
     Search, MapPin, Clock, Briefcase, 
-    ChevronRight, Filter, Sparkles 
+    ChevronRight, Filter, Sparkles,
+    Send, Users, Zap, CheckCircle2, ArrowRight
 } from 'lucide-react';
 import { JobCardSkeleton } from '@/Components/Skeleton';
 import { useEffect } from 'react';
@@ -70,6 +71,59 @@ export default function Index({ vacancies }) {
                                 </div>
                             </div>
                         </motion.div>
+                    </div>
+
+                    {/* Recruitment Process Section */}
+                    <div className="mb-40 pt-10">
+                        <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
+                            {[
+                                {
+                                    id: 1,
+                                    title: __('Process Step 1 Title'),
+                                    icon: <Send className="h-6 w-6" />,
+                                    color: "bg-[#EEF8F9] dark:bg-[#002B33] text-[#006D7E]"
+                                },
+                                {
+                                    id: 2,
+                                    title: __('Process Step 2 Title'),
+                                    icon: <Users className="h-6 w-6" />,
+                                    color: "bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400"
+                                },
+                                {
+                                    id: 3,
+                                    title: __('Process Step 3 Title'),
+                                    icon: <Zap className="h-6 w-6" />,
+                                    color: "bg-amber-50 dark:bg-amber-950/30 text-amber-600 dark:text-amber-400"
+                                },
+                                {
+                                    id: 4,
+                                    title: __('Process Step 4 Title'),
+                                    icon: <CheckCircle2 className="h-6 w-6" />,
+                                    color: "bg-emerald-50 dark:bg-emerald-950/30 text-emerald-600 dark:text-emerald-400"
+                                }
+                            ].map((step, index) => (
+                                <motion.div 
+                                    key={step.id}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: 0.3 + (index * 0.1) }}
+                                    className="flex-1 w-full relative"
+                                >
+                                    <div className="bg-white dark:bg-slate-900 border border-slate-50 dark:border-white/5 p-8 rounded-[40px] shadow-sm hover:shadow-xl transition-all duration-500 group">
+                                        <div className={`h-14 w-14 ${step.color} rounded-2xl flex items-center justify-center mb-6 shadow-inner group-hover:scale-110 transition-transform duration-500`}>
+                                            {step.icon}
+                                        </div>
+                                        <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 italic">Step 0{step.id}</div>
+                                        <h3 className="text-lg font-black text-[#004D5C] dark:text-[#CCEBF0] italic tracking-tight">{step.title}</h3>
+                                    </div>
+                                    {index < 3 && (
+                                        <div className="hidden lg:block absolute top-1/2 -right-6 -translate-y-1/2 z-10">
+                                            <ArrowRight className="h-10 w-10 text-slate-100 dark:text-slate-800" />
+                                        </div>
+                                    )}
+                                </motion.div>
+                            ))}
+                        </div>
                     </div>
 
                     <motion.div 

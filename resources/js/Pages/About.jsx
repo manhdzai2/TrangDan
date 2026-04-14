@@ -7,24 +7,14 @@ import {
     Rocket, 
     Shield, 
     Zap, 
-    Users, 
-    Globe,
-    ArrowRight,
-    MapPin,
-    Building,
-    FileText,
-    History,
-    Cpu,
-    Briefcase,
-    Clock,
-    Scale,
-    Lock,
-    Network,
-    GraduationCap,
-    CheckCircle2,
     Award,
     Maximize2,
-    X
+    X,
+    Search,
+    ClipboardCheck,
+    ShieldCheck,
+    FileBarChart,
+    AlertCircle
 } from 'lucide-react';
 import { useTranslation } from '@/Hooks/useTranslation';
 
@@ -460,6 +450,104 @@ export default function About() {
                                     ))}
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            {/* Work Process (OQC) Section */}
+            <section className="py-40 bg-white dark:bg-slate-950 transition-colors duration-500">
+                <div className="max-w-7xl mx-auto px-12">
+                    <div className="text-center mb-24">
+                        <motion.div 
+                            initial={{ opacity: 0 }} whileInView={{ opacity: 1 }}
+                            className="text-[10px] font-black text-[#006D7E] tracking-[0.4em] uppercase mb-6"
+                        >
+                            {__('Work Environment')}
+                        </motion.div>
+                        <h2 className="text-5xl font-black text-[#004D5C] dark:text-[#CCEBF0] tracking-tighter italic mb-8">
+                            {__('About OQC Process Title')}
+                        </h2>
+                    </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-40">
+                        {[
+                            { id: 1, title: __('About OQC Step 1 Title'), desc: __('About OQC Step 1 Desc'), icon: <Target className="h-6 w-6" /> },
+                            { id: 2, title: __('About OQC Step 2 Title'), desc: __('About OQC Step 2 Desc'), icon: <Search className="h-6 w-6" /> },
+                            { id: 3, title: __('About OQC Step 3 Title'), desc: __('About OQC Step 3 Desc'), icon: <ClipboardCheck className="h-6 w-6" /> },
+                            { id: 4, title: __('About OQC Step 4 Title'), desc: __('About OQC Step 4 Desc'), icon: <ShieldCheck className="h-6 w-6" /> },
+                            { id: 5, title: __('About OQC Step 5 Title'), desc: __('About OQC Step 5 Desc'), icon: <FileBarChart className="h-6 w-6" /> }
+                        ].map((step, index) => (
+                            <motion.div 
+                                key={step.id}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
+                                transition={{ delay: index * 0.1 }}
+                                className="p-8 bg-slate-50 dark:bg-slate-900 rounded-[40px] border border-slate-100 dark:border-white/5 relative group cursor-default"
+                            >
+                                <div className="h-12 w-12 bg-white dark:bg-slate-800 rounded-2xl flex items-center justify-center text-[#006D7E] mb-6 shadow-sm group-hover:bg-[#006D7E] group-hover:text-white transition duration-500">
+                                    {step.icon}
+                                </div>
+                                <div className="text-[10px] font-black text-[#006D7E] opacity-40 mb-4 tracking-widest">STEP 0{step.id}</div>
+                                <h4 className="text-lg font-black text-[#004D5C] dark:text-[#CCEBF0] italic tracking-tight mb-4">{step.title}</h4>
+                                <p className="text-slate-500 dark:text-slate-400 text-xs font-medium italic leading-relaxed">{step.desc}</p>
+                            </motion.div>
+                        ))}
+                    </div>
+
+                    {/* Quality Standards Section */}
+                    <div className="bg-[#EEF8F9] dark:bg-[#002B33] rounded-[80px] p-20 border border-[#006D7E]/10">
+                        <div className="text-center mb-20">
+                            <h2 className="text-4xl font-black text-[#004D5C] dark:text-[#CCEBF0] tracking-tighter italic mb-4">
+                                {__('About QC Standard Title')}
+                            </h2>
+                            <p className="text-slate-500 dark:text-slate-400 text-sm font-medium italic">{__('About Strategic Partner')}</p>
+                        </div>
+
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                            <motion.div 
+                                whileHover={{ y: -5 }}
+                                className="bg-white dark:bg-slate-900 p-12 rounded-[60px] shadow-sm border-l-8 border-emerald-500"
+                            >
+                                <div className="flex items-center gap-4 mb-8">
+                                    <div className="h-12 w-12 bg-emerald-50 dark:bg-emerald-950/30 rounded-full flex items-center justify-center text-emerald-600">
+                                        <CheckCircle2 className="h-6 w-6" />
+                                    </div>
+                                    <h3 className="text-2xl font-black italic text-[#004D5C] dark:text-[#CCEBF0]">{__('About QC Pass Label')}</h3>
+                                </div>
+                                <ul className="space-y-4">
+                                    {[__('About QC Pass Item 1'), __('About QC Pass Item 2')].map((item, i) => (
+                                        <li key={i} className="flex gap-4 items-start text-slate-500 dark:text-slate-400 font-medium italic">
+                                            <div className="h-5 w-5 rounded-full bg-emerald-50 dark:bg-emerald-950/30 flex items-center justify-center shrink-0 mt-1">
+                                                <div className="h-1.5 w-1.5 rounded-full bg-emerald-600"></div>
+                                            </div>
+                                            {item}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </motion.div>
+
+                            <motion.div 
+                                whileHover={{ y: -5 }}
+                                className="bg-white dark:bg-slate-900 p-12 rounded-[60px] shadow-sm border-l-8 border-rose-500"
+                            >
+                                <div className="flex items-center gap-4 mb-8">
+                                    <div className="h-12 w-12 bg-rose-50 dark:bg-rose-950/30 rounded-full flex items-center justify-center text-rose-600">
+                                        <AlertCircle className="h-6 w-6" />
+                                    </div>
+                                    <h3 className="text-2xl font-black italic text-[#004D5C] dark:text-[#CCEBF0]">{__('About QC Fail Label')}</h3>
+                                </div>
+                                <ul className="space-y-4">
+                                    {[__('About QC Fail Item 1'), __('About QC Fail Item 2')].map((item, i) => (
+                                        <li key={i} className="flex gap-4 items-start text-slate-500 dark:text-slate-400 font-medium italic">
+                                            <div className="h-5 w-5 rounded-full bg-rose-50 dark:bg-rose-950/30 flex items-center justify-center shrink-0 mt-1">
+                                                <div className="h-1.5 w-1.5 rounded-full bg-rose-600"></div>
+                                            </div>
+                                            {item}
+                                        </li>
+                                    ))}
+                                </ul>
+                            </motion.div>
                         </div>
                     </div>
                 </div>
