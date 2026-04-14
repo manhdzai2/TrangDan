@@ -80,6 +80,7 @@ export default function RecruitmentLayout({ children }) {
                     >
                         {[
                             { name: __('Home'), href: '/' },
+                            { name: __('About Us'), href: '/about' },
                             { name: __('Vacancies'), href: '/jobs' },
                             { name: __('Process'), href: '/process' }
                         ].map((item) => (
@@ -189,6 +190,9 @@ export default function RecruitmentLayout({ children }) {
                     <div>
                         <h4 className="text-[10px] font-black text-slate-900 dark:text-white tracking-[0.2em] uppercase mb-8">Liên kết</h4>
                         <ul className="space-y-4">
+                            <li><Link href="/about" className="text-slate-400 dark:text-slate-500 text-sm font-bold hover:text-[#006D7E] transition-all duration-300 italic group flex items-center gap-2">
+                                Giới thiệu <ArrowUpRight className="h-3 w-3 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300" />
+                            </Link></li>
                             <li><Link href="/jobs" className="text-slate-400 dark:text-slate-500 text-sm font-bold hover:text-[#006D7E] transition-all duration-300 italic group flex items-center gap-2">
                                 Tin tuyển dụng <ArrowUpRight className="h-3 w-3 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300" />
                             </Link></li>

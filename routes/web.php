@@ -26,6 +26,10 @@ Route::get('/process', function () {
     return Inertia::render('Process');
 })->name('process');
 
+Route::get('/about', function () {
+    return Inertia::render('About');
+})->name('about');
+
 Route::get('/jobs', [JobController::class, 'index'])->name('jobs.index');
 Route::get('/jobs/{vacancy}', [JobController::class, 'show'])->name('jobs.show');
 
