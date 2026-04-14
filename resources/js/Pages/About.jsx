@@ -66,7 +66,8 @@ const SectionHeader = ({ subtitle, title, description }) => (
 );
 
 export default function About() {
-    const { company } = usePage().props;
+    const { company, translations } = usePage().props;
+    const __ = (key) => translations[key] || key;
 
     const containerVariants = {
         hidden: { opacity: 0 },
@@ -83,7 +84,7 @@ export default function About() {
 
     return (
         <RecruitmentLayout>
-            <Head title="Giới thiệu về Almus Tech" />
+            <Head title={__('About Title')} />
 
             {/* Hero Section */}
             <section className="min-h-[80vh] relative flex items-center pt-32 pb-20 overflow-hidden bg-white dark:bg-slate-950 transition-colors duration-500">
@@ -106,23 +107,23 @@ export default function About() {
                         className="text-center max-w-4xl mx-auto"
                     >
                         <motion.div variants={itemVariants} className="inline-flex items-center gap-3 px-6 py-2.5 bg-[#EEF8F9] dark:bg-[#002B33] text-[#006D7E] rounded-full text-[10px] font-black uppercase tracking-[0.3em] mb-10 border border-[#006D7E]/10">
-                            <Building className="h-4 w-4" /> Câu Chuyện Của Chúng Tôi
+                            <Building className="h-4 w-4" /> {__('Our Story')}
                         </motion.div>
                         
                         <motion.h1 variants={itemVariants} className="text-7xl lg:text-8xl font-black text-[#004D5C] dark:text-[#CCEBF0] tracking-tighter italic leading-[1] mb-10">
-                            Kiến Tạo <br /> <span className="text-[#006D7E]">Giá Trị</span> Thực
+                            {__('Creating')} <br /> <span className="text-[#006D7E]">{__('Real Values')}</span>
                         </motion.h1>
 
                         <motion.p variants={itemVariants} className="text-xl text-slate-500 dark:text-slate-400 font-medium italic mb-16 leading-relaxed max-w-3xl mx-auto">
-                            Được thành lập với khát vọng bứt phá mọi giới hạn công nghệ, Almus Tech không ngừng nỗ lực để trở thành ngọn cờ đầu trong việc cung cấp các giải pháp phần mềm và AI tiên tiến vươn tầm quốc tế.
+                            {__('About Description')}
                         </motion.p>
 
                         <motion.div variants={itemVariants} className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-10 border-t border-slate-100 dark:border-white/5">
                             {[
-                                { number: '2020', label: 'Năm Thành Lập' },
-                                { number: '200+', label: 'Nhân Sự Toàn Cầu' },
-                                { number: '150+', label: 'Dự Án Hoàn Thành' },
-                                { number: '15+', label: 'Quốc Gia Trải Dài' }
+                                { number: '2020', label: __('Year Founded') },
+                                { number: '200+', label: __('Global Personnel') },
+                                { number: '150+', label: __('Projects Completed') },
+                                { number: '15+', label: __('Countries Reached') }
                             ].map((stat, i) => (
                                 <div key={i} className="text-center">
                                     <div className="text-4xl font-black text-[#006D7E] italic mb-2">{stat.number}</div>
@@ -150,9 +151,9 @@ export default function About() {
                             <div className="h-20 w-20 bg-[#EEF8F9] dark:bg-[#002B33] rounded-3xl flex items-center justify-center text-[#006D7E] mb-8 shadow-inner">
                                 <Target className="h-10 w-10" />
                             </div>
-                            <h3 className="text-4xl font-black text-[#004D5C] dark:text-[#CCEBF0] italic tracking-tighter mb-6">Sứ Mệnh</h3>
+                            <h3 className="text-4xl font-black text-[#004D5C] dark:text-[#CCEBF0] italic tracking-tighter mb-6">{__('Mission')}</h3>
                             <p className="text-slate-500 dark:text-slate-400 text-lg italic leading-relaxed font-medium">
-                                Sứ mệnh của chúng tôi là <strong className="text-[#006D7E]">trao quyền cho các doanh nghiệp</strong> và cộng đồng bằng cách mang đến những giải pháp công nghệ có tính ứng dụng cao, hiệu quả, an toàn và sáng tạo, từ đó tối ưu hóa nguồn lực và hiện thực hóa mục tiêu phát triển bền vững.
+                                {__('Mission Content Prefix')} <strong className="text-[#006D7E]">{__('Mission Content Highlight')}</strong> {__('Mission Content Suffix')}
                             </p>
                         </motion.div>
 
@@ -168,9 +169,9 @@ export default function About() {
                             <div className="h-20 w-20 bg-white/10 rounded-3xl flex items-center justify-center text-white mb-8 shadow-inner backdrop-blur-sm">
                                 <Globe className="h-10 w-10" />
                             </div>
-                            <h3 className="text-4xl font-black italic tracking-tighter mb-6">Tầm Nhìn 2030</h3>
+                            <h3 className="text-4xl font-black italic tracking-tighter mb-6">{__('Vision 2030')}</h3>
                             <p className="text-white/70 text-lg italic leading-relaxed font-medium">
-                                Trở thành tập đoàn công nghệ <strong className="text-white">hàng đầu tại Đông Nam Á</strong> trong lĩnh vực AI & Blockchain, được biết đến không chỉ nhờ năng lực chuyên môn mà còn bởi môi trường làm việc lý tưởng nới thu hút và bồi dưỡng nhân tài xuất chúng.
+                                {__('Vision Content Prefix')} <strong className="text-white">{__('Vision Content Highlight')}</strong> {__('Vision Content Suffix')}
                             </p>
                         </motion.div>
                     </div>
@@ -181,34 +182,34 @@ export default function About() {
             <section className="py-40 bg-white dark:bg-slate-950 transition-colors duration-500">
                 <div className="max-w-7xl mx-auto px-12">
                     <SectionHeader 
-                        subtitle="GIÁ TRỊ CỐT LÕI"
-                        title="Nền Tảng Của Sự Thành Công"
-                        description="Văn hóa của Almus Tech được xây dựng dựa trên 4 trụ cột vững chắc, định hướng mọi quyết định và hành động của cả tập thể."
+                        subtitle={__('Core Values')}
+                        title={__('Foundation of Success')}
+                        description={__('Core Values Description')}
                     />
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                         <Card 
                             icon={<Zap className="h-8 w-8" />}
-                            title="Tốc Độ"
-                            description="Nhanh chóng thích ứng với sự thay đổi, linh hoạt trong mọi chiến lược để luôn dẫn đầu xu hướng công nghệ."
+                            title={__('Speed')}
+                            description={__('Speed Description')}
                             delay={0.1}
                         />
                         <Card 
                             icon={<Award className="h-8 w-8" />}
-                            title="Xuất Sắc"
-                            description="Không bao giờ thỏa hiệp với sự tầm thường. Mọi sản phẩm đều phải đặt tiêu chuẩn chất lượng cao nhất."
+                            title={__('Excellence')}
+                            description={__('Excellence Description')}
                             delay={0.2}
                         />
                         <Card 
                             icon={<Users className="h-8 w-8" />}
-                            title="Đồng Lòng"
-                            description="Đề cao sức mạnh tập thể. Một nhóm nhỏ với sự đồng thuận tuyệt đối có thể dời non lấp biển."
+                            title={__('Unity')}
+                            description={__('Unity Description')}
                             delay={0.3}
                         />
                         <Card 
                             icon={<Heart className="h-8 w-8" />}
-                            title="Tận Tâm"
-                            description="Làm việc bằng cả trái tim vì khách hàng, trân trọng sự tín nhiệm và luôn tạo giá trị vượt mong đợi."
+                            title={__('Dedication')}
+                            description={__('Dedication Description')}
                             delay={0.4}
                         />
                     </div>
@@ -229,10 +230,10 @@ export default function About() {
                         
                         <div className="relative z-10">
                             <h2 className="text-5xl lg:text-7xl font-black text-white italic tracking-tighter mb-8 leading-tight">
-                                Ghi Dấu Ấn <br /> Sự Nghiệp Của Bạn
+                                {__('Mark Your Career')}
                             </h2>
                             <p className="text-white/80 text-xl font-medium italic mb-12 max-w-2xl mx-auto">
-                                Sẵn sàng gia nhập một tập thể tràn đầy năng lượng và khát vọng? Khám phá những cơ hội không giới hạn tại Almus Tech ngay hôm nay.
+                                {__('Join Team CTA Description')}
                             </p>
                             
                             <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="inline-block">
@@ -240,7 +241,7 @@ export default function About() {
                                     href="/jobs" 
                                     className="px-14 py-6 bg-white text-[#006D7E] rounded-[32px] text-[12px] font-black uppercase tracking-[0.2em] shadow-xl hover:shadow-2xl flex items-center gap-4 transition-all duration-500"
                                 >
-                                    Tham gia cùng chúng tôi <ArrowRight className="h-5 w-5" />
+                                    {__('Join Us Button')} <ArrowRight className="h-5 w-5" />
                                 </Link>
                             </motion.div>
                         </div>

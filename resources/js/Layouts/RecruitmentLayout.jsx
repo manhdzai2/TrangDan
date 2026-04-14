@@ -176,7 +176,7 @@ export default function RecruitmentLayout({ children }) {
                             Almus<span className="text-slate-900 dark:text-white">Tech</span>
                         </Link>
                         <p className="text-slate-400 dark:text-slate-500 font-medium italic max-w-sm mb-10 leading-loose">
-                            Khám phá cơ hội nghề nghiệp tại Almus Tech - Nơi bạn phát triển khả năng và xây dựng sự nghiệp bền vững.
+                            {__('Footer Description')}
                         </p>
                         <div className="flex gap-4">
                             {[Facebook, Twitter, Instagram, Linkedin].map((Icon, i) => (
@@ -191,16 +191,16 @@ export default function RecruitmentLayout({ children }) {
                         <h4 className="text-[10px] font-black text-slate-900 dark:text-white tracking-[0.2em] uppercase mb-8">Liên kết</h4>
                         <ul className="space-y-4">
                             <li><Link href="/about" className="text-slate-400 dark:text-slate-500 text-sm font-bold hover:text-[#006D7E] transition-all duration-300 italic group flex items-center gap-2">
-                                Giới thiệu <ArrowUpRight className="h-3 w-3 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300" />
+                                {__('About Us')} <ArrowUpRight className="h-3 w-3 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300" />
                             </Link></li>
                             <li><Link href="/jobs" className="text-slate-400 dark:text-slate-500 text-sm font-bold hover:text-[#006D7E] transition-all duration-300 italic group flex items-center gap-2">
-                                Tin tuyển dụng <ArrowUpRight className="h-3 w-3 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300" />
+                                {__('Vacancies')} <ArrowUpRight className="h-3 w-3 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300" />
                             </Link></li>
                             <li><Link href="/process" className="text-slate-400 dark:text-slate-500 text-sm font-bold hover:text-[#006D7E] transition-all duration-300 italic group flex items-center gap-2">
-                                Quy trình <ArrowUpRight className="h-3 w-3 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300" />
+                                {__('Process')} <ArrowUpRight className="h-3 w-3 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300" />
                             </Link></li>
                             <li><Link href="/culture" className="text-slate-400 dark:text-slate-500 text-sm font-bold hover:text-[#006D7E] transition-all duration-300 italic group flex items-center gap-2">
-                                Văn hóa <ArrowUpRight className="h-3 w-3 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300" />
+                                {__('Culture')} <ArrowUpRight className="h-3 w-3 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300" />
                             </Link></li>
                         </ul>
                     </div>
