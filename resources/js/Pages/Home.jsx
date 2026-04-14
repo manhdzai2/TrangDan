@@ -7,6 +7,7 @@ import {
     TrendingUp, Globe, Shield, Zap, 
     Sparkles, Heart, Rocket, Target
 } from 'lucide-react';
+import { useTranslation } from '@/Hooks/useTranslation';
 
 const Card = ({ title, description, icon, delay = 0 }) => (
     <motion.div 
@@ -59,6 +60,7 @@ const SectionHeader = ({ subtitle, title, description }) => (
 
 export default function Home() {
     const { company } = usePage().props;
+    const { __ } = useTranslation();
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: {
@@ -81,7 +83,7 @@ export default function Home() {
 
     return (
         <RecruitmentLayout>
-            <Head title="Gia nhập Almus Tech | Tương lai Công nghệ" />
+            <Head title={`${__('Home')} | Almus Tech`} />
 
             {/* Hero Section */}
             <section className="min-h-screen relative flex items-center pt-20 overflow-hidden bg-white dark:bg-slate-950 transition-colors duration-500">
@@ -108,15 +110,15 @@ export default function Home() {
                             animate="visible"
                         >
                             <motion.div variants={itemVariants} className="inline-flex items-center gap-3 px-6 py-2.5 bg-[#EEF8F9] dark:bg-[#002B33] text-[#006D7E] rounded-full text-[10px] font-black uppercase tracking-[0.3em] mb-10 border border-[#006D7E]/10 animate-pulse">
-                                <Sparkles className="h-4 w-4" /> Tuyển dụng tài năng 2026
+                                <Sparkles className="h-4 w-4" /> {__('Home Hero Sparkle')}
                             </motion.div>
                             
                             <motion.h1 variants={itemVariants} className="text-8xl font-black text-[#004D5C] dark:text-[#CCEBF0] tracking-tighter italic leading-[0.85] mb-10">
-                                Đột Phá <br /> <span className="text-[#006D7E]">Giới Hạn</span> <br /> Công Nghệ
+                                {__('Home Hero Title 1')} <br /> <span className="text-[#006D7E]">{__('Home Hero Title 2')}</span> <br /> {__('Home Hero Title 3')}
                             </motion.h1>
 
                             <motion.p variants={itemVariants} className="text-xl text-slate-500 dark:text-slate-400 font-medium italic mb-12 max-w-lg leading-relaxed">
-                                {company?.mission || 'Gia nhập đội ngũ Almus Tech để cùng nhau kiến tạo những giải pháp thay đổi thế giới bằng trí tuệ và sự sáng tạo không ngừng.'}
+                                {company?.mission || __('Home Hero Description Default')}
                             </motion.p>
 
                             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-6">
@@ -125,7 +127,7 @@ export default function Home() {
                                         href="/jobs" 
                                         className="px-12 py-5 bg-[#004D5C] text-white rounded-[24px] text-[10px] font-black uppercase tracking-[0.2em] shadow-2xl shadow-[#004D5C]/30 flex items-center justify-center gap-3 hover:bg-[#003540] transition-all duration-500"
                                     >
-                                        Xem vị trí đang tuyển <ArrowRight className="h-4 w-4" />
+                                        {__('Home Hero CTA Primary')} <ArrowRight className="h-4 w-4" />
                                     </Link>
                                 </motion.div>
                                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
@@ -133,7 +135,7 @@ export default function Home() {
                                         href="/process" 
                                         className="px-12 py-5 bg-white dark:bg-slate-900 text-[#004D5C] dark:text-[#CCEBF0] border border-slate-100 dark:border-white/5 rounded-[24px] text-[10px] font-black uppercase tracking-[0.2em] shadow-xl hover:shadow-2xl transition-all duration-500 flex items-center justify-center gap-3"
                                     >
-                                        Quy trình tuyển dụng
+                                        {__('Home Hero CTA Secondary')}
                                     </Link>
                                 </motion.div>
                             </motion.div>
@@ -156,7 +158,7 @@ export default function Home() {
                                             <Cpu className="h-8 w-8" />
                                         </div>
                                         <div className="text-5xl font-black text-[#004D5C] dark:text-[#CCEBF0] italic mb-3 tracking-tighter">200+</div>
-                                        <p className="text-slate-500 dark:text-slate-400 text-[10px] font-black uppercase tracking-widest">Kỹ sư AI & Cloud</p>
+                                        <p className="text-slate-500 dark:text-slate-400 text-[10px] font-black uppercase tracking-widest">{__('Home Stat Engineers')}</p>
                                     </motion.div>
                                     <motion.div 
                                         whileHover={{ y: -10 }}
@@ -164,7 +166,7 @@ export default function Home() {
                                     >
                                         <div className="absolute -right-4 -bottom-4 h-24 w-24 bg-white/5 rounded-full blur-2xl group-hover:scale-150 transition duration-700"></div>
                                         <div className="text-5xl font-black mb-4 italic">15+</div>
-                                        <p className="text-white/60 text-[10px] font-black uppercase tracking-widest">Dự án toàn cầu</p>
+                                        <p className="text-white/60 text-[10px] font-black uppercase tracking-widest">{__('Home Stat Projects')}</p>
                                     </motion.div>
                                 </div>
                                 <div className="space-y-8 pt-16">
@@ -173,7 +175,7 @@ export default function Home() {
                                         className="bg-[#006D7E] p-10 rounded-[60px] shadow-2xl text-white relative overflow-hidden group"
                                     >
                                         <div className="text-5xl font-black mb-4 italic">500+</div>
-                                        <p className="text-white/60 text-[10px] font-black uppercase tracking-widest">Thành viên tài năng</p>
+                                        <p className="text-white/60 text-[10px] font-black uppercase tracking-widest">{__('Home Stat Members')}</p>
                                     </motion.div>
                                     <motion.div 
                                         whileHover={{ y: -10 }}
@@ -183,7 +185,7 @@ export default function Home() {
                                             <Star className="h-8 w-8 fill-current" />
                                         </div>
                                         <div className="text-3xl font-black text-[#004D5C] dark:text-[#CCEBF0] italic mb-2 tracking-tighter">Top 100</div>
-                                        <p className="text-slate-500 dark:text-slate-400 text-[10px] font-black uppercase tracking-widest leading-tight">Nơi làm việc tốt nhất</p>
+                                        <p className="text-slate-500 dark:text-slate-400 text-[10px] font-black uppercase tracking-widest leading-tight">{__('Home Stat Workplace')}</p>
                                     </motion.div>
                                 </div>
                             </motion.div>
@@ -196,34 +198,34 @@ export default function Home() {
             <section className="py-40 bg-slate-50 dark:bg-slate-950 border-t border-slate-100 dark:border-white/5 relative overflow-hidden transition-colors duration-500">
                 <div className="max-w-7xl mx-auto px-12">
                     <SectionHeader 
-                        subtitle="LỢI ÍCH TẠI ALMUS TECH"
-                        title="Tư duy Đột phá • Môi trường Nhân bản"
-                        description="Chúng tôi không chỉ xây dựng phần mềm, chúng tôi nuôi dưỡng đam mê và tạo điều kiện tối đa để mọi cá nhân tỏa sáng."
+                        subtitle={__('Home Hero Subtitle')}
+                        title={__('Home Benefits Title')}
+                        description={__('Home Benefits Description')}
                     />
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
                         <Card 
                             icon={<Zap className="h-8 w-8" />}
-                            title="Tốc độ & Hiệu suất"
-                            description="Làm việc trong môi trường agile, quy trình tinh gọn giúp tối ưu hóa khả năng sáng tạo."
+                            title={__('Home Benefit 1 Title')}
+                            description={__('Home Benefit 1 Desc')}
                             delay={0.1}
                         />
                         <Card 
                             icon={<Shield className="h-8 w-8" />}
-                            title="Bền vững & An toàn"
-                            description="Chế độ phúc lợi toàn diện, bảo hiểm cao cấp và môi trường làm việc ổn định."
+                            title={__('Home Benefit 2 Title')}
+                            description={__('Home Benefit 2 Desc')}
                             delay={0.2}
                         />
                         <Card 
                             icon={<Heart className="h-8 w-8" />}
-                            title="Kết nối & Chia sẻ"
-                            description="Văn hóa phẳng, sếp là đồng nghiệp, mọi ý kiến đều được lắng nghe và trân trọng."
+                            title={__('Home Benefit 3 Title')}
+                            description={__('Home Benefit 3 Desc')}
                             delay={0.3}
                         />
                         <Card 
                             icon={<Globe className="h-8 w-8" />}
-                            title="Tầm vóc Quốc tế"
-                            description="Cơ hội làm việc với các chuyên gia hàng đầu và tham gia vào các dự án quy mô toàn cầu."
+                            title={__('Home Benefit 4 Title')}
+                            description={__('Home Benefit 4 Desc')}
                             delay={0.4}
                         />
                     </div>
@@ -243,7 +245,7 @@ export default function Home() {
                                     viewport={{ once: true }}
                                     className="text-[10px] font-black text-white/40 tracking-[0.4em] uppercase mb-8"
                                 >
-                                    SỨ MỆNH CỦA CHÚNG TÔI
+                                    {__('Home Mission Subtitle')}
                                 </motion.div>
                                 <motion.h2 
                                     initial={{ opacity: 0, y: 30 }}
@@ -251,7 +253,7 @@ export default function Home() {
                                     viewport={{ once: true }}
                                     className="text-6xl font-black text-white italic tracking-tighter mb-10 leading-tight"
                                 >
-                                    Định Hình <br /> Tương Lai Số
+                                    {__('Home Mission Title')}
                                 </motion.h2>
                                 <motion.p 
                                     initial={{ opacity: 0 }}
@@ -259,7 +261,7 @@ export default function Home() {
                                     viewport={{ once: true }}
                                     className="text-white/60 text-lg font-medium italic mb-12 leading-relaxed"
                                 >
-                                    {company?.history || 'Tại Almus Tech, mỗi dòng code bạn viết không chỉ là sản phẩm kỹ thuật, mà là viên gạch xây dựng nên một thế giới thông minh hơn, tiện lợi hơn.'}
+                                    {company?.history || __('Home Mission Description Default')}
                                 </motion.p>
                                 <motion.div 
                                     initial={{ opacity: 0, y: 20 }}
@@ -269,11 +271,11 @@ export default function Home() {
                                 >
                                     <div className="flex items-center gap-4">
                                         <div className="h-12 w-12 bg-white/5 rounded-2xl flex items-center justify-center text-white"><Target className="h-6 w-6" /></div>
-                                        <div className="text-white font-black italic tracking-tight">Mục tiêu rõ ràng</div>
+                                        <div className="text-white font-black italic tracking-tight">{__('Home Mission Goal')}</div>
                                     </div>
                                     <div className="flex items-center gap-4">
                                         <div className="h-12 w-12 bg-white/5 rounded-2xl flex items-center justify-center text-white"><Rocket className="h-6 w-6" /></div>
-                                        <div className="text-white font-black italic tracking-tight">Phát triển thần tốc</div>
+                                        <div className="text-white font-black italic tracking-tight">{__('Home Mission Rocket')}</div>
                                     </div>
                                 </motion.div>
                             </div>

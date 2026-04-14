@@ -5,8 +5,10 @@ import {
     Mail, Phone, Save, Upload, Sparkles, Check
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslation } from '@/Hooks/useTranslation';
 
 export default function CompanyInfo({ info }) {
+    const { __ } = useTranslation();
     const { data, setData, post, processing, wasSuccessful, errors } = useForm({
         _method: 'POST',
         name: info.name || '',
@@ -28,7 +30,7 @@ export default function CompanyInfo({ info }) {
 
     return (
         <AdminLayout>
-            <Head title="Thông tin công ty | AMT" />
+            <Head title={__('Admin Company Title')} />
             
             <motion.div 
                 initial={{ opacity: 0, y: -20 }}
@@ -36,8 +38,8 @@ export default function CompanyInfo({ info }) {
                 className="flex justify-between items-center mb-10"
             >
                 <div>
-                    <h1 className="text-4xl font-black text-[#004D5C] dark:text-white tracking-tighter mb-2 italic uppercase transition-colors">Hồ sơ Doanh nghiệp</h1>
-                    <p className="text-slate-400 dark:text-slate-500 font-black uppercase tracking-widest text-[10px]">Quản lý bản sắc và thông tin giới thiệu Almus Tech</p>
+                    <h1 className="text-4xl font-black text-[#004D5C] dark:text-white tracking-tighter mb-2 italic uppercase transition-colors">{__('Admin Company Profile')}</h1>
+                    <p className="text-slate-400 dark:text-slate-500 font-black uppercase tracking-widest text-[10px]">{__('Admin Company Note')}</p>
                 </div>
                 
                 <AnimatePresence>
@@ -48,7 +50,7 @@ export default function CompanyInfo({ info }) {
                             exit={{ opacity: 0, x: 20 }}
                             className="bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 px-6 py-3 rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] border border-emerald-100 dark:border-emerald-800/30 flex items-center gap-2 shadow-lg transition-colors"
                         >
-                            <Sparkles className="h-4 w-4" /> CẬP NHẬT THÀNH CÔNG
+                            <Sparkles className="h-4 w-4" /> {__('Admin Update Success')}
                         </motion.div>
                     )}
                 </AnimatePresence>
@@ -57,31 +59,31 @@ export default function CompanyInfo({ info }) {
             <form onSubmit={submit} className="grid grid-cols-1 lg:grid-cols-3 gap-10">
                 <div className="lg:col-span-2 space-y-10">
                     {/* Basic Info */}
-                    <Section title="Thông tin cơ bản" icon={<Building className="h-4 w-4 text-[#006D7E] dark:text-[#CCEBF0]" />}>
+                    <Section title={__('Admin Basic Info')} icon={<Building className="h-4 w-4 text-[#006D7E] dark:text-[#CCEBF0]" />}>
                         <div className="grid grid-cols-1 gap-10">
                             <InputField 
-                                label="Tên công ty" 
+                                label={__('Admin Company Name')} 
                                 value={data.name} 
                                 onChange={e => setData('name', e.target.value)}
                                 error={errors.name}
                             />
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                                 <InputField 
-                                    label="Email liên hệ" 
+                                    label={__('Staff Email Label')} 
                                     type="email" 
                                     value={data.email} 
                                     onChange={e => setData('email', e.target.value)}
                                     error={errors.email}
                                 />
                                 <InputField 
-                                    label="Số điện thoại" 
+                                    label={__('Staff Phone Label')} 
                                     value={data.phone} 
                                     onChange={e => setData('phone', e.target.value)}
                                     error={errors.phone}
                                 />
                             </div>
                             <InputField 
-                                label="Địa chỉ trụ sở" 
+                                label={__('Admin Headquarter')} 
                                 value={data.address} 
                                 onChange={e => setData('address', e.target.value)}
                                 error={errors.address}
@@ -91,10 +93,10 @@ export default function CompanyInfo({ info }) {
                     </Section>
 
                     {/* Content Section */}
-                    <Section title="Nội dung giới thiệu" icon={<History className="h-4 w-4 text-[#006D7E] dark:text-[#CCEBF0]" />}>
+                    <Section title={__('Admin Introduction')} icon={<History className="h-4 w-4 text-[#006D7E] dark:text-[#CCEBF0]" />}>
                         <div className="space-y-10">
                             <TextAreaField 
-                                label="Lịch sử hình thành" 
+                                label={__('Admin History')} 
                                 value={data.history} 
                                 onChange={e => setData('history', e.target.value)}
                                 error={errors.history}
@@ -102,14 +104,14 @@ export default function CompanyInfo({ info }) {
                             />
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                                 <TextAreaField 
-                                    label="Sứ mệnh" 
+                                    label={__('Admin Mission')} 
                                     value={data.mission} 
                                     onChange={e => setData('mission', e.target.value)}
                                     error={errors.mission}
                                     icon={<Target className="h-4 w-4" />}
                                 />
                                 <TextAreaField 
-                                    label="Tầm nhìn" 
+                                    label={__('Admin Vision')} 
                                     value={data.vision} 
                                     onChange={e => setData('vision', e.target.value)}
                                     error={errors.vision}
@@ -128,7 +130,7 @@ export default function CompanyInfo({ info }) {
                             animate={{ opacity: 1, x: 0 }}
                             className="bg-white dark:bg-slate-900 p-10 rounded-[50px] shadow-sm border border-white/50 dark:border-white/5 text-center transition-colors"
                         >
-                            <h3 className="text-[10px] font-black text-slate-400 dark:text-slate-600 tracking-[0.3em] uppercase mb-8">Logo Công ty</h3>
+                            <h3 className="text-[10px] font-black text-slate-400 dark:text-slate-600 tracking-[0.3em] uppercase mb-8">{__('Admin Logo Company')}</h3>
                             <div className="relative group mx-auto w-40 h-40 mb-8">
                                 <div className="absolute inset-0 bg-[#006D7E]/5 dark:bg-white/5 rounded-3xl blur-2xl group-hover:bg-[#006D7E]/10 transition-all duration-500"></div>
                                 <div className="relative w-full h-full bg-[#F3F7F8] dark:bg-slate-800 rounded-[40px] border-4 border-white dark:border-slate-800 shadow-xl flex items-center justify-center overflow-hidden group-hover:scale-105 transition-all duration-500">
@@ -144,7 +146,7 @@ export default function CompanyInfo({ info }) {
                                 </label>
                             </div>
                             <p className="text-[9px] font-black text-slate-300 dark:text-slate-700 uppercase tracking-widest leading-relaxed">
-                                Định dạng JPG, PNG. <br/>Tối đa 2MB.
+                                {__('Admin Logo Note')}
                             </p>
                             {errors.logo && <div className="text-rose-500 text-[9px] font-black mt-2 uppercase">{errors.logo}</div>}
                         </motion.div>
@@ -156,9 +158,9 @@ export default function CompanyInfo({ info }) {
                             transition={{ delay: 0.1 }}
                             className="bg-[#004D5C] dark:bg-slate-800 p-10 rounded-[50px] shadow-2xl relative overflow-hidden text-white transition-colors"
                         >
-                            <h2 className="text-3xl font-black italic mb-4 tracking-tighter">Lưu thay đổi</h2>
+                            <h2 className="text-3xl font-black italic mb-4 tracking-tighter">{__('Staff Save Changes')}</h2>
                             <p className="text-white/50 text-[10px] font-black uppercase tracking-widest mb-10 leading-relaxed">
-                                Thông tin sẽ hiển thị công khai trên trang chủ website.
+                                {__('Admin Save Note')}
                             </p>
                             <motion.button 
                                 onClick={submit}
@@ -172,7 +174,7 @@ export default function CompanyInfo({ info }) {
                                 ) : (
                                     <Check className="h-5 w-5" />
                                 )}
-                                CẬP NHẬT NGAY
+                                {__('Admin Update Button')}
                             </motion.button>
                         </motion.div>
                     </div>

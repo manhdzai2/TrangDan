@@ -12,6 +12,13 @@ const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 // Global route helper for Inertia
 window.route = route;
 
+// Global translation helper placeholder
+window.__ = (key) => {
+    // This will be replaced or used if we can access the latest props
+    // However, window functions can't easily hook into React state
+    return key;
+};
+
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: (name) =>

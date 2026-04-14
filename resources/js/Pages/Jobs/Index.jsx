@@ -8,9 +8,11 @@ import {
 } from 'lucide-react';
 import { JobCardSkeleton } from '@/Components/Skeleton';
 import { useEffect } from 'react';
+import { useTranslation } from '@/Hooks/useTranslation';
 
 
 export default function Index({ vacancies }) {
+    const { __ } = useTranslation();
     const [search, setSearch] = useState('');
     const [isLoading, setIsLoading] = useState(true);
 
@@ -27,7 +29,7 @@ export default function Index({ vacancies }) {
 
     return (
         <RecruitmentLayout>
-            <Head title="Cơ hội nghề nghiệp | AMT SOLUTIONS" />
+            <Head title={__('Jobs Head Title')} />
             
             <section className="pt-40 pb-20 bg-white dark:bg-slate-950 transition-colors duration-500 relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-[#EEF8F9]/50 dark:from-[#002B33]/20 to-transparent -z-10"></div>
@@ -39,10 +41,10 @@ export default function Index({ vacancies }) {
                             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                         >
                             <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#EEF8F9] dark:bg-[#002B33] text-[#006D7E] rounded-full text-[10px] font-black uppercase tracking-[0.2em] mb-6 border border-[#006D7E]/10">
-                                <Sparkles className="h-3 w-3 animate-pulse" /> KHÁM PHÁ CƠ HỘI
+                                <Sparkles className="h-3 w-3 animate-pulse" /> {__('Jobs Badge')}
                             </div>
                             <h1 className="text-7xl font-black text-[#004D5C] dark:text-[#CCEBF0] tracking-tighter italic leading-none">
-                                Tìm Kiếm <br /> <span className="text-[#006D7E]">Vị Trí Của Bạn</span>
+                                {__('Jobs Hero Title 1')} <br /> <span className="text-[#006D7E]">{__('Jobs Hero Title 2')}</span>
                             </h1>
                         </motion.div>
                         <motion.div 
@@ -55,14 +57,16 @@ export default function Index({ vacancies }) {
                                 <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 h-5 w-5 group-focus-within:text-[#006D7E] transition-colors duration-500" />
                                 <input 
                                     type="text" 
-                                    placeholder="Tên công việc, địa điểm..."
+                                    placeholder={__('Jobs Search Placeholder')}
                                     value={search}
                                     onChange={(e) => setSearch(e.target.value)}
                                     className="w-full bg-[#f8fafc] dark:bg-slate-900 border-none rounded-[32px] pl-16 pr-8 py-6 text-sm font-bold text-[#004D5C] dark:text-white focus:ring-4 focus:ring-[#006D7E]/10 transition-all duration-500 shadow-inner italic"
                                 />
                                 <div className="absolute right-6 top-1/2 -translate-y-1/2 flex items-center gap-2">
                                      <div className="h-2 w-2 rounded-full bg-[#006D7E] animate-ping"></div>
-                                     <span className="text-[10px] font-black text-[#006D7E] uppercase tracking-widest">{filteredJobs.length} vị trí</span>
+                                     <span className="text-[10px] font-black text-[#006D7E] uppercase tracking-widest">
+                                        {__('Jobs Search Result Count').replace('{count}', filteredJobs.length)}
+                                     </span>
                                 </div>
                             </div>
                         </motion.div>
@@ -103,7 +107,7 @@ export default function Index({ vacancies }) {
                                                     <div className="px-3 py-1 bg-[#EEF8F9] dark:bg-[#002B33] text-[#006D7E] rounded-full text-[9px] font-black uppercase tracking-widest border border-[#006D7E]/5">
                                                         {job.type}
                                                     </div>
-                                                    <div className="text-[10px] font-bold text-slate-300 uppercase tracking-widest italic">POSTED RECENTLY</div>
+                                                    <div className="text-[10px] font-bold text-slate-300 uppercase tracking-widest italic">{__('Jobs Card Posted')}</div>
                                                 </div>
                                                 <h3 className="text-3xl font-black text-[#004D5C] dark:text-[#CCEBF0] italic tracking-tight group-hover:text-[#006D7E] transition-colors duration-500 mb-6">{job.title}</h3>
                                                 <div className="flex flex-wrap gap-8">
@@ -111,7 +115,7 @@ export default function Index({ vacancies }) {
                                                         <MapPin className="h-4 w-4 text-[#006D7E]" /> {job.location}
                                                     </div>
                                                     <div className="flex items-center gap-2 text-slate-400 text-xs font-medium italic">
-                                                        <Clock className="h-4 w-4 text-[#006D7E]" /> {job.created_at_diff || 'Hôm nay'}
+                                                        <Clock className="h-4 w-4 text-[#006D7E]" /> {job.created_at_diff || __('Jobs Card Today')}
                                                     </div>
                                                     <div className="flex items-center gap-2 text-[#006D7E] text-sm font-black italic">
                                                         <Briefcase className="h-4 w-4" /> {job.salary}
@@ -143,8 +147,8 @@ export default function Index({ vacancies }) {
                                 className="py-32 text-center"
                             >
                                 <div className="text-6xl mb-8">🔍</div>
-                                <h3 className="text-2xl font-black text-[#004D5C] dark:text-[#CCEBF0] italic mb-2 tracking-tighter">Không tìm thấy vị trí phù hợp</h3>
-                                <p className="text-slate-400 dark:text-slate-500 font-medium italic">Hãy thử tìm kiếm với từ khóa khác hoặc quay lại sau.</p>
+                                <h3 className="text-2xl font-black text-[#004D5C] dark:text-[#CCEBF0] italic mb-2 tracking-tighter">{__('Jobs No Found Title')}</h3>
+                                <p className="text-slate-400 dark:text-slate-500 font-medium italic">{__('Jobs No Found Desc')}</p>
                             </motion.div>
                         )}
                     </motion.div>
@@ -156,15 +160,15 @@ export default function Index({ vacancies }) {
                     <div className="bg-[#004D5C] rounded-[60px] p-20 flex flex-col md:flex-row items-center justify-between gap-12 relative overflow-hidden group">
                         <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-l from-white/5 to-transparent blur-3xl group-hover:scale-150 transition-transform duration-1000"></div>
                         <div className="relative z-10">
-                            <h2 className="text-4xl font-black text-white italic tracking-tighter mb-4">Bạn chưa tìm thấy vị trí mong muốn?</h2>
-                            <p className="text-white/60 font-medium italic max-w-md leading-relaxed">Gửi hồ sơ tự do cho chúng tôi. Chúng tôi luôn chào đón những tâm hồn sáng tạo và đam mê công nghệ.</p>
+                            <h2 className="text-4xl font-black text-white italic tracking-tighter mb-4">{__('Jobs Talent Title')}</h2>
+                            <p className="text-white/60 font-medium italic max-w-md leading-relaxed">{__('Jobs Talent Desc')}</p>
                         </div>
                         <motion.button 
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                             className="relative z-10 px-12 py-5 bg-[#006D7E] text-white rounded-[24px] text-[10px] font-black uppercase tracking-[0.2em] shadow-2xl shadow-black/20 hover:bg-[#005a69] transition-all duration-500"
                         >
-                            Gửi hồ sơ tự do
+                            {__('Jobs Talent Button')}
                         </motion.button>
                     </div>
                  </div>

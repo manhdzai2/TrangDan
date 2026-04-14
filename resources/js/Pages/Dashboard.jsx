@@ -13,9 +13,11 @@ import {
 } from 'lucide-react';
 import Skeleton from '@/Components/Skeleton';
 import { useEffect } from 'react';
+import { useTranslation } from '@/Hooks/useTranslation';
 
 
 export default function Dashboard({ stats, charts, recent_applications }) {
+    const { __ } = useTranslation();
     const [timeScale, setTimeScale] = useState('daily');
     const [isLoading, setIsLoading] = useState(true);
 
@@ -60,7 +62,7 @@ export default function Dashboard({ stats, charts, recent_applications }) {
 
     return (
         <AdminLayout>
-            <Head title="Bảng điều khiển | Lucid Intelligence" />
+            <Head title={`${__('Admin Dashboard')} | Lucid Intelligence`} />
 
             {/* Header Section with Glass Effect */}
             <motion.div 
@@ -72,10 +74,10 @@ export default function Dashboard({ stats, charts, recent_applications }) {
                 <div>
                     <div className="flex items-center gap-3 mb-3">
                         <div className="h-8 w-1.5 bg-[#006D7E] rounded-full" />
-                        <h1 className="text-5xl font-black text-[#004D5C] dark:text-white transition-colors tracking-tighter italic leading-none">Insight Quản trị</h1>
+                        <h1 className="text-5xl font-black text-[#004D5C] dark:text-white transition-colors tracking-tighter italic leading-none">{__('Dash Title')}</h1>
                     </div>
                     <p className="text-slate-400 dark:text-slate-500 font-bold uppercase tracking-[0.3em] text-[10px] flex items-center gap-2">
-                        <Activity className="h-3 w-3 text-[#006D7E]" /> Hệ thống Lucid Intelligence • Phân tích Real-time
+                        <Activity className="h-3 w-3 text-[#006D7E]" /> {__('Dash Sub')}
                     </p>
                 </div>
                 
@@ -90,7 +92,7 @@ export default function Dashboard({ stats, charts, recent_applications }) {
                                 : 'text-slate-400 dark:text-slate-600 hover:bg-white/60 dark:hover:bg-slate-800 hover:text-[#004D5C] dark:hover:text-white'
                             }`}
                         >
-                            {scale === 'daily' ? 'Hàng ngày' : scale === 'monthly' ? 'Hàng tháng' : 'Hàng năm'}
+                            {scale === 'daily' ? __('Dash Daily') : scale === 'monthly' ? __('Dash Monthly') : __('Dash Yearly')}
                         </button>
                     ))}
                 </div>
@@ -120,7 +122,7 @@ export default function Dashboard({ stats, charts, recent_applications }) {
                         ) : (
                             <div className="text-5xl font-black text-[#004D5C] dark:text-white mb-3 tracking-tighter italic leading-none transition-colors">{stats.total_openings}</div>
                         )}
-                        <div className="text-slate-400 dark:text-slate-600 text-[11px] font-black uppercase tracking-widest">Vị trí tuyển dụng</div>
+                        <div className="text-slate-400 dark:text-slate-600 text-[11px] font-black uppercase tracking-widest">{__('Dash Openings')}</div>
                     </div>
                 </motion.div>
 
@@ -141,7 +143,7 @@ export default function Dashboard({ stats, charts, recent_applications }) {
                         ) : (
                             <div className="text-5xl font-black text-[#004D5C] dark:text-white mb-3 tracking-tighter italic leading-none transition-colors">{stats.total_candidates}</div>
                         )}
-                        <div className="text-slate-400 dark:text-slate-600 text-[11px] font-black uppercase tracking-widest">Tổng hồ sơ ứng tuyển</div>
+                        <div className="text-slate-400 dark:text-slate-600 text-[11px] font-black uppercase tracking-widest">{__('Dash Total Apps')}</div>
                     </div>
                 </motion.div>
 
@@ -154,8 +156,8 @@ export default function Dashboard({ stats, charts, recent_applications }) {
                                 <Clock className="h-6 w-6" />
                             </div>
                         </div>
-                        <div className="text-5xl font-black text-[#004D5C] dark:text-white mb-3 tracking-tighter italic leading-none transition-colors">2.4<span className="text-lg font-bold ml-1 italic opacity-50">Ngày</span></div>
-                        <div className="text-slate-400 dark:text-slate-600 text-[11px] font-black uppercase tracking-widest">Thời gian phản hồi</div>
+                        <div className="text-5xl font-black text-[#004D5C] dark:text-white mb-3 tracking-tighter italic leading-none transition-colors">2.4<span className="text-lg font-bold ml-1 italic opacity-50">{__('Dash Response Unit')}</span></div>
+                        <div className="text-slate-400 dark:text-slate-600 text-[11px] font-black uppercase tracking-widest">{__('Dash Response Time')}</div>
                     </div>
                 </motion.div>
 
@@ -182,7 +184,7 @@ export default function Dashboard({ stats, charts, recent_applications }) {
                             <ArrowUpRight className="text-white/40 h-6 w-6" />
                         </div>
                         <div className="text-5xl font-black text-white mb-3 tracking-tighter italic leading-none transition-colors">{stats.hired}</div>
-                        <div className="text-white/60 text-[11px] font-black uppercase tracking-widest">Đã tuyển dụng</div>
+                        <div className="text-white/60 text-[11px] font-black uppercase tracking-widest">{__('Dash Hired')}</div>
                     </div>
                 </motion.div>
             </motion.div>
@@ -198,8 +200,8 @@ export default function Dashboard({ stats, charts, recent_applications }) {
                 >
                     <div className="flex justify-between items-center mb-12">
                         <div>
-                            <h3 className="text-3xl font-black text-[#004D5C] dark:text-white tracking-tight italic transition-colors">Biểu đồ Tăng trưởng</h3>
-                            <p className="text-slate-400 dark:text-slate-600 text-[10px] font-black uppercase tracking-[0.3em] mt-2 transition-colors">Dữ liệu phân tích {timeScale === 'daily' ? '30 ngày gần nhất' : timeScale === 'monthly' ? '12 tháng qua' : 'toàn thời gian'}</p>
+                            <h3 className="text-3xl font-black text-[#004D5C] dark:text-white tracking-tight italic transition-colors">{__('Dash Growth Chart')}</h3>
+                            <p className="text-slate-400 dark:text-slate-600 text-[10px] font-black uppercase tracking-[0.3em] mt-2 transition-colors">{__('Dash Data Analysis')} {timeScale === 'daily' ? __('Dash Last 30 Days') : timeScale === 'monthly' ? __('Dash Last 12 Months') : __('Dash Total Time')}</p>
                         </div>
                         <div className="p-4 bg-[#EEF8F9] dark:bg-slate-800 rounded-2xl transition-colors">
                             <BarChart3Icon className="h-6 w-6 text-[#006D7E] dark:text-[#CCEBF0]" />
@@ -277,8 +279,8 @@ export default function Dashboard({ stats, charts, recent_applications }) {
                     <div className="relative z-10 flex flex-col h-full">
                         <div className="flex justify-between items-start mb-10">
                             <div>
-                                <h3 className="text-2xl font-black italic leading-none">Phễu Tuyển dụng</h3>
-                                <p className="text-white/40 text-[9px] font-black uppercase tracking-[0.3em] mt-3">Hiệu suất chuyển đổi hồ sơ</p>
+                                <h3 className="text-2xl font-black italic leading-none">{__('Dash Funnel')}</h3>
+                                <p className="text-white/40 text-[9px] font-black uppercase tracking-[0.3em] mt-3">{__('Dash Funnel Sub')}</p>
                             </div>
                             <Filter className="h-6 w-6 text-white/20" />
                         </div>
@@ -287,7 +289,7 @@ export default function Dashboard({ stats, charts, recent_applications }) {
                             {charts.funnel.map((step, i) => (
                                 <div key={step.name} className="relative">
                                     <div className="flex justify-between items-end mb-2">
-                                        <span className="text-[10px] font-black uppercase tracking-widest text-white/60">{step.name}</span>
+                                        <span className="text-[10px] font-black uppercase tracking-widest text-white/60">{__(step.name)}</span>
                                         <span className="text-xl font-black italic">{step.value}</span>
                                     </div>
                                     <div className="h-3 w-full bg-white/10 dark:bg-white/5 rounded-full overflow-hidden transition-colors">
@@ -308,8 +310,8 @@ export default function Dashboard({ stats, charts, recent_applications }) {
                                     <Target className="h-5 w-5" />
                                 </div>
                                 <div>
-                                    <div className="text-[10px] font-black text-white/40 uppercase tracking-widest transition-colors">Tỷ lệ thành công</div>
-                                    <div className="text-lg font-black italic">{stats.total_candidates > 0 ? round((stats.hired / stats.total_candidates) * 100) : 0}% <span className="text-emerald-400 text-xs font-bold uppercase tracking-tighter ml-1 opacity-80 underline underline-offset-4 decoration-2">Hiring Rate</span></div>
+                                    <div className="text-[10px] font-black text-white/40 uppercase tracking-widest transition-colors">{__('Dash Success Rate')}</div>
+                                    <div className="text-lg font-black italic">{stats.total_candidates > 0 ? round((stats.hired / stats.total_candidates) * 100) : 0}% <span className="text-emerald-400 text-xs font-bold uppercase tracking-tighter ml-1 opacity-80 underline underline-offset-4 decoration-2">{__('Admin Hiring Rate')}</span></div>
                                 </div>
                             </div>
                         </div>
@@ -321,8 +323,8 @@ export default function Dashboard({ stats, charts, recent_applications }) {
             <div className="grid grid-cols-1 xl:grid-cols-4 gap-10 mb-12">
                 {/* Popular Roles Chart */}
                 <div className="xl:col-span-1 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl p-10 rounded-[48px] border border-white/80 dark:border-white/5 shadow-xl shadow-black/5 transition-colors">
-                    <h3 className="text-xl font-black text-[#004D5C] dark:text-white tracking-tight italic mb-1 transition-colors">Nguồn Ứng viên</h3>
-                    <p className="text-slate-400 dark:text-slate-600 text-[9px] font-black uppercase tracking-widest mb-10 transition-colors">Phân bổ theo kênh</p>
+                    <h3 className="text-xl font-black text-[#004D5C] dark:text-white tracking-tight italic mb-1 transition-colors">{__('Dash Sources')}</h3>
+                    <p className="text-slate-400 dark:text-slate-600 text-[9px] font-black uppercase tracking-widest mb-10 transition-colors">{__('Dash Sources Sub')}</p>
                     
                     <div className="h-[200px] w-full relative mb-8">
                         <ResponsiveContainer width="100%" height="100%">
@@ -361,15 +363,15 @@ export default function Dashboard({ stats, charts, recent_applications }) {
                 <div className="xl:col-span-3 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl rounded-[48px] border border-white/80 dark:border-white/5 shadow-xl shadow-black/5 overflow-hidden transition-colors">
                     <div className="px-10 py-8 border-b border-white/60 dark:border-white/5 flex justify-between items-center transition-colors">
                         <div>
-                            <h3 className="text-2xl font-black text-[#004D5C] dark:text-white transition-colors tracking-tight italic leading-none">Hoạt động Tuyển dụng</h3>
-                            <p className="text-slate-400 dark:text-slate-600 text-[10px] font-black uppercase tracking-[0.3em] mt-3 transition-colors">Các hồ sơ vừa nộp trong 24h qua</p>
+                            <h3 className="text-2xl font-black text-[#004D5C] dark:text-white transition-colors tracking-tight italic leading-none">{__('Dash Recent Activity')}</h3>
+                            <p className="text-slate-400 dark:text-slate-600 text-[10px] font-black uppercase tracking-[0.3em] mt-3 transition-colors">{__('Dash Activity Sub')}</p>
                         </div>
                         <motion.button 
                             whileHover={{ scale: 1.05 }}
                             whileTap={{ scale: 0.95 }}
                             className="bg-[#006D7E] text-white text-[10px] font-black px-8 py-4 rounded-[20px] shadow-lg shadow-[#006D7E]/20 uppercase tracking-widest"
                         >
-                            Tất cả hồ sơ
+                            {__('Dash All Apps Button')}
                         </motion.button>
                     </div>
                     
@@ -377,10 +379,10 @@ export default function Dashboard({ stats, charts, recent_applications }) {
                         <table className="w-full text-left border-separate border-spacing-y-4">
                             <thead>
                                 <tr className="text-slate-300 dark:text-slate-700 text-[9px] font-black uppercase tracking-[0.4em] transition-colors">
-                                    <th className="px-6 pb-2">Họ & Tên</th>
-                                    <th className="px-6 pb-2">Vị trí</th>
-                                    <th className="px-6 pb-2 text-center">Trạng thái</th>
-                                    <th className="px-6 pb-2 text-right">Hành động</th>
+                                    <th className="px-6 pb-2">{__('Dash Table Name')}</th>
+                                    <th className="px-6 pb-2">{__('Dash Table Position')}</th>
+                                    <th className="px-6 pb-2 text-center">{__('Dash Table Status')}</th>
+                                    <th className="px-6 pb-2 text-right">{__('Dash Table Action')}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -406,11 +408,11 @@ export default function Dashboard({ stats, charts, recent_applications }) {
                                         </td>
                                         <td className="px-6 py-5 text-center bg-white dark:bg-slate-800/40 group-hover:bg-[#EEF8F9] dark:group-hover:bg-slate-800 transition-all duration-500 shadow-sm dark:shadow-none border-y border-transparent group-hover:border-white dark:group-hover:border-white/5">
                                             <span className={`inline-flex px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest transition-colors ${
-                                                app.status === 'Đã tuyển' ? 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : 
-                                                app.status === 'Chờ duyệt' ? 'bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400' : 
-                                                app.status === 'Đã xem' ? 'bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400' : 'bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400'
+                                                app.status === 'Admin Status Accepted' ? 'bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 dark:text-emerald-400' : 
+                                                app.status === 'Admin Status Pending' ? 'bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400' : 
+                                                app.status === 'Admin Status Reviewed' ? 'bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400' : 'bg-rose-50 dark:bg-rose-500/10 text-rose-600 dark:text-rose-400'
                                             }`}>
-                                                {app.status}
+                                                {__(app.status)}
                                             </span>
                                         </td>
                                         <td className="px-6 py-5 rounded-r-[32px] text-right bg-white dark:bg-slate-800/40 group-hover:bg-[#EEF8F9] dark:group-hover:bg-slate-800 transition-all duration-500 shadow-sm dark:shadow-none border-y border-r border-transparent group-hover:border-white dark:group-hover:border-white/5">

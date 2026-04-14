@@ -2,16 +2,17 @@ import Dropdown from '@/Components/Dropdown';
 import { Link, usePage } from '@inertiajs/react';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-    LayoutDashboard, Briefcase, Users, Settings, Building,
+import { LayoutDashboard, Briefcase, Users, Settings, Building,
     FileText, LogOut, User, Bell, Search, Plus, Menu, X as CloseIcon,
     Sun, Moon
 } from 'lucide-react';
 import { ToastContainer } from '@/Components/Toast';
+import { useTranslation } from '@/Hooks/useTranslation';
 
 
 export default function AdminLayout({ children }) {
-    const { auth, url, unreadApplicationsCount } = usePage().props;
+    const { __ } = useTranslation();
+    const { auth, url, unreadApplicationsCount, locale } = usePage().props;
     const user = auth.user;
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [toasts, setToasts] = useState([]);
@@ -87,7 +88,7 @@ export default function AdminLayout({ children }) {
                             className="w-full bg-[#006D7E] hover:bg-[#005a68] text-white font-black py-4 px-6 rounded-2xl flex items-center justify-center gap-2 transition-all shadow-lg shadow-[#006D7E]/20 group"
                         >
                             <Plus className="h-5 w-5 group-hover:rotate-90 transition-transform duration-500" />
-                            ĐĂNG TIN MỚI
+                            {__('Nav Create New')}
                         </motion.button>
                     </Link>
                 </div>
@@ -95,14 +96,14 @@ export default function AdminLayout({ children }) {
                 <nav className="flex-1 px-6 space-y-2 overflow-y-auto custom-scrollbar">
                     <div className="space-y-1">
                         {[
-                            { href: route('admin.dashboard'), active: route().current('admin.dashboard'), icon: <LayoutDashboard className="h-5 w-5" />, label: "Bảng điều khiển" },
-                            { href: route('admin.company.index'), active: route().current('admin.company.index'), icon: <Building className="h-5 w-5" />, label: "Thông tin công ty" },
-                            { href: route('admin.vacancies.index'), active: route().current('admin.vacancies.index'), icon: <Briefcase className="h-5 w-5" />, label: "Tin tuyển dụng" },
+                            { href: route('admin.dashboard'), active: route().current('admin.dashboard'), icon: <LayoutDashboard className="h-5 w-5" />, label: __('Nav Dashboard') },
+                            { href: route('admin.company.index'), active: route().current('admin.company.index'), icon: <Building className="h-5 w-5" />, label: __('Nav Company Info') },
+                            { href: route('admin.vacancies.index'), active: route().current('admin.vacancies.index'), icon: <Briefcase className="h-5 w-5" />, label: __('Nav Vacancies') },
                             { 
                                 href: route('admin.applications.index'), 
                                 active: route().current('admin.applications.index'), 
                                 icon: <Users className="h-5 w-5" />, 
-                                label: "Hồ sơ ứng viên",
+                                label: __('Nav Candidates'),
                                 badge: unreadApplicationsCount > 0 ? unreadApplicationsCount : null
                             }
                         ].map((link, i) => (
@@ -123,7 +124,7 @@ export default function AdminLayout({ children }) {
                         transition={{ delay: 0.7 }}
                         className="pt-8 pb-4 text-white/30 text-[10px] font-black uppercase tracking-[0.2em] px-4"
                     >
-                        Hệ thống
+                        {__('Nav System')}
                     </motion.div>
                     
                     <motion.div
@@ -135,7 +136,7 @@ export default function AdminLayout({ children }) {
                             href={route('admin.settings')} 
                             active={route().current('admin.settings')} 
                             icon={<Settings className="h-5 w-5" />} 
-                            label="Cài đặt" 
+                            label={__('Nav Settings')} 
                             isDark={isDark}
                         />
                     </motion.div>
@@ -159,7 +160,7 @@ export default function AdminLayout({ children }) {
                             <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 h-4 w-4 group-focus-within:text-[#006D7E] transition-colors" />
                             <input 
                                 type="text" 
-                                placeholder="Tìm kiếm mọi thứ..." 
+                                placeholder={__('Nav Search Placeholder')} 
                                 className="bg-[#F3F7F8] dark:bg-slate-800/50 border-none rounded-full pl-12 pr-6 py-2.5 text-[11px] font-black uppercase tracking-wider focus:ring-2 focus:ring-[#006D7E] transition-all w-80 shadow-inner text-[#004D5C] dark:text-white placeholder:text-slate-300 dark:placeholder:text-slate-600"
                             />
                         </div>
@@ -187,7 +188,7 @@ export default function AdminLayout({ children }) {
                                     </div>
                                     <div className="text-left">
                                         <div className="text-[10px] font-black text-[#004D5C] dark:text-[#CCEBF0] uppercase tracking-wider leading-none mb-1">{user.name}</div>
-                                        <div className="text-[8px] font-bold text-slate-300 dark:text-slate-600 uppercase tracking-[0.2em] leading-none">Quản trị viên</div>
+                                        <div className="text-[8px] font-bold text-slate-300 dark:text-slate-600 uppercase tracking-[0.2em] leading-none">{__('Nav Role Admin')}</div>
                                     </div>
                                 </Link>
 
@@ -196,7 +197,7 @@ export default function AdminLayout({ children }) {
                                     method="post" 
                                     as="button"
                                     className="p-3 bg-white dark:bg-slate-800 rounded-2xl shadow-sm text-slate-400 hover:text-rose-500 hover:shadow-xl transition-all border border-slate-100 dark:border-white/5 group"
-                                    title="Đăng xuất"
+                                    title={__('Nav Logout')}
                                 >
                                     <LogOut className="h-5 w-5 group-hover:translate-x-0.5 transition-transform" />
                                 </Link>
@@ -205,9 +206,9 @@ export default function AdminLayout({ children }) {
                         <div className="h-8 w-[1px] bg-slate-100 dark:bg-white/5"></div>
                         <div className="text-right">
                             <div className="text-[11px] font-black text-[#004D5C] dark:text-white italic uppercase tracking-tighter">
-                                {new Date().toLocaleDateString('vi-VN', { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' })}
+                                {new Date().toLocaleDateString(locale === 'en' ? 'en-US' : 'vi-VN', { weekday: 'long', month: 'short', day: 'numeric', year: 'numeric' })}
                             </div>
-                            <div className="text-[9px] font-black text-slate-300 dark:text-slate-600 text-right uppercase tracking-[0.3em] mt-0.5">Hệ thống Trực tuyến</div>
+                            <div className="text-[9px] font-black text-slate-300 dark:text-slate-600 text-right uppercase tracking-[0.3em] mt-0.5">{__('Nav Online System')}</div>
                         </div>
                     </div>
                 </header>

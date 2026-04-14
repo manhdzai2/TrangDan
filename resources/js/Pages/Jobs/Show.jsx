@@ -6,10 +6,11 @@ import {
     UploadCloud, X, FileDigit
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslation } from '@/Hooks/useTranslation';
 
 export default function Show({ vacancy }) {
-    const { auth, translations } = usePage().props;
-    const __ = (key) => translations[key] || key;
+    const { auth } = usePage().props;
+    const { __ } = useTranslation();
 
     // JSON-LD for Google Jobs
     const jobSchema = {
@@ -85,7 +86,7 @@ export default function Show({ vacancy }) {
                             href={route('jobs.index')}
                             className="inline-flex items-center gap-2 text-slate-400 hover:text-[#006D7E] font-black text-[10px] uppercase tracking-[0.2em] transition"
                         >
-                            <ChevronLeft className="h-4 w-4" /> QUAY LẠI DANH SÁCH
+                            <ChevronLeft className="h-4 w-4" /> {__('Jobs Back to List')}
                         </Link>
                     </div>
 
@@ -101,7 +102,7 @@ export default function Show({ vacancy }) {
 
                                 <div className="max-w-2xl">
                                     <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#EEF8F9] dark:bg-[#002B33] text-[#006D7E] rounded-full text-[10px] font-black uppercase tracking-[0.2em] mb-8 border border-[#006D7E]/10">
-                                        <Sparkles className="h-3 w-3 fill-current" /> TUYỂN DỤNG 2026
+                                        <Sparkles className="h-3 w-3 fill-current" /> {__('Jobs Badge Detail')}
                                     </div>
                                     <h1 className="text-5xl md:text-6xl font-black text-[#004D5C] dark:text-[#CCEBF0] tracking-tighter italic leading-none mb-10">
                                         {vacancy.title}
@@ -110,24 +111,24 @@ export default function Show({ vacancy }) {
                                     <div className="flex flex-wrap gap-8 text-slate-400 font-bold text-sm italic mb-12">
                                         <div className="flex items-center gap-3"><MapPin className="h-5 w-5 text-[#006D7E]" /> {vacancy.location}</div>
                                         <div className="flex items-center gap-3"><Clock className="h-5 w-5 text-[#006D7E]" /> {vacancy.type}</div>
-                                        <div className="flex items-center gap-3"><Briefcase className="h-5 w-5 text-[#006D7E]" /> {vacancy.salary || 'Thỏa thuận'}</div>
+                                        <div className="flex items-center gap-3"><Briefcase className="h-5 w-5 text-[#006D7E]" /> {vacancy.salary || __('Jobs Salary Negotiable')}</div>
                                     </div>
                                 </div>
 
                                 <div className="prose prose-slate dark:prose-invert prose-lg max-w-none prose-headings:text-[#004D5C] dark:prose-headings:text-[#CCEBF0] prose-headings:font-black prose-headings:italic">
-                                    <h3 className="text-2xl mb-6 tracking-tighter">Mô tả công việc</h3>
+                                    <h3 className="text-2xl mb-6 tracking-tighter">{__('Jobs Desc Title')}</h3>
                                     {vacancy.description ? (
                                         <div 
                                             className="leading-loose mb-10 text-slate-700 dark:text-slate-300 font-medium"
                                             dangerouslySetInnerHTML={{ __html: vacancy.description }} 
                                         />
                                     ) : (
-                                        <p className="leading-loose mb-10 text-slate-400">Chúng tôi đang tìm kiếm một tài năng đam mê để gia nhập đội ngũ Almus Tech...</p>
+                                        <p className="leading-loose mb-10 text-slate-400">{__('Jobs Desc Placeholder')}</p>
                                     )}
 
                                     {vacancy.requirements && (
                                         <>
-                                            <h3 className="text-2xl mb-6 tracking-tighter">Yêu cầu ứng viên</h3>
+                                            <h3 className="text-2xl mb-6 tracking-tighter">{__('Jobs Requirements Title')}</h3>
                                             <div 
                                                 className="leading-loose mb-10 text-slate-700 dark:text-slate-300 font-medium"
                                                 dangerouslySetInnerHTML={{ __html: vacancy.requirements }} 
@@ -137,7 +138,7 @@ export default function Show({ vacancy }) {
                                     
                                     {vacancy.benefits && (
                                         <>
-                                            <h3 className="text-2xl mb-6 tracking-tighter">Quyền lợi</h3>
+                                            <h3 className="text-2xl mb-6 tracking-tighter">{__('Jobs Benefits Title')}</h3>
                                             <div 
                                                 className="leading-loose text-slate-700 dark:text-slate-300 font-medium"
                                                 dangerouslySetInnerHTML={{ __html: vacancy.benefits }} 
@@ -159,21 +160,21 @@ export default function Show({ vacancy }) {
                                             <div className="h-20 w-20 bg-white/10 rounded-[32px] flex items-center justify-center text-white mx-auto mb-8 shadow-xl border border-white/20">
                                                 <UserIcon className="h-10 w-10" />
                                             </div>
-                                            <h3 className="text-2xl font-black mb-4 tracking-tighter italic leading-tight">Gia nhập đội ngũ Almus Tech!</h3>
-                                            <p className="text-white/60 font-medium italic mb-10 leading-relaxed text-sm">Vui lòng đăng nhập để nộp hồ sơ trực tuyến cho vị trí này.</p>
+                                            <h3 className="text-2xl font-black mb-4 tracking-tighter italic leading-tight">{__('Jobs Apply Login Hero')}</h3>
+                                            <p className="text-white/60 font-medium italic mb-10 leading-relaxed text-sm">{__('Jobs Apply Login Desc')}</p>
                                             
                                             <div className="space-y-4">
                                                 <Link 
                                                     href={route('login')}
                                                     className="w-full bg-white text-[#004D5C] py-5 rounded-[24px] font-black uppercase tracking-[0.2em] shadow-xl hover:translate-y-[-4px] transition flex items-center justify-center gap-3"
                                                 >
-                                                    ĐĂNG NHẬP NGAY
+                                                    {__('Jobs Apply Login Button')}
                                                 </Link>
                                                 <Link 
                                                     href={route('register')}
                                                     className="w-full bg-transparent border-2 border-white/20 text-white py-5 rounded-[24px] font-black uppercase tracking-[0.2em] hover:bg-white/10 transition flex items-center justify-center gap-3"
                                                 >
-                                                    TẠO TÀI KHOẢN
+                                                    {__('Jobs Apply Register Button')}
                                                 </Link>
                                             </div>
                                         </div>
@@ -182,13 +183,13 @@ export default function Show({ vacancy }) {
                                             <div className="h-16 w-16 bg-white rounded-full flex items-center justify-center text-[#004D5C] mx-auto mb-6 shadow-xl">
                                                 <CheckCircle className="h-8 w-8" />
                                             </div>
-                                            <h3 className="text-xl font-black mb-2">Gửi hồ sơ thành công!</h3>
-                                            <p className="text-white/60 text-sm font-medium italic">Chúng tôi sẽ liên hệ với bạn trong sớm nhất.</p>
+                                            <h3 className="text-xl font-black mb-2">{__('Jobs Apply Success Title')}</h3>
+                                            <p className="text-white/60 text-sm font-medium italic">{__('Jobs Apply Success Desc')}</p>
                                         </div>
                                     ) : (
                                         <form onSubmit={submit} className="space-y-4">
                                             <div>
-                                                <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60">Họ và tên *</label>
+                                                <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60">{__('Jobs Apply Label Name')}</label>
                                                 <input 
                                                     type="text" required
                                                     value={data.name}
@@ -200,7 +201,7 @@ export default function Show({ vacancy }) {
                                             </div>
 
                                             <div>
-                                                <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60">Tuổi *</label>
+                                                <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60">{__('Jobs Apply Label Age')}</label>
                                                 <input 
                                                     type="number" required min="16" max="70"
                                                     value={data.age}
@@ -212,7 +213,7 @@ export default function Show({ vacancy }) {
                                             </div>
 
                                             <div>
-                                                <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60">Email *</label>
+                                                <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60">{__('Jobs Apply Label Email')}</label>
                                                 <input 
                                                     type="email" required
                                                     value={data.email}
@@ -224,21 +225,21 @@ export default function Show({ vacancy }) {
                                             </div>
 
                                             <div>
-                                                <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60">Số điện thoại *</label>
+                                                <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60">{__('Jobs Apply Label Phone')}</label>
                                                 <input 
                                                     type="tel" required
                                                     value={data.phone}
                                                     onChange={e => setData('phone', e.target.value)}
                                                     pattern="^(0|84)(3|5|7|8|9)([0-9]{8})$"
-                                                    title="Vui lòng nhập số điện thoại Việt Nam hợp lệ (VD: 0901234567)"
+                                                    title={__('Jobs Apply Phone Title')}
                                                     className="w-full bg-white/10 border border-white/20 rounded-2xl p-3.5 focus:ring-2 focus:ring-white/20 transition placeholder:text-white/20 font-bold text-sm"
-                                                    placeholder="09xx xxx xxx"
+                                                    placeholder={__('Jobs Apply Phone Placeholder')}
                                                 />
                                                 {errors.phone && <div className="text-rose-400 text-[10px] mt-1 font-black">{errors.phone}</div>}
                                             </div>
 
                                             <div>
-                                                <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60">Địa chỉ *</label>
+                                                <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60">{__('Jobs Apply Label Address')}</label>
                                                 <input 
                                                     type="text" required
                                                     value={data.address}
@@ -250,7 +251,7 @@ export default function Show({ vacancy }) {
                                             </div>
 
                                             <div>
-                                                <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60">Ngày bắt đầu *</label>
+                                                <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60">{__('Jobs Apply Label Start Date')}</label>
                                                 <input 
                                                     type="date" required
                                                     value={data.start_date}
@@ -262,7 +263,7 @@ export default function Show({ vacancy }) {
                                             </div>
 
                                             <div>
-                                                <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60">Thư giới thiệu</label>
+                                                <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60">{__('Jobs Apply Label Cover Letter')}</label>
                                                 <textarea 
                                                     value={data.cover_letter}
                                                     onChange={e => setData('cover_letter', e.target.value)}
@@ -272,7 +273,7 @@ export default function Show({ vacancy }) {
                                             </div>
 
                                             <div>
-                                                <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-3 block opacity-60">Hồ sơ CV (PDF/DOCX)</label>
+                                                <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-3 block opacity-60">{__('Jobs Apply Label CV')}</label>
                                                 <div 
                                                     className={`relative group transition-all duration-500 rounded-[32px] overflow-hidden ${
                                                         data.cv ? 'bg-[#EEF8F9]/20 border-2 border-dashed border-[#006D7E]/30' : 'bg-white/5 border-2 border-dashed border-white/10 hover:border-white/30'
@@ -301,7 +302,7 @@ export default function Show({ vacancy }) {
                                                                 <UploadCloud className="h-8 w-8" />
                                                             </div>
                                                             <div>
-                                                                <p className="text-white font-bold text-sm tracking-tight mb-1">Click hoặc kéo thả CV</p>
+                                                                <p className="text-white font-bold text-sm tracking-tight mb-1">{__('Jobs Apply CV Click or Drag')}</p>
                                                             </div>
                                                         </div>
                                                     ) : (
@@ -330,12 +331,12 @@ export default function Show({ vacancy }) {
                                                 disabled={processing}
                                                 className="w-full bg-white text-[#004D5C] py-5 rounded-[24px] font-black uppercase tracking-[0.2em] shadow-xl hover:translate-y-[-4px] active:scale-95 transition flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed mt-4"
                                             >
-                                                <Send className="h-5 w-5" /> {processing ? 'ĐANG GỬI...' : 'GỬI HỒ SƠ'}
+                                                <Send className="h-5 w-5" /> {processing ? __('Jobs Apply Button Sending') : __('Jobs Apply Button Send')}
                                             </button>
 
                                             {Object.keys(errors).length > 0 && (
                                                 <div className="bg-rose-500/20 border border-rose-500/50 p-4 rounded-2xl text-[10px] text-white font-bold italic text-center">
-                                                    Vui lòng kiểm tra lại thông tin.
+                                                    {__('Jobs Apply Error Check')}
                                                 </div>
                                             )}
                                         </form>
@@ -347,8 +348,8 @@ export default function Show({ vacancy }) {
                                         <FileText className="h-6 w-6" />
                                     </div>
                                     <div>
-                                        <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Tuyển dụng</div>
-                                        <div className="text-lg font-black text-[#004D5C] dark:text-[#CCEBF0] italic">HR Division - Almus Tech</div>
+                                        <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{__('Jobs Division Title')}</div>
+                                        <div className="text-lg font-black text-[#004D5C] dark:text-[#CCEBF0] italic">{__('Jobs Division Sub')}</div>
                                     </div>
                                 </div>
                             </div>

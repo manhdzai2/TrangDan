@@ -6,8 +6,10 @@ import {
     Database
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslation } from '@/Hooks/useTranslation';
 
 export default function SettingsPage() {
+    const { __ } = useTranslation();
     const { data, setData, post, processing, wasSuccessful } = useForm({
         company_name: 'AMT SOLUTIONS',
         admin_email: 'admin@amt.com',
@@ -23,7 +25,7 @@ export default function SettingsPage() {
 
     return (
         <AdminLayout>
-            <Head title="Cài đặt hệ thống | AMT" />
+            <Head title={__('Settings Page Title')} />
             
             <motion.div 
                 initial={{ opacity: 0, y: -20 }}
@@ -31,8 +33,8 @@ export default function SettingsPage() {
                 className="flex justify-between items-center mb-10"
             >
                 <div>
-                    <h1 className="text-4xl font-black text-[#004D5C] dark:text-white tracking-tighter mb-2 italic uppercase transition-colors">Cấu hình Hệ thống</h1>
-                    <p className="text-slate-400 dark:text-slate-500 font-black uppercase tracking-widest text-[10px]">Tùy chỉnh trải nghiệm và bảo mật Lucid Intelligence</p>
+                    <h1 className="text-4xl font-black text-[#004D5C] dark:text-white tracking-tighter mb-2 italic uppercase transition-colors">{__('Admin Settings Title')}</h1>
+                    <p className="text-slate-400 dark:text-slate-500 font-black uppercase tracking-widest text-[10px]">{__('Admin Settings Note')}</p>
                 </div>
                 <AnimatePresence>
                     {wasSuccessful && (
@@ -42,7 +44,7 @@ export default function SettingsPage() {
                             exit={{ opacity: 0, x: 20 }}
                             className="bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 px-6 py-3 rounded-2xl font-black text-[10px] uppercase tracking-[0.2em] border border-emerald-100 dark:border-emerald-800/30 flex items-center gap-2 shadow-lg transition-colors"
                         >
-                            <Sparkles className="h-4 w-4" /> ĐÃ LƯU THAY ĐỔI
+                            <Sparkles className="h-4 w-4" /> {__('Admin Save Success')}
                         </motion.div>
                     )}
                 </AnimatePresence>
@@ -51,15 +53,15 @@ export default function SettingsPage() {
             <form onSubmit={submit} className="grid grid-cols-1 lg:grid-cols-3 gap-10">
                 <div className="lg:col-span-2 space-y-10">
                     {/* General Settings */}
-                    <Section title="Thông tin doanh nghiệp" icon={<Building className="h-4 w-4 text-[#006D7E] dark:text-[#CCEBF0]" />}>
+                    <Section title={__('Admin Biz Info')} icon={<Building className="h-4 w-4 text-[#006D7E] dark:text-[#CCEBF0]" />}>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-10 relative z-10">
                             <InputField 
-                                label="Tên công ty" 
+                                label={__('Admin Company Name')} 
                                 value={data.company_name} 
                                 onChange={e => setData('company_name', e.target.value)}
                             />
                             <InputField 
-                                label="Email quản trị" 
+                                label={__('Admin Email')} 
                                 type="email"
                                 value={data.admin_email} 
                                 onChange={e => setData('admin_email', e.target.value)}
@@ -68,20 +70,20 @@ export default function SettingsPage() {
                     </Section>
 
                     {/* Notification Settings */}
-                    <Section title="Tùy chọn thông báo & Bảo mật" icon={<Bell className="h-4 w-4 text-[#006D7E] dark:text-[#CCEBF0]" />}>
+                    <Section title={__('Admin Notif Security')} icon={<Bell className="h-4 w-4 text-[#006D7E] dark:text-[#CCEBF0]" />}>
                         <div className="space-y-4 relative z-10">
                             <ToggleItem 
                                 icon={<Mail className="h-6 w-6" />}
-                                title="Thông báo email"
-                                description="Nhận email khi có ứng viên mới nộp hồ sơ."
+                                title={__('Admin Email Notif')}
+                                description={__('Admin Email Notif Desc')}
                                 enabled={data.notifications}
                                 setEnabled={v => setData('notifications', v)}
                             />
                             <div className="h-px bg-slate-50 dark:bg-white/5 w-full ml-20 transition-colors"></div>
                             <ToggleItem 
                                 icon={<Shield className="h-6 w-6" />}
-                                title="Xác thực 2 lớp (2FA)"
-                                description="Bảo mật tối đa cho tài khoản quản trị viên."
+                                title={__('Admin 2FA')}
+                                description={__('Admin 2FA Desc')}
                                 enabled={data.two_factor}
                                 setEnabled={v => setData('two_factor', v)}
                             />
@@ -89,12 +91,12 @@ export default function SettingsPage() {
                     </Section>
 
                     {/* System Maintenance & Backup */}
-                    <Section title="Hệ thống & Sao lưu" icon={<Database className="h-4 w-4 text-[#006D7E] dark:text-[#CCEBF0]" />}>
+                    <Section title={__('Admin System Backup')} icon={<Database className="h-4 w-4 text-[#006D7E] dark:text-[#CCEBF0]" />}>
                         <div className="flex flex-col md:flex-row items-center justify-between gap-10 bg-[#F3F7F8] dark:bg-slate-800/50 p-10 rounded-[40px] border-2 border-white dark:border-slate-800 shadow-inner relative overflow-hidden group transition-colors">
                             <div className="flex-1 relative z-10">
-                                <h4 className="text-xl font-black text-[#004D5C] dark:text-white italic tracking-tight mb-2 uppercase transition-colors">Sao lưu Cơ sở dữ liệu</h4>
+                                <h4 className="text-xl font-black text-[#004D5C] dark:text-white italic tracking-tight mb-2 uppercase transition-colors">{__('Admin DB Backup')}</h4>
                                 <p className="text-[10px] font-black text-slate-400 dark:text-slate-500 italic uppercase tracking-widest leading-relaxed transition-colors">
-                                    Tạo bản sao lưu ngay lập tức để bảo vệ dữ liệu ứng viên và tin tuyển dụng. <br/>Bản sao lưu sẽ được nén và lưu trữ an toàn.
+                                    {__('Admin Backup Desc')}
                                 </p>
                             </div>
                             <motion.button
@@ -103,12 +105,12 @@ export default function SettingsPage() {
                                 whileTap={{ scale: 0.95 }}
                                 onClick={() => {
                                     router.post(route('admin.system.backup'), {}, {
-                                        onSuccess: () => alert('Hệ thống đã được sao lưu thành công (Simulated)')
+                                        onSuccess: () => alert(__('Admin Backup Success'))
                                     })
                                 }}
                                 className="bg-[#004D5C] dark:bg-[#CCEBF0] text-white dark:text-slate-900 px-10 py-5 rounded-2xl font-black uppercase tracking-[0.2em] text-[10px] shadow-xl flex items-center gap-3 relative z-10 transition-colors"
                             >
-                                <Database className="h-5 w-5" /> SAO LƯU NGAY
+                                <Database className="h-5 w-5" /> {__('Admin Backup Button')}
                             </motion.button>
                             <div className="absolute top-0 right-0 w-32 h-32 bg-[#006D7E]/5 dark:bg-white/5 rounded-full translate-x-1/2 -translate-y-1/2 blur-2xl group-hover:scale-150 transition-transform duration-1000"></div>
                         </div>
@@ -132,9 +134,9 @@ export default function SettingsPage() {
                                 className="absolute -top-10 -right-10 w-40 h-40 bg-white/5 rounded-full blur-3xl opacity-20"
                             ></motion.div>
                             
-                            <h2 className="text-3xl font-black italic mb-6 tracking-tighter">Lưu cấu hình</h2>
+                            <h2 className="text-3xl font-black italic mb-6 tracking-tighter">{__('Admin Save Config')}</h2>
                             <p className="text-white/50 dark:text-white/30 text-xs font-black uppercase tracking-widest mb-10 leading-relaxed transition-colors">
-                                Mọi thay đổi sẽ được áp dụng ngay lập tức cho toàn hệ thống nhân sự AMT.
+                                {__('Admin Config Note')}
                             </p>
                             
                             <motion.button 
@@ -149,7 +151,7 @@ export default function SettingsPage() {
                                 ) : (
                                     <Check className="h-5 w-5" />
                                 )}
-                                CẬP NHẬT NGAY
+                                {__('Admin Update Button')}
                             </motion.button>
                         </div>
                     </motion.div>

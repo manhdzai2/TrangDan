@@ -80,9 +80,9 @@ class DashboardController extends Controller
             'application_yearly' => $yearlyData,
             'application_sources' => $sourceData,
             'funnel' => [
-                ['name' => 'Ứng tuyển', 'value' => $stats['total_candidates'], 'color' => '#66B2BD'],
-                ['name' => 'Đã duyệt', 'value' => $stats['interviews'], 'color' => '#006D7E'],
-                ['name' => 'Đã tuyển', 'value' => $stats['hired'], 'color' => '#004D5C'],
+                ['name' => 'Admin Funnel Applied', 'value' => $stats['total_candidates'], 'color' => '#66B2BD'],
+                ['name' => 'Admin Funnel Reviewed', 'value' => $stats['interviews'], 'color' => '#006D7E'],
+                ['name' => 'Admin Funnel Hired', 'value' => $stats['hired'], 'color' => '#004D5C'],
             ]
         ];
 
@@ -109,11 +109,11 @@ class DashboardController extends Controller
     private function mapStatus($status)
     {
         return match($status) {
-            'pending' => 'Chờ duyệt',
-            'reviewed' => 'Đã xem',
-            'accepted' => 'Đã tuyển',
-            'rejected' => 'Từ chối',
-            default => ucfirst($status)
+            'pending' => 'Admin Status Pending',
+            'reviewed' => 'Admin Status Reviewed',
+            'accepted' => 'Admin Status Accepted',
+            'rejected' => 'Admin Status Rejected',
+            default => $status
         };
     }
 }

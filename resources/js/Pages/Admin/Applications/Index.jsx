@@ -3,8 +3,10 @@ import { Head, Link, router, useForm, usePage } from '@inertiajs/react';
 import { Search, Filter, Eye, CheckCircle, XCircle, Clock, Download, X, Mail, Phone, MapPin, Send, Sparkles, User, LayoutGrid } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslation } from '@/Hooks/useTranslation';
 
 export default function Index({ applications, filters }) {
+    const { __ } = useTranslation();
     const [selectedApp, setSelectedApp] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [showContact, setShowContact] = useState(false);
@@ -69,10 +71,10 @@ export default function Index({ applications, filters }) {
 
     const mapStatusText = (status) => {
         switch(status) {
-            case 'pending': return 'Chờ duyệt';
-            case 'reviewed': return 'Đã xem';
-            case 'accepted': return 'Đã tuyển';
-            case 'rejected': return 'Từ chối';
+            case 'pending': return __('Admin Status Pending');
+            case 'reviewed': return __('Admin Status Reviewed');
+            case 'accepted': return __('Admin Status Accepted');
+            case 'rejected': return __('Admin Status Rejected');
             default: return status;
         }
     };
@@ -90,13 +92,13 @@ export default function Index({ applications, filters }) {
                     setSelectedApp(updatedApp);
                     setShowReportOverlay(true);
                 } else {
-                    alert('Không thể nhận dạng dữ liệu phân tích. Vui lòng thử lại.');
+                    alert(__('Admin AI Analysis Error'));
                 }
                 setAnalyzing(false);
             },
             onError: (err) => {
                 console.error(err);
-                alert('Có lỗi xảy ra trong quá trình phân tích AI.');
+                alert(__('Admin AI Analysis Error'));
                 setAnalyzing(false);
             },
             onFinish: () => setAnalyzing(false)
@@ -105,7 +107,7 @@ export default function Index({ applications, filters }) {
 
     return (
         <AdminLayout>
-            <Head title="Quản lý Hồ sơ ứng viên | AMT" />
+            <Head title={__('Admin App Title')} />
             
             <motion.div 
                 initial={{ opacity: 0, y: -20 }}
@@ -113,21 +115,21 @@ export default function Index({ applications, filters }) {
                 className="flex justify-between items-center mb-10"
             >
                 <div>
-                    <h1 className="text-4xl font-black text-[#004D5C] dark:text-white tracking-tighter mb-2 italic uppercase">Hồ sơ ứng viên</h1>
-                    <p className="text-slate-400 font-black uppercase tracking-widest text-[10px]">Theo dõi và đánh giá bản sắc nhân sự tương lai</p>
+                    <h1 className="text-4xl font-black text-[#004D5C] dark:text-white tracking-tighter mb-2 italic uppercase">{__('Admin App Header')}</h1>
+                    <p className="text-slate-400 font-black uppercase tracking-widest text-[10px]">{__('Admin App Sub')}</p>
                 </div>
                 <div className="flex gap-4">
                     <Link 
                         href={route('admin.applications.kanban')}
                         className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-white/5 text-[#006D7E] font-black py-4 px-8 rounded-2xl flex items-center gap-2 shadow-2xl transition-all group hover:bg-[#EEF8F9]"
                     >
-                        <LayoutGrid className="h-5 w-5" /> BẢNG KANBAN
+                        <LayoutGrid className="h-5 w-5" /> {__('Admin Kanban Button')}
                     </Link>
                     <a 
                         href={route('admin.export.applications')}
                         className="bg-[#004D5C] text-white font-black py-4 px-8 rounded-2xl flex items-center gap-2 shadow-2xl transition-all group hover:bg-[#003A46]"
                     >
-                        <Download className="h-5 w-5 group-hover:translate-y-1 transition-transform" /> XUẤT BÁO CÁO
+                        <Download className="h-5 w-5 group-hover:translate-y-1 transition-transform" /> {__('Admin Export Button')}
                     </a>
                 </div>
             </motion.div>
@@ -145,7 +147,7 @@ export default function Index({ applications, filters }) {
                             type="text" 
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
-                            placeholder="TÌM KIẾM ỨNG VIÊN..." 
+                            placeholder={__('Admin Search Placeholder')} 
                             className="w-full bg-white dark:bg-slate-800 border-none rounded-2xl pl-16 pr-6 py-4 text-[11px] font-black uppercase tracking-wider focus:ring-2 focus:ring-[#006D7E] transition-all shadow-sm text-[#004D5C] dark:text-white placeholder:text-slate-300 dark:placeholder:text-slate-600" 
                         />
                     </div>
@@ -160,7 +162,7 @@ export default function Index({ applications, filters }) {
                                     : 'bg-white dark:bg-slate-800 text-slate-400 hover:text-[#004D5C] border border-slate-100 dark:border-white/5 shadow-sm'
                                 }`}
                             >
-                                {s === 'all' ? 'Tất cả' : mapStatusText(s)}
+                                {s === 'all' ? __('Admin Filter All') : mapStatusText(s)}
                             </button>
                         ))}
                     </div>
@@ -170,11 +172,11 @@ export default function Index({ applications, filters }) {
                     <table className="w-full text-left border-separate border-spacing-y-4">
                         <thead>
                             <tr className="text-slate-300 dark:text-slate-600 text-[10px] font-black uppercase tracking-[0.3em]">
-                                <th className="px-10 py-4">Ứng viên & Nguồn</th>
-                                <th className="px-10 py-4">Vị trí ứng tuyển</th>
-                                <th className="px-10 py-4 text-center">Lucid Score</th>
-                                <th className="px-10 py-4 text-center">Trạng thái</th>
-                                <th className="px-10 py-4 text-right pr-12">Thao tác</th>
+                                <th className="px-10 py-4">{__('Admin Table App Source')}</th>
+                                <th className="px-10 py-4">{__('Admin Table Position')}</th>
+                                <th className="px-10 py-4 text-center">{__('Admin Table Score')}</th>
+                                <th className="px-10 py-4 text-center">{__('Admin Table Status')}</th>
+                                <th className="px-10 py-4 text-right pr-12">{__('Admin Table Action')}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -195,16 +197,16 @@ export default function Index({ applications, filters }) {
                                                 <div className="flex items-center gap-2 mb-1.5">
                                                     <div className="font-black text-[#004D5C] dark:text-white tracking-tight italic group-hover:translate-x-1 transition-all">{app.name}</div>
                                                     {!app.is_read && (
-                                                        <span className="flex h-2 w-2 rounded-full bg-rose-500 animate-pulse shadow-[0_0_8px_rgba(244,63,94,0.6)]" title="Hồ sơ mới"></span>
+                                                        <span className="flex h-2 w-2 rounded-full bg-rose-500 animate-pulse shadow-[0_0_8px_rgba(244,63,94,0.6)]" title={__('Admin New App Badge')}></span>
                                                     )}
                                                 </div>
-                                                <div className="text-[9px] text-slate-300 dark:text-slate-500 font-black tracking-widest uppercase">{app.source || 'Trực tiếp'} • {app.email}</div>
+                                                <div className="text-[9px] text-slate-300 dark:text-slate-500 font-black tracking-widest uppercase">{app.source || __('Admin Source Direct')} • {app.email}</div>
                                             </div>
                                         </div>
                                     </td>
                                     <td className="px-10 py-6 bg-white dark:bg-slate-900 group-hover:bg-transparent transition-colors">
                                         <div className="text-[#004D5C] dark:text-slate-200 font-black text-sm italic">{app.vacancy?.title || 'N/A'}</div>
-                                        <div className="text-[9px] text-slate-300 dark:text-slate-500 font-black uppercase tracking-widest mt-1">Hà Nội</div>
+                                        <div className="text-[9px] text-slate-300 dark:text-slate-500 font-black uppercase tracking-widest mt-1">{app.vacancy?.location || 'AMT'}</div>
                                     </td>
                                     <td className="px-10 py-6 bg-white dark:bg-slate-900 group-hover:bg-transparent transition-colors text-center">
                                         {app.ai_analysis?.match_score ? (
@@ -247,11 +249,11 @@ export default function Index({ applications, filters }) {
                                             </motion.button>
                                         </div>
                                     </td>
-                                </motion.tr>
+                                    </motion.tr>
                             )) : (
                                 <tr>
                                     <td colSpan="5" className="text-center py-20 text-slate-300 font-black uppercase tracking-widest text-xs italic">
-                                        Không tìm thấy hồ sơ nào phù hợp.
+                                        {__('Admin No Apps Found')}
                                     </td>
                                 </tr>
                             )}
@@ -284,15 +286,15 @@ export default function Index({ applications, filters }) {
                                         {selectedApp.name.charAt(0)}
                                     </div>
                                     <h3 className="text-2xl font-black text-[#004D5C] dark:text-white tracking-tight italic mb-1">{selectedApp.name}</h3>
-                                    <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Ứng viên tiềm năng</p>
+                                    <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest">{__('Admin Potential Candidate')}</p>
                                 </div>
 
                                 <div className="space-y-4 flex-1">
-                                    <InfoItem icon={<Mail />} label="Email" value={selectedApp.email} />
-                                    <InfoItem icon={<Phone />} label="Điện thoại" value={selectedApp.phone || 'Chưa cập nhật'} />
-                                    <InfoItem icon={<MapPin />} label="Địa chỉ" value={selectedApp.address || 'Chưa cập nhật'} />
-                                    {selectedApp.age && <InfoItem icon={<User />} label="Tuổi" value={`${selectedApp.age} tuổi`} />}
-                                    {selectedApp.start_date && <InfoItem icon={<Clock />} label="Ngày đi làm" value={new Date(selectedApp.start_date).toLocaleDateString('vi-VN')} />}
+                                    <InfoItem icon={<Mail />} label={__('Admin System Email')} value={selectedApp.email} />
+                                    <InfoItem icon={<Phone />} label={__('Admin Phone')} value={selectedApp.phone || __('Admin Not Updated')} />
+                                    <InfoItem icon={<MapPin />} label={__('Admin Address')} value={selectedApp.address || __('Admin Not Updated')} />
+                                    {selectedApp.age && <InfoItem icon={<User />} label={__('Admin Age')} value={`${selectedApp.age}`} />}
+                                    {selectedApp.start_date && <InfoItem icon={<Clock />} label={__('Admin Start Date')} value={new Date(selectedApp.start_date).toLocaleDateString()} />}
                                 </div>
 
                                 {selectedApp.cv_path && (
@@ -303,7 +305,7 @@ export default function Index({ applications, filters }) {
                                         target="_blank"
                                         className="mt-6 bg-[#006D7E] text-white font-black py-4 rounded-2xl flex items-center justify-center gap-3 shadow-xl text-[10px] uppercase tracking-widest"
                                     >
-                                        <Download className="h-4 w-4" /> XEM CV (PDF)
+                                        <Download className="h-4 w-4" /> {__('Admin View CV')}
                                     </motion.a>
                                 )}
                             </div>
@@ -312,7 +314,7 @@ export default function Index({ applications, filters }) {
                             <div className="flex-1 p-12 flex flex-col overflow-hidden">
                                 <div className="flex justify-between items-start mb-8">
                                     <div>
-                                        <div className="text-[10px] font-black text-slate-300 uppercase tracking-[0.3em] mb-2">Vị trí ứng tuyển</div>
+                                        <div className="text-[10px] font-black text-slate-300 uppercase tracking-[0.3em] mb-2">{__('Admin Table Position')}</div>
                                         <h2 className="text-3xl font-black text-[#004D5C] dark:text-white tracking-tight italic">{selectedApp.vacancy?.title}</h2>
                                     </div>
                                     <div className="flex gap-2">
@@ -346,7 +348,7 @@ export default function Index({ applications, filters }) {
                                                 className="space-y-6"
                                             >
                                                 <div className="text-[10px] font-black text-[#004D5C] dark:text-white uppercase tracking-[0.3em] mb-4 flex items-center gap-2">
-                                                    <Send className="h-4 w-4" /> LIÊN HỆ ỨNG VIÊN
+                                                    <Send className="h-4 w-4" /> {__('Admin Contact App')}
                                                 </div>
                                                 
                                                 {contactSuccess ? (
@@ -356,28 +358,28 @@ export default function Index({ applications, filters }) {
                                                         className="bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 p-10 rounded-[32px] text-center"
                                                     >
                                                         <Sparkles className="h-12 w-12 mx-auto mb-4" />
-                                                        <div className="font-black italic text-xl">Đã gửi thông báo thành công!</div>
-                                                        <p className="text-xs mt-2 opacity-70 uppercase tracking-widest font-black">Email giả lập đã được ghi nhận trong hệ thống.</p>
+                                                        <div className="font-black italic text-xl">{__('Admin Contact Success')}</div>
+                                                        <p className="text-xs mt-2 opacity-70 uppercase tracking-widest font-black">{__('Admin Contact Note')}</p>
                                                     </motion.div>
                                                 ) : (
                                                     <form onSubmit={handleContact} className="space-y-6">
                                                         <div className="space-y-2">
-                                                            <label className="text-[9px] font-black text-slate-400 uppercase ml-2 tracking-widest">Tiêu đề</label>
+                                                            <label className="text-[9px] font-black text-slate-400 uppercase ml-2 tracking-widest">{__('Admin Subject')}</label>
                                                             <input 
                                                                 type="text" 
                                                                 value={contactData.subject}
                                                                 onChange={e => setContactData('subject', e.target.value)}
-                                                                placeholder="V/v: Phỏng vấn vị trí..."
+                                                                placeholder={__('Admin Subject Placeholder')}
                                                                 className="w-full bg-[#F3F7F8] dark:bg-slate-800 border-none rounded-2xl p-4 text-xs font-black italic text-[#004D5C] dark:text-white"
                                                             />
                                                         </div>
                                                         <div className="space-y-2">
-                                                            <label className="text-[9px] font-black text-slate-400 uppercase ml-2 tracking-widest">Nội dung</label>
+                                                            <label className="text-[9px] font-black text-slate-400 uppercase ml-2 tracking-widest">{__('Admin Message')}</label>
                                                             <textarea 
                                                                 rows={6}
                                                                 value={contactData.message}
                                                                 onChange={e => setContactData('message', e.target.value)}
-                                                                placeholder="Chào bạn, chúng tôi muốn mời bạn phỏng vấn..."
+                                                                placeholder={__('Admin Message Placeholder')}
                                                                 className="w-full bg-[#F3F7F8] dark:bg-slate-800 border-none rounded-[32px] p-6 text-xs font-black italic text-[#004D5C] dark:text-white leading-relaxed"
                                                             ></textarea>
                                                         </div>
@@ -387,7 +389,7 @@ export default function Index({ applications, filters }) {
                                                             whileTap={{ scale: 0.98 }}
                                                             className="w-full bg-[#004D5C] text-white py-5 rounded-2xl font-black uppercase tracking-[0.2em] text-[10px] shadow-xl flex items-center justify-center gap-2"
                                                         >
-                                                            {contacting ? 'Đang gửi...' : 'Gửi thông báo ngay'}
+                                                            {contacting ? __('Admin Sending') : __('Admin Send Button')}
                                                         </motion.button>
                                                     </form>
                                                 )}
@@ -401,7 +403,7 @@ export default function Index({ applications, filters }) {
                                             >
                                                 <div className="mb-10">
                                                     <div className="text-[10px] font-black text-slate-300 uppercase tracking-[0.3em] mb-4 flex justify-between items-center">
-                                                        <span>Thư giới thiệu</span>
+                                                        <span>{__('Admin Cover Letter')}</span>
                                                         <div className="flex gap-2">
                                                             {selectedApp.ai_analysis && (
                                                                 <motion.button
@@ -410,7 +412,7 @@ export default function Index({ applications, filters }) {
                                                                     whileTap={{ scale: 0.95 }}
                                                                     className="flex items-center gap-2 bg-indigo-50 text-indigo-600 px-4 py-2 rounded-xl border border-indigo-100 hover:bg-indigo-600 hover:text-white transition-all text-[9px] font-black uppercase tracking-widest shadow-sm"
                                                                 >
-                                                                    <Eye className="w-3 h-3" /> Xem Insight AI
+                                                                    <Eye className="w-3 h-3" /> {__('Admin View AI Insight')}
                                                                 </motion.button>
                                                             )}
                                                             <motion.button
@@ -421,25 +423,25 @@ export default function Index({ applications, filters }) {
                                                                 className={`flex items-center gap-2 px-4 py-2 rounded-xl border transition-all text-[9px] font-black uppercase tracking-widest ${analyzing ? 'bg-slate-100 text-slate-400 cursor-not-allowed' : 'bg-[#EEF8F9] text-[#006D7E] border-[#006D7E]/10 hover:bg-[#006D7E] hover:text-white shadow-sm'}`}
                                                             >
                                                                 <Sparkles className={`w-3 h-3 ${analyzing ? 'animate-spin' : ''}`} /> 
-                                                                {analyzing ? 'Đang phân tích...' : selectedApp.ai_analysis ? 'Phân tích lại' : 'Phân tích bởi AI'}
+                                                                {analyzing ? __('Admin AI Analyzing') : selectedApp.ai_analysis ? __('Admin AI Analyze Again') : __('Admin AI Analyze Button')}
                                                             </motion.button>
                                                         </div>
                                                     </div>
 
                                                     <div 
                                                         className="bg-slate-50 dark:bg-white/5 p-8 rounded-[32px] text-sm font-medium text-[#004D5C] dark:text-slate-300 leading-relaxed italic border border-slate-100 dark:border-white/5"
-                                                        dangerouslySetInnerHTML={{ __html: selectedApp.cover_letter || 'Người ứng tuyển không để lại thư giới thiệu.' }}
+                                                        dangerouslySetInnerHTML={{ __html: selectedApp.cover_letter || __('Admin No Cover Letter') }}
                                                     />
                                                 </div>
 
                                                 <div>
-                                                    <div className="text-[10px] font-black text-slate-300 uppercase tracking-[0.3em] mb-6">Thay đổi trạng thái</div>
+                                                    <div className="text-[10px] font-black text-slate-300 uppercase tracking-[0.3em] mb-6">{__('Admin Change Status')}</div>
                                                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                                         {[
-                                                            { status: 'reviewed', label: 'Đã xem', icon: <Eye className="h-4 w-4" />, color: 'indigo' },
-                                                            { status: 'pending', label: 'Chờ duyệt', icon: <Clock className="h-4 w-4" />, color: 'amber' },
-                                                            { status: 'accepted', label: 'Đã tuyển', icon: <CheckCircle className="h-4 w-4" />, color: 'emerald' },
-                                                            { status: 'rejected', label: 'Từ chối', icon: <XCircle className="h-4 w-4" />, color: 'rose' }
+                                                            { status: 'reviewed', label: __('Status Reviewed'), icon: <Eye className="h-4 w-4" />, color: 'indigo' },
+                                                            { status: 'pending', label: __('Status Pending'), icon: <Clock className="h-4 w-4" />, color: 'amber' },
+                                                            { status: 'accepted', label: __('Status Accepted'), icon: <CheckCircle className="h-4 w-4" />, color: 'emerald' },
+                                                            { status: 'rejected', label: __('Status Rejected'), icon: <XCircle className="h-4 w-4" />, color: 'rose' }
                                                         ].map((btn) => (
                                                             <button
                                                                 key={btn.status}
@@ -458,6 +460,12 @@ export default function Index({ applications, filters }) {
                                             </motion.div>
                                         )}
                                     </AnimatePresence>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>ence>
                                 </div>
                             </div>
                         </motion.div>
@@ -512,7 +520,7 @@ export default function Index({ applications, filters }) {
                                                 </svg>
                                                 <div className="absolute flex flex-col items-center">
                                                     <span className="text-7xl font-black text-[#004D5C] dark:text-white leading-none italic">{selectedApp.ai_analysis.match_score}</span>
-                                                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-2">Độ phù hợp</span>
+                                                    <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-2">{__('Admin AI Result Match')}</span>
                                                 </div>
                                             </div>
 
@@ -527,7 +535,7 @@ export default function Index({ applications, filters }) {
                                             <div className="space-y-6 w-full">
                                                 <div className="bg-slate-50 dark:bg-slate-800/50 p-8 rounded-[32px] border border-slate-100 dark:border-white/5">
                                                     <div className="text-[9px] font-black text-[#006D7E] uppercase tracking-widest mb-4 flex items-center gap-2">
-                                                        <CheckCircle className="w-3 h-3" /> Tóm tắt chiến lược
+                                                        <CheckCircle className="w-3 h-3" /> {__('Admin Strategic Summary')}
                                                     </div>
                                                     <p className="text-xs font-bold leading-relaxed text-[#004D5C] dark:text-slate-300 italic">
                                                         "{selectedApp.ai_analysis.summary}"
@@ -539,20 +547,20 @@ export default function Index({ applications, filters }) {
                                         {/* Content Section */}
                                         <div className="flex-1 space-y-12">
                                             <div>
-                                                <h2 className="text-4xl font-black text-[#004D5C] dark:text-white tracking-tighter italic mb-2">BÁO CÁO INSIGHT AI</h2>
-                                                <p className="text-slate-400 font-black uppercase tracking-[0.3em] text-[10px]">Phân tích chi tiết bởi Gemini 2.5 Flash</p>
+                                                <h2 className="text-4xl font-black text-[#004D5C] dark:text-white tracking-tighter italic mb-2">{__('Admin AI Report Title')}</h2>
+                                                <p className="text-slate-400 font-black uppercase tracking-[0.3em] text-[10px]">{__('Admin AI Report Sub')}</p>
                                             </div>
 
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                                                 <section className="bg-white dark:bg-slate-800 p-10 rounded-[40px] shadow-sm border border-slate-50 dark:border-white/5">
-                                                    <div className="text-[10px] font-black text-[#006D7E] uppercase tracking-widest mb-6">Đánh giá kinh nghiệm</div>
+                                                    <div className="text-[10px] font-black text-[#006D7E] uppercase tracking-widest mb-6">{__('Admin Experience Eval')}</div>
                                                     <p className="text-xs font-bold leading-relaxed text-[#004D5C] dark:text-slate-300">
                                                         {selectedApp.ai_analysis.experience_evaluation}
                                                     </p>
                                                 </section>
 
                                                 <section className="bg-[#EEF8F9] dark:bg-slate-800 p-10 rounded-[40px] shadow-sm">
-                                                    <div className="text-[10px] font-black text-[#006D7E] dark:text-white uppercase tracking-widest mb-6">Kỹ năng kỹ thuật</div>
+                                                    <div className="text-[10px] font-black text-[#006D7E] dark:text-white uppercase tracking-widest mb-6">{__('Admin Tech Skills')}</div>
                                                     <div className="flex flex-wrap gap-2">
                                                         {selectedApp.ai_analysis.technical_fit.map((skill, i) => (
                                                             <span key={i} className={`px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-widest border ${
@@ -567,7 +575,7 @@ export default function Index({ applications, filters }) {
 
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                                                 <section className="bg-white dark:bg-slate-800 p-10 rounded-[40px] shadow-sm border border-slate-50 dark:border-white/5">
-                                                    <div className="text-[10px] font-black text-indigo-600 uppercase tracking-widest mb-6">Kỹ năng mềm & Thái độ</div>
+                                                    <div className="text-[10px] font-black text-indigo-600 uppercase tracking-widest mb-6">{__('Admin Soft Skills')}</div>
                                                     <div className="space-y-3">
                                                         {selectedApp.ai_analysis.soft_skills.map((skill, i) => (
                                                             <div key={i} className="flex items-center gap-3 text-xs font-black text-slate-500 italic">
@@ -579,7 +587,7 @@ export default function Index({ applications, filters }) {
 
                                                 <section className="bg-[#004D5C] p-10 rounded-[40px] shadow-2xl">
                                                     <div className="text-[10px] font-black text-white/50 uppercase tracking-widest mb-6 flex items-center gap-2">
-                                                        <Sparkles className="w-3 h-3 text-amber-400" /> Kịch bản phỏng vấn gợi ý
+                                                        <div className="w-3 h-3 text-amber-400" ><Sparkles/></div> {__('Admin Interview Questions')}
                                                     </div>
                                                     <div className="space-y-4">
                                                         {selectedApp.ai_analysis.interview_questions.map((q, i) => (

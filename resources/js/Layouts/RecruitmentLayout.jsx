@@ -11,6 +11,8 @@ import LanguageSwitcher from '@/Components/LanguageSwitcher';
 import { ToastContainer } from '@/Components/Toast';
 
 
+export const TranslationContext = React.createContext();
+
 export default function RecruitmentLayout({ children }) {
     const { auth, translations, flash } = usePage().props;
     const { url } = usePage();
@@ -188,7 +190,7 @@ export default function RecruitmentLayout({ children }) {
                     </div>
                     
                     <div>
-                        <h4 className="text-[10px] font-black text-slate-900 dark:text-white tracking-[0.2em] uppercase mb-8">Liên kết</h4>
+                        <h4 className="text-[10px] font-black text-slate-900 dark:text-white tracking-[0.2em] uppercase mb-8">{__('Footer Pages')}</h4>
                         <ul className="space-y-4">
                             <li><Link href="/about" className="text-slate-400 dark:text-slate-500 text-sm font-bold hover:text-[#006D7E] transition-all duration-300 italic group flex items-center gap-2">
                                 {__('About Us')} <ArrowUpRight className="h-3 w-3 opacity-0 group-hover:opacity-100 -translate-x-2 group-hover:translate-x-0 transition-all duration-300" />
@@ -206,18 +208,18 @@ export default function RecruitmentLayout({ children }) {
                     </div>
                     
                     <div>
-                        <h4 className="text-[10px] font-black text-slate-900 dark:text-white tracking-[0.2em] uppercase mb-8">Liên hệ</h4>
+                        <h4 className="text-[10px] font-black text-slate-900 dark:text-white tracking-[0.2em] uppercase mb-8">{__('Footer Connect')}</h4>
                         <div className="bg-[#EEF8F9] dark:bg-[#002B33] p-8 rounded-[40px] border border-[#006D7E]/10 flex flex-col items-center text-center">
                             <Sparkles className="h-8 w-8 text-[#006D7E] mb-4 animate-pulse" />
-                            <div className="text-[10px] font-black text-[#006D7E] uppercase tracking-widest mb-2">Tuyển dụng</div>
+                            <div className="text-[10px] font-black text-[#006D7E] uppercase tracking-widest mb-2">{__('Vacancies')}</div>
                             <div className="text-sm font-black text-[#004D5C] dark:text-[#CCEBF0] italic">hr@amt-solutions.vn</div>
                         </div>
                     </div>
                 </div>
 
                 <div className="max-w-7xl mx-auto px-12 mt-24 pt-8 border-t border-slate-50 dark:border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
-                    <p className="text-slate-300 dark:text-slate-800 text-[10px] font-black uppercase tracking-[0.2em]">© 2026 ALMUS TECH. TOÀN QUYỀN BẢO LƯU.</p>
-                    <p className="text-slate-300 dark:text-slate-800 text-[10px] font-black uppercase tracking-[0.2em]">HỀ THỐNG TUYỂN DỤNG TRỰC TRAYếN</p>
+                    <p className="text-slate-300 dark:text-slate-800 text-[10px] font-black uppercase tracking-[0.2em]">© 2026 ALMUS TECH. {__('All Rights Reserved')}</p>
+                    <p className="text-slate-300 dark:text-slate-800 text-[10px] font-black uppercase tracking-[0.2em]">{__('Recruitment System')}</p>
                 </div>
             </footer>
 

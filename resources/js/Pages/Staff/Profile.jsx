@@ -6,9 +6,11 @@ import {
     Sparkles, KeyRound, XCircle
 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useTranslation } from '@/Hooks/useTranslation';
 import { useState } from 'react';
 
 export default function Profile() {
+    const { __ } = useTranslation();
     const { auth } = usePage().props;
     const user = auth.user;
 
@@ -44,7 +46,7 @@ export default function Profile() {
     };
 
     const deleteAvatar = () => {
-        if(confirm('Xác nhận xóa ảnh đại diện?')) {
+        if(confirm(__('Xác nhận xóa ảnh đại diện?'))) {
             post(route('staff.profile.avatar'), {
                 _method: 'delete',
                 preserveScroll: true
@@ -54,13 +56,13 @@ export default function Profile() {
 
     return (
         <StaffLayout>
-            <Head title="Hồ sơ cá nhân" />
+            <Head title={__('Staff Profile Title')} />
 
             <div className="max-w-5xl mx-auto pb-20">
                 <div className="mb-12">
-                    <h1 className="text-4xl font-black text-[#1E293B] tracking-tight mb-2 italic">Tài khoản Nhân viên</h1>
+                    <h1 className="text-4xl font-black text-[#1E293B] tracking-tight mb-2 italic">{__('Staff Account')}</h1>
                     <p className="text-[10px] text-slate-400 font-black uppercase tracking-widest flex items-center gap-2">
-                        <ShieldCheck className="h-3.5 w-3.5 text-emerald-500" /> Bảo mật & Quản lý thông tin định danh
+                        <ShieldCheck className="h-3.5 w-3.5 text-emerald-500" /> {__('Staff Security Note')}
                     </p>
                 </div>
 
@@ -87,27 +89,27 @@ export default function Profile() {
                             </div>
                             
                             <h2 className="text-2xl font-black text-[#1E293B] italic mb-1">{user.name}</h2>
-                            <p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.2em] mb-10">NHÂN SỰ AMT</p>
+                            <p className="text-[10px] text-slate-400 font-black uppercase tracking-[0.2em] mb-10">{__('Staff Personnel')}</p>
 
                             <div className="w-full space-y-3">
-                                <button 
+                                 <button 
                                     onClick={() => setActiveTab('info')}
                                     className={`w-full flex items-center gap-3 px-6 py-4 rounded-2xl text-[11px] font-black uppercase tracking-widest transition-all ${activeTab === 'info' ? 'bg-slate-900 text-white shadow-xl shadow-slate-200' : 'bg-white text-slate-400 hover:bg-slate-50'}`}
                                 >
-                                    <User className="h-4 w-4" /> Hồ sơ cá nhân
+                                    <User className="h-4 w-4" /> {__('Staff Profile Title')}
                                 </button>
-                                <button 
+                                 <button 
                                     onClick={() => setActiveTab('security')}
                                     className={`w-full flex items-center gap-3 px-6 py-4 rounded-2xl text-[11px] font-black uppercase tracking-widest transition-all ${activeTab === 'security' ? 'bg-slate-900 text-white shadow-xl shadow-slate-200' : 'bg-white text-slate-400 hover:bg-slate-50'}`}
                                 >
-                                    <Lock className="h-4 w-4" /> Bảo mật tài khoản
+                                    <Lock className="h-4 w-4" /> {__('Staff Security Tab')}
                                 </button>
                                 {user.avatar && (
-                                    <button 
+                                     <button 
                                         onClick={deleteAvatar}
                                         className="w-full flex items-center gap-3 px-6 py-4 rounded-2xl text-[11px] font-black uppercase tracking-widest text-rose-500 hover:bg-rose-50 transition-all border border-transparent hover:border-rose-100"
                                     >
-                                        <Trash2 className="h-4 w-4" /> Xóa ảnh đại diện
+                                        <Trash2 className="h-4 w-4" /> {__('Staff Delete Avatar')}
                                     </button>
                                 )}
                             </div>
@@ -123,16 +125,16 @@ export default function Profile() {
                                 className="bg-white p-12 rounded-[50px] shadow-sm border border-slate-100"
                             >
                                 <div className="flex items-center gap-4 mb-12">
-                                    <div className="h-10 w-10 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600">
+                                     <div className="h-10 w-10 bg-indigo-50 rounded-xl flex items-center justify-center text-indigo-600">
                                         <Sparkles className="h-6 w-6" />
                                     </div>
-                                    <h3 className="text-2xl font-black text-[#1E293B] italic tracking-tight">Cập nhật Thông tin</h3>
+                                    <h3 className="text-2xl font-black text-[#1E293B] italic tracking-tight">{__('Staff Update Info')}</h3>
                                 </div>
 
                                 <form onSubmit={updateInfo} className="space-y-10">
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                                         <div className="space-y-3">
-                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Họ và tên</label>
+                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">{__('Auth Name')}</label>
                                             <div className="relative">
                                                 <User className="absolute left-6 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-300" />
                                                 <input 
@@ -145,7 +147,7 @@ export default function Profile() {
                                             {errors.name && <p className="text-rose-500 text-[10px] font-bold mt-2 px-3">{errors.name}</p>}
                                         </div>
                                         <div className="space-y-3">
-                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Email liên hệ</label>
+                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">{__('Staff Email Label')}</label>
                                             <div className="relative">
                                                 <Mail className="absolute left-6 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-300" />
                                                 <input 
@@ -160,7 +162,7 @@ export default function Profile() {
                                     </div>
 
                                     <div className="space-y-3 max-w-md">
-                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Số điện thoại</label>
+                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">{__('Staff Phone Label')}</label>
                                         <div className="relative">
                                             <Phone className="absolute left-6 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-300" />
                                             <input 
@@ -179,7 +181,7 @@ export default function Profile() {
                                                 <div className="h-12 w-12 bg-white rounded-2xl p-1 shadow-sm overflow-hidden">
                                                     <img src={URL.createObjectURL(data.avatar)} className="w-full h-full object-cover rounded-xl" />
                                                 </div>
-                                                <span className="text-[10px] font-black text-emerald-700 uppercase tracking-widest">Sẵn sàng tải lên: {data.avatar.name}</span>
+                                                <span className="text-[10px] font-black text-emerald-700 uppercase tracking-widest">{__('Staff Ready Upload')} {data.avatar.name}</span>
                                             </div>
                                             <button type="button" onClick={() => setData('avatar', null)} className="text-emerald-700 hover:text-rose-500 transition-colors">
                                                 <XCircle className="h-5 w-5" />
@@ -191,11 +193,11 @@ export default function Profile() {
                                         whileHover={{ scale: 1.05, y: -2 }}
                                         whileTap={{ scale: 0.95 }}
                                         disabled={processing}
-                                        type="submit"
+                                         type="submit"
                                         className="bg-[#6366F1] text-white font-black py-5 px-14 rounded-2xl flex items-center gap-3 shadow-2xl shadow-indigo-100 transition-all uppercase tracking-widest text-[11px]"
                                     >
                                         <Save className="h-5 w-5" />
-                                        LƯU THAY ĐỔI
+                                        {__('Staff Save Changes')}
                                     </motion.button>
                                 </form>
                             </motion.div>
@@ -208,15 +210,15 @@ export default function Profile() {
                                 className="bg-white p-12 rounded-[50px] shadow-sm border border-slate-100"
                             >
                                 <div className="flex items-center gap-4 mb-12">
-                                    <div className="h-10 w-10 bg-rose-50 rounded-xl flex items-center justify-center text-rose-500">
+                                     <div className="h-10 w-10 bg-rose-50 rounded-xl flex items-center justify-center text-rose-500">
                                         <KeyRound className="h-6 w-6" />
                                     </div>
-                                    <h3 className="text-2xl font-black text-[#1E293B] italic tracking-tight">Đổi mật khẩu</h3>
+                                    <h3 className="text-2xl font-black text-[#1E293B] italic tracking-tight">{__('Staff Change Password')}</h3>
                                 </div>
 
                                 <form onSubmit={updatePassword} className="space-y-10">
-                                    <div className="space-y-4 max-w-md">
-                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Mật khẩu hiện tại</label>
+                                     <div className="space-y-4 max-w-md">
+                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">{__('Profile Current Password')}</label>
                                         <input 
                                             type="password" 
                                             value={passwordData.current_password}
@@ -226,9 +228,9 @@ export default function Profile() {
                                         {passwordErrors.current_password && <p className="text-rose-500 text-[10px] font-bold px-3">{passwordErrors.current_password}</p>}
                                     </div>
 
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                                         <div className="space-y-4">
-                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Mật khẩu mới</label>
+                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">{__('Profile New Password')}</label>
                                             <input 
                                                 type="password" 
                                                 value={passwordData.password}
@@ -236,9 +238,9 @@ export default function Profile() {
                                                 className="w-full bg-slate-50 border-none rounded-[24px] px-8 py-5 text-sm font-black text-[#1E293B] focus:ring-4 focus:ring-indigo-500/10 transition-all shadow-inner" 
                                             />
                                             {passwordErrors.password && <p className="text-rose-500 text-[10px] font-bold px-3">{passwordErrors.password}</p>}
-                                        </div>
+                                         </div>
                                         <div className="space-y-4">
-                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">Xác nhận mật khẩu</label>
+                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-1">{__('Auth Confirm Password')}</label>
                                             <input 
                                                 type="password" 
                                                 value={passwordData.password_confirmation}
@@ -252,11 +254,11 @@ export default function Profile() {
                                         whileHover={{ scale: 1.05 }}
                                         whileTap={{ scale: 0.95 }}
                                         disabled={passwordProcessing}
-                                        type="submit"
+                                         type="submit"
                                         className="bg-[#1E293B] text-white font-black py-5 px-14 rounded-2xl flex items-center gap-3 shadow-2xl shadow-slate-200 transition-all uppercase tracking-widest text-[11px]"
                                     >
                                         <Lock className="h-5 w-5" />
-                                        CẬP NHẬT MẬT KHẨU
+                                        {__('Staff Update Password Button')}
                                     </motion.button>
                                 </form>
                             </motion.div>

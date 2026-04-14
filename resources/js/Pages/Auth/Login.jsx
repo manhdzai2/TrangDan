@@ -3,8 +3,10 @@ import RecruitmentLayout from '@/Layouts/RecruitmentLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { Sparkles, ArrowRight, Lock, Mail } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useTranslation } from '@/Hooks/useTranslation';
 
 export default function Login({ status, canResetPassword }) {
+    const { __ } = useTranslation();
     const { data, setData, post, processing, errors, reset } = useForm({
         email: '',
         password: '',
@@ -24,7 +26,7 @@ export default function Login({ status, canResetPassword }) {
 
     return (
         <RecruitmentLayout>
-            <Head title="Đăng nhập - AMT Careers" />
+            <Head title={`${__('Login')} - AMT Careers`} />
             
             <section className="min-h-screen pt-40 pb-20 bg-slate-50 dark:bg-slate-950 transition-colors duration-500 relative overflow-hidden flex items-center justify-center">
                 {/* Background Blobs */}
@@ -52,8 +54,8 @@ export default function Login({ status, canResetPassword }) {
                             >
                                 <Sparkles className="h-3 w-3 fill-current" /> AMT CAREERS
                             </motion.div>
-                            <h2 className="text-5xl font-black text-[#004D5C] dark:text-[#CCEBF0] tracking-tighter italic mb-4 leading-none">Chào mừng <br /> trở lại!</h2>
-                            <p className="text-slate-500 dark:text-slate-400 font-medium italic leading-relaxed">Đăng nhập để tiếp tục hành trình cùng AMT</p>
+                            <h2 className="text-5xl font-black text-[#004D5C] dark:text-[#CCEBF0] tracking-tighter italic mb-4 leading-none">{__('Auth Login Title')}</h2>
+                            <p className="text-slate-500 dark:text-slate-400 font-medium italic leading-relaxed">{__('Auth Login Sub')}</p>
                         </div>
 
                         {status && (
@@ -65,7 +67,7 @@ export default function Login({ status, canResetPassword }) {
                         <form onSubmit={submit} className="space-y-6">
                             {/* Email */}
                             <div className="space-y-3">
-                                <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60 dark:text-white ml-2">Email của bạn</label>
+                                <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60 dark:text-white ml-2">{__('Auth Email')}</label>
                                 <div className="relative group">
                                     <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-slate-400 group-focus-within:text-[#006D7E] transition-colors">
                                         <Mail className="h-5 w-5" />
@@ -87,7 +89,7 @@ export default function Login({ status, canResetPassword }) {
 
                             {/* Password */}
                             <div className="space-y-3">
-                                <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60 dark:text-white ml-2">Mật khẩu</label>
+                                <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60 dark:text-white ml-2">{__('Auth Password')}</label>
                                 <div className="relative group">
                                     <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-slate-400 group-focus-within:text-[#006D7E] transition-colors">
                                         <Lock className="h-5 w-5" />
@@ -117,7 +119,7 @@ export default function Login({ status, canResetPassword }) {
                                             className="h-5 w-5 rounded-lg border-slate-200 dark:border-white/10 text-[#006D7E] focus:ring-[#006D7E]/20 transition cursor-pointer"
                                         />
                                     </div>
-                                    <span className="text-sm text-slate-500 dark:text-slate-400 font-bold italic group-hover:text-[#006D7E] transition-colors">Ghi nhớ đăng nhập</span>
+                                    <span className="text-sm text-slate-500 dark:text-slate-400 font-bold italic group-hover:text-[#006D7E] transition-colors">{__('Auth Remember')}</span>
                                 </label>
 
                                 {canResetPassword && (
@@ -125,7 +127,7 @@ export default function Login({ status, canResetPassword }) {
                                         href={route('password.request')}
                                         className="text-xs text-[#006D7E] hover:underline font-black uppercase tracking-widest"
                                     >
-                                        Quên mật khẩu?
+                                        {__('Auth Forgot')}
                                     </Link>
                                 )}
                             </div>
@@ -137,14 +139,14 @@ export default function Login({ status, canResetPassword }) {
                                     disabled={processing}
                                     className="w-full bg-[#004D5C] text-white py-5 rounded-[24px] font-black uppercase tracking-[0.2em] shadow-xl shadow-[#004D5C]/20 hover:bg-[#003540] transition-all flex items-center justify-center gap-3 disabled:opacity-50"
                                 >
-                                    <ArrowRight className="h-5 w-5" /> ĐĂNG NHẬP NGAY
+                                    <ArrowRight className="h-5 w-5" /> {__('Auth Submit Login')}
                                 </motion.button>
                             </div>
                             
                             <div className="text-center mt-12 pt-8 border-t border-slate-100 dark:border-white/5">
-                                <p className="text-slate-400 dark:text-slate-500 font-medium italic mb-2">Chưa có tài khoản?</p>
+                                <p className="text-slate-400 dark:text-slate-500 font-medium italic mb-2">{__('Auth No Account')}</p>
                                 <Link href="/register" className="inline-flex items-center gap-2 text-[#006D7E] font-black uppercase tracking-[0.2em] text-xs hover:gap-4 transition-all group">
-                                    Đăng ký thành viên <ArrowRight className="h-4 w-4" />
+                                    {__('Auth Register Action')} <ArrowRight className="h-4 w-4" />
                                 </Link>
                             </div>
                         </form>

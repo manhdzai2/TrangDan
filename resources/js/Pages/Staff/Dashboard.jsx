@@ -6,24 +6,26 @@ import {
     MessageSquare, ChevronRight, Plus
 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useTranslation } from '@/Hooks/useTranslation';
 
 export default function Dashboard({ stats, recentApplications }) {
+    const { __ } = useTranslation();
     const { auth } = usePage().props;
     const cards = [
-        { name: 'Tổng số việc làm', value: stats.total_jobs, icon: Briefcase, color: 'bg-indigo-500', trend: '+2' },
-        { name: 'Tổng số ứng viên', value: stats.total_applications, icon: Users, color: 'bg-emerald-500', trend: '+12%' },
-        { name: 'Đang chờ xử lý', value: stats.pending_applications, icon: Clock, color: 'bg-amber-500', trend: 'Ưu tiên' },
-        { name: 'Đã tiếp nhận', value: stats.accepted_applications, icon: UserCheck, color: 'bg-blue-500', trend: '+5' },
+        { name: __('Staff Total Jobs'), value: stats.total_jobs, icon: Briefcase, color: 'bg-indigo-500', trend: '+2' },
+        { name: __('Staff Total Apps'), value: stats.total_applications, icon: Users, color: 'bg-emerald-500', trend: '+12%' },
+        { name: __('Staff Pending'), value: stats.pending_applications, icon: Clock, color: 'bg-amber-500', trend: __('Ưu tiên') },
+        { name: __('Staff Accepted'), value: stats.accepted_applications, icon: UserCheck, color: 'bg-blue-500', trend: '+5' },
     ];
 
     return (
         <StaffLayout>
-            <Head title="Staff Dashboard" />
+            <Head title={__('Staff Dashboard Title')} />
 
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-12">
                 <div>
-                    <h1 className="text-3xl font-black text-[#1E293B] tracking-tight mb-2">Xin chào, {auth.user.name.split(' ')[0]}!</h1>
-                    <p className="text-slate-500 font-medium">Hôm nay là {new Date().toLocaleDateString('vi-VN', { weekday: 'long', day: 'numeric', month: 'long' })}. Bạn có {stats.pending_applications} hồ sơ mới cần xem xét.</p>
+                    <h1 className="text-3xl font-black text-[#1E293B] tracking-tight mb-2">{__('Staff Hello')}, {auth.user.name.split(' ')[0]}!</h1>
+                    <p className="text-slate-500 font-medium">{__('Staff Today is')} {new Date().toLocaleDateString('vi-VN', { weekday: 'long', day: 'numeric', month: 'long' })}. {__('Staff Pending Note', { count: stats.pending_applications })}</p>
                 </div>
                 <Link href={route('staff.jobs.create')}>
                     <motion.button 
@@ -32,7 +34,7 @@ export default function Dashboard({ stats, recentApplications }) {
                         className="bg-white text-slate-700 font-bold py-3.5 px-8 rounded-2xl shadow-sm border border-slate-200 flex items-center gap-3 hover:bg-slate-50 transition-all"
                     >
                         <Plus className="h-5 w-5 text-indigo-600" />
-                        Tạo Job Mới
+                        {__('Staff Create Job')}
                     </motion.button>
                 </Link>
             </div>
@@ -67,10 +69,10 @@ export default function Dashboard({ stats, recentApplications }) {
                 <div className="lg:col-span-2 space-y-6">
                     <div className="flex items-center justify-between px-4">
                         <h3 className="text-xl font-black text-[#1E293B] italic flex items-center gap-3">
-                            <TrendingUp className="h-5 w-5 text-indigo-500" /> Ứng tuyển Gần đây
+                            <TrendingUp className="h-5 w-5 text-indigo-500" /> {__('Staff Recent Activity')}
                         </h3>
                         <Link href={route('staff.applications.index')} className="text-xs font-bold text-indigo-600 hover:indigo-700 flex items-center gap-1 group">
-                            Xem tất cả <ChevronRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                            {__('Staff View All')} <ChevronRight className="h-4 w-4 group-hover:translate-x-1 transition-transform" />
                         </Link>
                     </div>
 
@@ -88,7 +90,7 @@ export default function Dashboard({ stats, recentApplications }) {
                                         </div>
                                         <div>
                                             <div className="font-bold text-slate-800 text-lg group-hover:text-indigo-600 transition-colors">{app.candidate.name}</div>
-                                            <div className="text-xs text-slate-400 font-medium">Apply cho: <span className="text-slate-600 font-bold">{app.vacancy.title}</span></div>
+                                            <div className="text-xs text-slate-400 font-medium">{__('Staff Applied For')} <span className="text-slate-600 font-bold">{app.vacancy.title}</span></div>
                                         </div>
                                     </div>
                                     <div className="flex flex-col items-end gap-3 text-right">
@@ -97,7 +99,7 @@ export default function Dashboard({ stats, recentApplications }) {
                                             app.status === 'accepted' ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' :
                                             'bg-rose-50 text-rose-600 border border-rose-100'
                                         }`}>
-                                            {app.status === 'pending' ? 'Chờ duyệt' : app.status}
+                                            {app.status === 'pending' ? __('Staff Pending Status') : app.status}
                                         </span>
                                         <div className="text-[10px] text-slate-300 font-bold uppercase tracking-wider flex items-center gap-1.5">
                                             <Clock className="h-3 w-3" /> {new Date(app.created_at).toLocaleDateString()}
@@ -110,7 +112,7 @@ export default function Dashboard({ stats, recentApplications }) {
                                     <div className="h-16 w-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4 border border-slate-100">
                                         <MessageSquare className="h-8 w-8 text-slate-200" />
                                     </div>
-                                    <p className="text-slate-400 font-bold uppercase tracking-widest text-[10px]">Chưa có hồ sơ ứng tuyển nào</p>
+                                    <p className="text-slate-400 font-bold uppercase tracking-widest text-[10px]">{__('Staff No Apps')}</p>
                                 </div>
                             )}
                         </div>
@@ -122,12 +124,12 @@ export default function Dashboard({ stats, recentApplications }) {
                     <div className="bg-[#1E293B] p-10 rounded-[45px] shadow-2xl relative overflow-hidden group">
                         <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl group-hover:scale-150 transition-transform duration-1000"></div>
                         <div className="relative z-10">
-                            <h4 className="text-white font-black italic text-2xl mb-2 tracking-tight">Kế hoạch Tuyển dụng</h4>
-                            <p className="text-white/40 text-xs font-medium mb-8">Nâng cao hiệu suất tìm kiếm nhân tài với AI.</p>
+                            <h4 className="text-white font-black italic text-2xl mb-2 tracking-tight">{__('Staff Recruitment Plan')}</h4>
+                            <p className="text-white/40 text-xs font-medium mb-8">{__('Staff AI Note')}</p>
                             
                             <div className="space-y-4 mb-10">
                                 <div className="flex items-center justify-between text-white text-xs">
-                                    <span className="font-bold opacity-60">Tháng này: 5 vị trí</span>
+                                    <span className="font-bold opacity-60">{__('Staff Month Position', { count: 5 })}</span>
                                     <span className="font-black">60%</span>
                                 </div>
                                 <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden">
@@ -144,14 +146,14 @@ export default function Dashboard({ stats, recentApplications }) {
                                 whileHover={{ x: 5 }}
                                 className="flex items-center gap-2 text-indigo-400 font-black uppercase tracking-widest text-[10px] group"
                             >
-                                Xem báo cáo chi tiết <ArrowUpRight className="h-4 w-4 group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform" />
+                                {__('Staff View Report')} <ArrowUpRight className="h-4 w-4 group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform" />
                             </motion.button>
                         </div>
                     </div>
 
                     <div className="bg-white p-8 rounded-[40px] border border-slate-100 shadow-sm">
                         <h4 className="text-slate-800 font-black italic text-lg mb-6 flex items-center gap-3">
-                            <Calendar className="h-5 w-5 text-[#6366F1]" /> Lịch trình
+                            <Calendar className="h-5 w-5 text-[#6366F1]" /> {__('Staff Schedule')}
                         </h4>
                         <div className="space-y-4">
                             {[

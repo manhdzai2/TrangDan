@@ -3,8 +3,10 @@ import RecruitmentLayout from '@/Layouts/RecruitmentLayout';
 import { Head, Link, useForm } from '@inertiajs/react';
 import { Sparkles, ArrowRight, User, Lock, Mail } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useTranslation } from '@/Hooks/useTranslation';
 
 export default function Register() {
+    const { __ } = useTranslation();
     const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
         email: '',
@@ -25,7 +27,7 @@ export default function Register() {
 
     return (
         <RecruitmentLayout>
-            <Head title="Đăng ký thành viên - AMT Careers" />
+            <Head title={`${__('Register')} - AMT Careers`} />
 
             <section className="min-h-screen pt-40 pb-20 bg-slate-50 dark:bg-slate-950 transition-colors duration-500 relative overflow-hidden flex items-center justify-center">
                 {/* Background Blobs */}
@@ -51,17 +53,17 @@ export default function Register() {
                                 animate={{ opacity: 1, y: 0 }}
                                 className="inline-flex items-center gap-2 px-4 py-2 bg-[#EEF8F9] dark:bg-[#002B33] text-[#006D7E] rounded-full text-[10px] font-black uppercase tracking-[0.3em] mb-8 border border-[#006D7E]/10"
                             >
-                                <Sparkles className="h-3 w-3 fill-current" /> GIA NHẬP ALMUS TECH
+                                <Sparkles className="h-3 w-3 fill-current" /> {__('Auth Register Badge')}
                             </motion.div>
-                            <h2 className="text-5xl font-black text-[#004D5C] dark:text-[#CCEBF0] tracking-tighter italic mb-4">Tạo tài khoản mới</h2>
-                            <p className="text-slate-500 dark:text-slate-400 font-medium italic">Bắt đầu hành trình sự nghiệp đầy hứa hẹn tại AMT</p>
+                            <h2 className="text-5xl font-black text-[#004D5C] dark:text-[#CCEBF0] tracking-tighter italic mb-4">{__('Auth Register Title')}</h2>
+                            <p className="text-slate-500 dark:text-slate-400 font-medium italic">{__('Auth Register Sub')}</p>
                         </div>
 
                         <form onSubmit={submit} className="space-y-6">
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {/* Name */}
                                 <div className="space-y-3">
-                                    <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60 dark:text-white ml-2">Họ và Tên</label>
+                                    <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60 dark:text-white ml-2">{__('Auth Name')}</label>
                                     <div className="relative group">
                                         <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-slate-400 group-focus-within:text-[#006D7E] transition-colors">
                                             <User className="h-5 w-5" />
@@ -82,7 +84,7 @@ export default function Register() {
 
                                 {/* Email */}
                                 <div className="space-y-3">
-                                    <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60 dark:text-white ml-2">Địa chỉ Email</label>
+                                    <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60 dark:text-white ml-2">{__('Auth Email')}</label>
                                     <div className="relative group">
                                         <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-slate-400 group-focus-within:text-[#006D7E] transition-colors">
                                             <Mail className="h-5 w-5" />
@@ -105,7 +107,7 @@ export default function Register() {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 {/* Password */}
                                 <div className="space-y-3">
-                                    <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60 dark:text-white ml-2">Mật khẩu</label>
+                                    <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60 dark:text-white ml-2">{__('Auth Password')}</label>
                                     <div className="relative group">
                                         <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-slate-400 group-focus-within:text-[#006D7E] transition-colors">
                                             <Lock className="h-5 w-5" />
@@ -126,7 +128,7 @@ export default function Register() {
 
                                 {/* Confirm Password */}
                                 <div className="space-y-3">
-                                    <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60 dark:text-white ml-2">Xác nhận mật khẩu</label>
+                                    <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60 dark:text-white ml-2">{__('Auth Confirm Password')}</label>
                                     <div className="relative group">
                                         <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-slate-400 group-focus-within:text-[#006D7E] transition-colors">
                                             <Lock className="h-5 w-5" />
@@ -153,14 +155,14 @@ export default function Register() {
                                     disabled={processing}
                                     className="w-full bg-[#004D5C] text-white py-5 rounded-[24px] font-black uppercase tracking-[0.2em] shadow-xl shadow-[#004D5C]/20 hover:bg-[#003540] transition-all flex items-center justify-center gap-3 disabled:opacity-50"
                                 >
-                                    TẠO TÀI KHOẢN NGAY <ArrowRight className="h-5 w-5" />
+                                    {__('Auth Submit Register')} <ArrowRight className="h-5 w-5" />
                                 </motion.button>
                             </div>
                             
                             <div className="text-center mt-12 pt-8 border-t border-slate-100 dark:border-white/5">
-                                <p className="text-slate-400 dark:text-slate-500 font-medium italic mb-2">Đã có tài khoản?</p>
+                                <p className="text-slate-400 dark:text-slate-500 font-medium italic mb-2">{__('Auth Has Account')}</p>
                                 <Link href="/login" className="inline-flex items-center gap-2 text-[#006D7E] font-black uppercase tracking-[0.2em] text-xs hover:gap-4 transition-all group">
-                                    <ArrowRight className="h-4 w-4 rotate-180" /> Quay lại đăng nhập
+                                    <ArrowRight className="h-4 w-4 rotate-180" /> {__('Auth Login Action')}
                                 </Link>
                             </div>
                         </form>

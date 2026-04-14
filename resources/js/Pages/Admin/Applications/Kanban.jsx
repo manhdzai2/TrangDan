@@ -24,10 +24,12 @@ import {
     MoreVertical, User, Calendar, MapPin, Briefcase 
 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useTranslation } from '@/Hooks/useTranslation';
 
 // --- Components ---
 
 const KanbanCard = ({ app, isOverlay = false }) => {
+    const { __ } = useTranslation();
     const {
         attributes,
         listeners,
@@ -65,7 +67,7 @@ const KanbanCard = ({ app, isOverlay = false }) => {
                     </div>
                     <div>
                         <h4 className="text-sm font-black text-[#004D5C] dark:text-white tracking-tight italic">{app.name}</h4>
-                        <p className="text-[9px] text-slate-400 font-bold uppercase tracking-widest">{app.source || 'Trực tiếp'}</p>
+                        <p className="text-[9px] text-slate-400 font-bold uppercase tracking-widest">{app.source || __('Admin Source Direct')}</p>
                     </div>
                 </div>
                 <button className="text-slate-300 hover:text-slate-500">
@@ -80,7 +82,7 @@ const KanbanCard = ({ app, isOverlay = false }) => {
                 </div>
                 <div className="flex items-center gap-2 text-[10px] text-slate-400 font-medium">
                     <Calendar className="w-3 h-3" />
-                    <span>{new Date(app.created_at).toLocaleDateString('vi-VN')}</span>
+                    <span>{new Date(app.created_at).toLocaleDateString()}</span>
                 </div>
             </div>
 
@@ -104,6 +106,7 @@ const KanbanCard = ({ app, isOverlay = false }) => {
 };
 
 const KanbanColumn = ({ id, title, applications, icon, color }) => {
+    const { __ } = useTranslation();
     return (
         <div className="flex flex-col h-full min-w-[320px] bg-slate-50/50 dark:bg-black/20 rounded-[40px] p-4">
             <div className="flex items-center justify-between mb-6 px-4 pt-2">
@@ -113,7 +116,7 @@ const KanbanColumn = ({ id, title, applications, icon, color }) => {
                     </div>
                     <div>
                         <h3 className="text-xs font-black text-[#004D5C] dark:text-white uppercase tracking-widest">{title}</h3>
-                        <p className="text-[9px] text-slate-400 font-bold uppercase tracking-widest">{applications.length} ứng viên</p>
+                        <p className="text-[9px] text-slate-400 font-bold uppercase tracking-widest">{applications.length} {__('Admin Kanban Count')}</p>
                     </div>
                 </div>
             </div>
@@ -131,7 +134,7 @@ const KanbanColumn = ({ id, title, applications, icon, color }) => {
                 
                 {applications.length === 0 && (
                     <div className="border-2 border-dashed border-slate-200 dark:border-white/5 rounded-3xl p-8 text-center">
-                        <p className="text-[10px] text-slate-300 font-black uppercase tracking-widest italic">Trống</p>
+                        <p className="text-[10px] text-slate-300 font-black uppercase tracking-widest italic">{__('Admin Kanban Empty')}</p>
                     </div>
                 )}
             </div>
@@ -142,6 +145,7 @@ const KanbanColumn = ({ id, title, applications, icon, color }) => {
 // --- Main Page ---
 
 export default function Kanban({ applications }) {
+    const { __ } = useTranslation();
     const [apps, setApps] = useState(applications);
     const [activeId, setActiveId] = useState(null);
 
@@ -157,10 +161,10 @@ export default function Kanban({ applications }) {
     );
 
     const columns = [
-        { id: 'pending', title: 'Mới ứng tuyển', icon: <Clock className="w-4 h-4" />, color: 'text-amber-500' },
-        { id: 'reviewed', title: 'Đang xem xét', icon: <Eye className="w-4 h-4" />, color: 'text-indigo-500' },
-        { id: 'accepted', title: 'Chấp nhận', icon: <CheckCircle className="w-4 h-4" />, color: 'text-emerald-500' },
-        { id: 'rejected', title: 'Từ chối', icon: <XCircle className="w-4 h-4" />, color: 'text-rose-500' },
+        { id: 'pending', title: __('Admin Col Status New'), icon: <Clock className="w-4 h-4" />, color: 'text-amber-500' },
+        { id: 'reviewed', title: __('Admin Col Status Review'), icon: <Eye className="w-4 h-4" />, color: 'text-indigo-500' },
+        { id: 'accepted', title: __('Admin Col Status Accept'), icon: <CheckCircle className="w-4 h-4" />, color: 'text-emerald-500' },
+        { id: 'rejected', title: __('Admin Col Status Reject'), icon: <XCircle className="w-4 h-4" />, color: 'text-rose-500' },
     ];
 
     const getAppsByStatus = (status) => apps.filter(app => app.status === status);
@@ -231,12 +235,12 @@ export default function Kanban({ applications }) {
 
     return (
         <AdminLayout>
-            <Head title="Kanban - Quản lý ứng viên | Almus Tech" />
+            <Head title={__('Admin Kanban Title')} />
 
             <div className="flex justify-between items-center mb-10">
                 <div>
-                    <h1 className="text-4xl font-black text-[#004D5C] dark:text-white tracking-tighter mb-2 italic uppercase">Kanban Board</h1>
-                    <p className="text-slate-400 font-black uppercase tracking-widest text-[10px]">Quản lý quy trình tuyển dụng trực quan</p>
+                    <h1 className="text-4xl font-black text-[#004D5C] dark:text-white tracking-tighter mb-2 italic uppercase">{__('Admin Kanban Header')}</h1>
+                    <p className="text-slate-400 font-black uppercase tracking-widest text-[10px]">{__('Admin Kanban Sub')}</p>
                 </div>
                 <div className="flex gap-2">
                     <Link 
@@ -244,7 +248,7 @@ export default function Kanban({ applications }) {
                         className="bg-white dark:bg-slate-900 border border-slate-100 dark:border-white/5 text-slate-400 hover:text-[#006D7E] font-black py-4 px-6 rounded-2xl flex items-center gap-2 shadow-sm transition-all shadow-indigo-500/5 group"
                     >
                         <List className="h-5 w-5" />
-                        <span className="hidden sm:inline">Dạng danh sách</span>
+                        <span className="hidden sm:inline">{__('Admin ListView Button')}</span>
                     </Link>
                 </div>
             </div>

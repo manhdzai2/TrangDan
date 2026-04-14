@@ -2,10 +2,12 @@ import { useForm } from '@inertiajs/react';
 import { useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ShieldAlert, Trash2, X, Lock } from 'lucide-react';
+import { useTranslation } from '@/Hooks/useTranslation';
 import InputError from '@/Components/InputError';
 import Modal from '@/Components/Modal';
 
 export default function DeleteUserForm({ className = '' }) {
+    const { __ } = useTranslation();
     const [confirmingUserDeletion, setConfirmingUserDeletion] = useState(false);
     const passwordInput = useRef();
 
@@ -51,7 +53,7 @@ export default function DeleteUserForm({ className = '' }) {
                         <Trash2 className="h-5 w-5" />
                     </div>
                     <p className="text-[10px] font-black uppercase tracking-[0.2em] text-rose-500/70 max-w-xs leading-relaxed">
-                        Hành động này không thể hoàn tác. Một khi bạn xóa tài khoản, mọi dữ liệu sẽ biến mất vĩnh viễn.
+                        {__('Profile Delete Warning')}
                     </p>
                 </div>
                 
@@ -62,7 +64,7 @@ export default function DeleteUserForm({ className = '' }) {
                     className="px-8 py-3.5 bg-rose-500 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-rose-500/20 hover:shadow-rose-500/40 transition-all flex items-center gap-2"
                 >
                     <Trash2 className="h-4 w-4" />
-                    Xóa tài khoản
+                    {__('Profile Delete Button')}
                 </motion.button>
             </div>
 
@@ -77,7 +79,7 @@ export default function DeleteUserForm({ className = '' }) {
                                 <div className="p-4 bg-rose-500/10 rounded-3xl text-rose-500">
                                     <ShieldAlert className="h-8 w-8" />
                                 </div>
-                                <h2 className="text-2xl font-black text-[#004D5C] dark:text-white uppercase tracking-tight">Xác nhận xóa</h2>
+                                <h2 className="text-2xl font-black text-[#004D5C] dark:text-white uppercase tracking-tight">{__('Profile Delete Confirm Title')}</h2>
                             </div>
                             <button 
                                 type="button"
@@ -89,13 +91,13 @@ export default function DeleteUserForm({ className = '' }) {
                         </div>
 
                         <p className="text-slate-500 dark:text-slate-400 font-medium mb-10 leading-loose">
-                            Hệ thống yêu cầu bạn nhập mật khẩu để xác nhận rằng bạn thực sự muốn xóa vĩnh viễn tài khoản của mình. 
-                            <span className="block mt-2 font-black text-rose-500 uppercase text-[10px] tracking-widest leading-none">Cảnh báo: Dữ liệu sẽ không thể khôi phục.</span>
+                            {__('Profile Delete Confirm Desc')}
+                            <span className="block mt-2 font-black text-rose-500 uppercase text-[10px] tracking-widest leading-none">{__('Profile Delete Warning Tiny')}</span>
                         </p>
 
                         <div className="space-y-2 mb-10">
                             <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#004D5C]/50 dark:text-white/30 ml-4">
-                                Nhập mật khẩu xác thực
+                                {__('Profile Delete Password Label')}
                             </label>
                             <div className="relative group">
                                 <Lock className="absolute left-6 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-300 group-focus-within:text-rose-500 transition-colors" />
@@ -120,7 +122,7 @@ export default function DeleteUserForm({ className = '' }) {
                                 onClick={closeModal}
                                 className="px-8 py-4 bg-slate-100 dark:bg-white/5 text-[#004D5C] dark:text-white rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-slate-200 dark:hover:bg-white/10 transition-all"
                             >
-                                Hủy bỏ
+                                {__('Profile Cancel')}
                             </button>
 
                             <motion.button
@@ -131,7 +133,7 @@ export default function DeleteUserForm({ className = '' }) {
                                 className="px-10 py-4 bg-rose-500 text-white rounded-2xl text-xs font-black uppercase tracking-widest shadow-xl shadow-rose-500/20 hover:shadow-rose-500/40 disabled:opacity-50 transition-all flex items-center gap-2"
                             >
                                 <Trash2 className="h-4 w-4" />
-                                Xác nhận xóa vĩnh viễn
+                                {__('Profile Confirm Delete button')}
                             </motion.button>
                         </div>
                     </form>

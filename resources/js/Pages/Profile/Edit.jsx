@@ -5,11 +5,13 @@ import { User, Key, ShieldAlert } from 'lucide-react';
 import DeleteUserForm from './Partials/DeleteUserForm';
 import UpdatePasswordForm from './Partials/UpdatePasswordForm';
 import UpdateProfileInformationForm from './Partials/UpdateProfileInformationForm';
+import { useTranslation } from '@/Hooks/useTranslation';
 
 export default function Edit({ mustVerifyEmail, status }) {
+    const { __ } = useTranslation();
     return (
         <AdminLayout>
-            <Head title="Cài đặt tài khoản" />
+            <Head title={__('Profile Account Settings')} />
 
             <div className="max-w-5xl mx-auto space-y-12 pb-20">
                 {/* Header Section */}
@@ -19,10 +21,10 @@ export default function Edit({ mustVerifyEmail, status }) {
                     className="flex flex-col gap-2"
                 >
                     <h1 className="text-4xl font-black text-[#004D5C] dark:text-white uppercase tracking-tighter">
-                        Cài đặt <span className="text-[#00B4D8]">Tài khoản</span>
+                        {__('Profile Account Settings')}
                     </h1>
                     <p className="text-slate-400 font-medium max-w-2xl uppercase text-[10px] tracking-[0.3em]">
-                        Quản lý thông tin cá nhân và bảo mật hệ thống của bạn
+                        {__('Profile Manage Sub')}
                     </p>
                 </motion.div>
 
@@ -41,8 +43,8 @@ export default function Edit({ mustVerifyEmail, status }) {
                                     <User className="h-6 w-6" />
                                 </div>
                                 <div>
-                                    <h3 className="text-xl font-black text-[#004D5C] dark:text-white uppercase tracking-tight">Thông tin hồ sơ</h3>
-                                    <p className="text-xs text-slate-400 uppercase tracking-widest font-bold">Cập nhật thông tin cơ bản và email</p>
+                                    <h3 className="text-xl font-black text-[#004D5C] dark:text-white uppercase tracking-tight">{__('Profile Info Title')}</h3>
+                                    <p className="text-xs text-slate-400 uppercase tracking-widest font-bold">{__('Profile Info Sub')}</p>
                                 </div>
                             </div>
                             <UpdateProfileInformationForm
@@ -66,8 +68,8 @@ export default function Edit({ mustVerifyEmail, status }) {
                                     <Key className="h-6 w-6" />
                                 </div>
                                 <div>
-                                    <h3 className="text-xl font-black text-[#004D5C] dark:text-white uppercase tracking-tight">Mật khẩu bảo mật</h3>
-                                    <p className="text-xs text-slate-400 uppercase tracking-widest font-bold">Đảm bảo tài khoản của bạn luôn an toàn</p>
+                                    <h3 className="text-xl font-black text-[#004D5C] dark:text-white uppercase tracking-tight">{__('Profile Password Title')}</h3>
+                                    <p className="text-xs text-slate-400 uppercase tracking-widest font-bold">{__('Profile Password Sub')}</p>
                                 </div>
                             </div>
                             <UpdatePasswordForm />
@@ -88,8 +90,8 @@ export default function Edit({ mustVerifyEmail, status }) {
                                     <ShieldAlert className="h-6 w-6" />
                                 </div>
                                 <div>
-                                    <h3 className="text-xl font-black text-[#004D5C] dark:text-white uppercase tracking-tight">Vùng nguy hiểm</h3>
-                                    <p className="text-xs text-slate-400 uppercase tracking-widest font-bold">Xóa vĩnh viễn tài khoản của bạn</p>
+                                    <h3 className="text-xl font-black text-[#004D5C] dark:text-white uppercase tracking-tight">{__('Profile Danger Title')}</h3>
+                                    <p className="text-xs text-slate-400 uppercase tracking-widest font-bold">{__('Profile Danger Sub')}</p>
                                 </div>
                             </div>
                             <DeleteUserForm />

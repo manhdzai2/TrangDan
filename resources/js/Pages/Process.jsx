@@ -6,46 +6,49 @@ import {
     CheckCircle2, ArrowRight, Sparkles, Zap,
     Star, Heart
 } from 'lucide-react';
-
-const steps = [
-    {
-        id: 1,
-        title: "Nộp hồ sơ",
-        description: "Gửi CV và các chứng chỉ liên quan qua hệ thống trực tuyến của chúng tôi. Chúng tôi sẽ phản hồi trong vòng 24-48h.",
-        icon: <Send className="h-8 w-8 text-[#006D7E]" />,
-        color: "bg-[#EEF8F9] dark:bg-[#002B33]",
-        badge: "BỨC ĐẦU"
-    },
-    {
-        id: 2,
-        title: "Phỏng vấn sơ loại",
-        description: "Trò chuyện ngắn cùng HR để hiểu rõ hơn về văn hóa Almus Tech và mong đợi của bạn đối với vị trí ứng tuyển.",
-        icon: <Users className="h-8 w-8 text-indigo-600 dark:text-indigo-400" />,
-        color: "bg-indigo-50 dark:bg-indigo-950/30",
-        badge: "KẾT NỐI"
-    },
-    {
-        id: 3,
-        title: "Đánh giá chuyên môn",
-        description: "Thực hiện bài kiểm tra năng lực hoặc phỏng vấn kỹ thuật cùng các chuyên gia hàng đầu tại bộ phận.",
-        icon: <Zap className="h-8 w-8 text-amber-600 dark:text-amber-400" />,
-        color: "bg-amber-50 dark:bg-amber-950/30",
-        badge: "NĂNG LỰC"
-    },
-    {
-        id: 4,
-        title: "Thỏa thuận & Nhận việc",
-        description: "Chúc mừng! Bạn đã trở thành một phần của Almus Tech. Chúng tôi sẽ cùng nhau bắt đầu hành trình mới.",
-        icon: <CheckCircle2 className="h-8 w-8 text-emerald-600 dark:text-emerald-400" />,
-        color: "bg-emerald-50 dark:bg-emerald-950/30",
-        badge: "THÀNH CÔNG"
-    }
-];
+import { useTranslation } from '@/Hooks/useTranslation';
 
 export default function Process() {
+    const { __ } = useTranslation();
+
+    const steps = [
+        {
+            id: 1,
+            title: __('Process Step 1 Title'),
+            description: __('Process Step 1 Desc'),
+            icon: <Send className="h-8 w-8 text-[#006D7E]" />,
+            color: "bg-[#EEF8F9] dark:bg-[#002B33]",
+            badge: __('Process Step 1 Badge')
+        },
+        {
+            id: 2,
+            title: __('Process Step 2 Title'),
+            description: __('Process Step 2 Desc'),
+            icon: <Users className="h-8 w-8 text-indigo-600 dark:text-indigo-400" />,
+            color: "bg-indigo-50 dark:bg-indigo-950/30",
+            badge: __('Process Step 2 Badge')
+        },
+        {
+            id: 3,
+            title: __('Process Step 3 Title'),
+            description: __('Process Step 3 Desc'),
+            icon: <Zap className="h-8 w-8 text-amber-600 dark:text-amber-400" />,
+            color: "bg-amber-50 dark:bg-amber-950/30",
+            badge: __('Process Step 3 Badge')
+        },
+        {
+            id: 4,
+            title: __('Process Step 4 Title'),
+            description: __('Process Step 4 Desc'),
+            icon: <CheckCircle2 className="h-8 w-8 text-emerald-600 dark:text-emerald-400" />,
+            color: "bg-emerald-50 dark:bg-emerald-950/30",
+            badge: __('Process Step 4 Badge')
+        }
+    ];
+
     return (
         <RecruitmentLayout>
-            <Head title="Quy trình tuyển dụng | Almus Tech" />
+            <Head title={__('Process Head Title')} />
 
             <section className="pt-40 pb-32 bg-white dark:bg-slate-950 transition-colors duration-500 relative overflow-hidden">
                 <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
@@ -59,7 +62,7 @@ export default function Process() {
                             animate={{ opacity: 1, scale: 1 }}
                             className="inline-flex items-center gap-2 px-4 py-2 bg-[#EEF8F9] dark:bg-[#002B33] text-[#006D7E] rounded-full text-[10px] font-black uppercase tracking-[0.2em] mb-8 border border-[#006D7E]/10"
                         >
-                            <Sparkles className="h-3 w-3" /> HÀNH TRÌNH CÙNG ALMUS TECH
+                            <Sparkles className="h-3 w-3" /> {__('Process Badge')}
                         </motion.div>
                         <motion.h1 
                             initial={{ opacity: 0, y: 30 }}
@@ -67,7 +70,7 @@ export default function Process() {
                             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
                             className="text-7xl font-black text-[#004D5C] dark:text-[#CCEBF0] tracking-tighter italic leading-none mb-10"
                         >
-                            Quy Trình <br /> <span className="text-[#006D7E]">Chuyên Nghiệp</span>
+                            {__('Process Hero Title 1')} <br /> <span className="text-[#006D7E]">{__('Process Hero Title 2')}</span>
                         </motion.h1>
                         <motion.p 
                             initial={{ opacity: 0 }}
@@ -75,7 +78,7 @@ export default function Process() {
                             transition={{ duration: 1, delay: 0.2 }}
                             className="text-slate-500 dark:text-slate-400 text-lg font-medium italic max-w-2xl mx-auto leading-relaxed"
                         >
-                            Chúng tôi trân trọng thời gian của bạn và cam kết một quy trình tuyển dụng minh bạch, nhanh chóng và công bằng.
+                            {__('Process Hero Desc')}
                         </motion.p>
                     </div>
 
@@ -155,7 +158,7 @@ export default function Process() {
                     >
                         <div className="absolute inset-0 bg-gradient-to-r from-[#006D7E]/20 to-transparent blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-1000"></div>
                         <h2 className="text-5xl md:text-7xl font-black text-white italic tracking-tighter mb-10 leading-none relative z-10">
-                            Bạn Đã Sẵn Sàng <br /> Bắt Đầu <span className="text-[#006D7E]">Hành Trình?</span>
+                            {__('Process CTA Title 1')} <br /> {__('Process CTA Title 2')} <span className="text-[#006D7E]">{__('Process CTA Title 3')}</span>
                         </h2>
                         <motion.div 
                             whileHover={{ scale: 1.05 }} 
@@ -166,7 +169,7 @@ export default function Process() {
                                 href="/jobs" 
                                 className="inline-flex items-center gap-4 px-16 py-6 bg-white text-[#004D5C] rounded-full text-xs font-black uppercase tracking-[0.2em] shadow-2xl group-hover:bg-[#EEF8F9] transition-all duration-500"
                             >
-                                Xem vị trí tuyển dụng <ArrowRight className="h-5 w-5" />
+                                {__('Process CTA Button')} <ArrowRight className="h-5 w-5" />
                             </Link>
                         </motion.div>
                         

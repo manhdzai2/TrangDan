@@ -6,8 +6,10 @@ import {
 } from 'recharts';
 import { Download, FileText, Filter, TrendingUp, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useTranslation } from '@/Hooks/useTranslation';
 
 export default function Index({ stats }) {
+    const { __ } = useTranslation();
     const COLORS = ['#006D7E', '#C2410C', '#4F46E5', '#E11D48'];
 
     const containerVariants = {
@@ -27,7 +29,7 @@ export default function Index({ stats }) {
 
     return (
         <AdminLayout>
-            <Head title="Báo cáo Tuyển dụng" />
+            <Head title={__('Admin Report Title')} />
 
             <motion.div 
                 initial={{ opacity: 0, y: -20 }}
@@ -35,15 +37,15 @@ export default function Index({ stats }) {
                 className="flex justify-between items-center mb-10"
             >
                 <div>
-                    <h1 className="text-4xl font-black text-[#004D5C] tracking-tighter mb-2 italic">Báo cáo Chiến lược</h1>
-                    <p className="text-slate-400 font-black uppercase tracking-widest text-[10px]">Phân tích chuyên sâu về hiệu suất và dữ liệu tuyển dụng</p>
+                    <h1 className="text-4xl font-black text-[#004D5C] tracking-tighter mb-2 italic">{__('Admin Report Header')}</h1>
+                    <p className="text-slate-400 font-black uppercase tracking-widest text-[10px]">{__('Admin Report Subtitle')}</p>
                 </div>
                 <motion.button 
                     whileHover={{ scale: 1.02, y: -2 }}
                     whileTap={{ scale: 0.98 }}
                     className="bg-[#004D5C] text-white font-black py-4 px-8 rounded-2xl flex items-center gap-2 shadow-2xl shadow-[#004d5c]/20 transition-all group"
                 >
-                    <Download className="h-6 w-6 group-hover:translate-y-1 transition-transform" /> XUẤT PDF BÁO CÁO
+                    <Download className="h-6 w-6 group-hover:translate-y-1 transition-transform" /> {__('Admin Export PDF')}
                 </motion.button>
             </motion.div>
 
@@ -61,7 +63,7 @@ export default function Index({ stats }) {
                     <div className="absolute top-0 right-0 w-64 h-64 bg-[#EEF8F9] rounded-full translate-x-1/2 -translate-y-1/2 opacity-20 blur-3xl group-hover:scale-110 transition-transform duration-1000"></div>
                     
                     <h3 className="text-[10px] font-black text-slate-400 tracking-[0.3em] uppercase mb-10 flex items-center gap-3 relative z-10">
-                        <TrendingUp className="h-4 w-4 text-[#006D7E]" /> Phân loại Trạng thái
+                        <TrendingUp className="h-4 w-4 text-[#006D7E]" /> {__('Admin Report Status Dist')}
                     </h3>
                     <div className="h-[350px] relative z-10">
                         <ResponsiveContainer width="100%" height="100%">
@@ -72,6 +74,7 @@ export default function Index({ stats }) {
                                     axisLine={false} 
                                     tickLine={false} 
                                     tick={{ fill: '#94A3B8', fontSize: 10, fontWeight: 900, textTransform: 'uppercase' }} 
+                                    tickFormatter={(val) => __(`Admin Status ${val.charAt(0).toUpperCase() + val.slice(1)}`)}
                                 />
                                 <YAxis 
                                     axisLine={false} 
@@ -81,6 +84,7 @@ export default function Index({ stats }) {
                                 <Tooltip 
                                     cursor={{ fill: '#F8FAFC' }}
                                     contentStyle={{ borderRadius: '20px', border: 'none', boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1)', fontWeight: 900, textTransform: 'uppercase', fontSize: '10px' }}
+                                    formatter={(value, name, props) => [value, __(`Admin Status ${props.payload.status.charAt(0).toUpperCase() + props.payload.status.slice(1)}`)]}
                                 />
                                 <Bar dataKey="count" fill="#006D7E" radius={[12, 12, 0, 0]} barSize={40} />
                             </BarChart>
@@ -96,7 +100,7 @@ export default function Index({ stats }) {
                     <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#006D7E]/5 rounded-full -translate-x-1/2 translate-y-1/2 opacity-20 blur-3xl group-hover:scale-110 transition-transform duration-1000"></div>
                     
                     <h3 className="text-[10px] font-black text-slate-400 tracking-[0.3em] uppercase mb-10 flex items-center gap-3 relative z-10">
-                        <FileText className="h-4 w-4 text-[#006D7E]" /> Nguồn Ứng tuyển
+                        <FileText className="h-4 w-4 text-[#006D7E]" /> {__('Admin Report Source Dist')}
                     </h3>
                     <div className="h-[350px] relative z-10">
                         <ResponsiveContainer width="100%" height="100%">
@@ -117,11 +121,12 @@ export default function Index({ stats }) {
                                 </Pie>
                                 <Tooltip 
                                     contentStyle={{ borderRadius: '20px', border: 'none', boxShadow: '0 20px 25px -5px rgb(0 0 0 / 0.1)', fontWeight: 900, textTransform: 'uppercase', fontSize: '10px' }}
+                                    formatter={(value, name) => [value, __(`Admin Source ${name.charAt(0).toUpperCase() + name.slice(1)}`)]}
                                 />
                                 <Legend 
                                     verticalAlign="bottom" 
                                     height={36}
-                                    formatter={(value) => <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">{value}</span>}
+                                    formatter={(value) => <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">{__(`Admin Source ${value.charAt(0).toUpperCase() + value.slice(1)}`)}</span>}
                                 />
                             </PieChart>
                         </ResponsiveContainer>
@@ -141,8 +146,8 @@ export default function Index({ stats }) {
                         <Sparkles className="h-8 w-8 text-white" />
                     </div>
                     <div>
-                        <h4 className="text-xl font-black text-white italic tracking-tight mb-1">AI Insight: Tối ưu hóa nguồn lực</h4>
-                        <p className="text-white/60 text-[10px] font-black uppercase tracking-[0.2em]">Bản báo cáo này được tạo tự động dựa trên dữ liệu thời gian thực từ 288+ hồ sơ vừa được cập nhật.</p>
+                        <h4 className="text-xl font-black text-white italic tracking-tight mb-1">{__('Admin Report AI Title')}</h4>
+                        <p className="text-white/60 text-[10px] font-black uppercase tracking-[0.2em]">{__('Admin Report AI Note')}</p>
                     </div>
                 </div>
             </motion.div>

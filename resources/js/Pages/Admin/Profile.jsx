@@ -7,8 +7,10 @@ import {
     CheckCircle, AlertCircle, Sparkles
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslation } from '@/Hooks/useTranslation';
 
 export default function Profile() {
+    const { __ } = useTranslation();
     const { auth } = usePage().props;
     const [activeTab, setActiveTab] = useState('info');
     const fileInputRef = useRef();
@@ -71,15 +73,15 @@ export default function Profile() {
 
     return (
         <AdminLayout>
-            <Head title="Hồ sơ cá nhân" />
+            <Head title={__('Staff Profile Title')} />
 
             <div className="flex justify-between items-end mb-10">
                 <motion.div 
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                 >
-                    <h1 className="text-4xl font-black text-[#004D5C] tracking-tighter mb-2 italic lowercase first-letter:uppercase">Hồ sơ cá nhân</h1>
-                    <p className="text-slate-400 font-black uppercase tracking-widest text-[10px]">Quản lý thông tin và bảo mật tài khoản</p>
+                    <h1 className="text-4xl font-black text-[#004D5C] tracking-tighter mb-2 italic lowercase first-letter:uppercase">{__('Staff Profile Title')}</h1>
+                    <p className="text-slate-400 font-black uppercase tracking-widest text-[10px]">{__('Admin Profile Note')}</p>
                 </motion.div>
             </div>
 
@@ -125,7 +127,7 @@ export default function Profile() {
                             
                             <h2 className="text-2xl font-black text-[#004D5C] tracking-tight mb-1 italic">{auth.user.name}</h2>
                             <span className="px-4 py-1.5 bg-[#EEF8F9] text-[#006D7E] text-[10px] font-black uppercase tracking-widest rounded-xl border border-[#006D7E]/10 mb-6">
-                                {auth.user.role === 'admin' ? 'Quản trị viên' : 'Nhân viên HR'}
+                                {auth.user.role === 'admin' ? __('Admin Role Admin') : __('Admin Role HR')}
                             </span>
 
                             <div className="w-full space-y-2">
@@ -133,13 +135,13 @@ export default function Profile() {
                                     onClick={() => setActiveTab('info')}
                                     className={`w-full flex items-center gap-4 p-4 rounded-2xl transition-all font-black text-[10px] uppercase tracking-widest ${activeTab === 'info' ? 'bg-[#004D5C] text-white shadow-xl shadow-[#004d5c]/20' : 'text-slate-400 hover:bg-slate-50'}`}
                                 >
-                                    <User className="h-4 w-4" /> THÔNG TIN CƠ BẢN
+                                    <User className="h-4 w-4" /> {__('Admin Tab Basic')}
                                 </button>
                                 <button 
                                     onClick={() => setActiveTab('security')}
                                     className={`w-full flex items-center gap-4 p-4 rounded-2xl transition-all font-black text-[10px] uppercase tracking-widest ${activeTab === 'security' ? 'bg-[#004D5C] text-white shadow-xl shadow-[#004d5c]/20' : 'text-slate-400 hover:bg-slate-50'}`}
                                 >
-                                    <Shield className="h-4 w-4" /> BẢO MẬT & MẬT KHẨU
+                                    <Shield className="h-4 w-4" /> {__('Admin Tab Security')}
                                 </button>
                             </div>
                         </div>
@@ -156,8 +158,8 @@ export default function Profile() {
                                 <Sparkles className="h-6 w-6 text-white" />
                             </div>
                             <div>
-                                <h4 className="text-white font-black italic text-sm">Hiệu năng làm việc</h4>
-                                <p className="text-white/40 text-[9px] font-black uppercase tracking-widest">Cập nhật 2 giờ trước</p>
+                                <h4 className="text-white font-black italic text-sm">{__('Admin Performance Title')}</h4>
+                                <p className="text-white/40 text-[9px] font-black uppercase tracking-widest">{__('Admin Performance Note')}</p>
                             </div>
                         </div>
                     </div>
@@ -175,13 +177,13 @@ export default function Profile() {
                                 className="bg-white p-12 rounded-[50px] shadow-sm border border-white/50"
                             >
                                 <h3 className="text-xl font-black text-[#004D5C] italic mb-10 tracking-tight flex items-center gap-3">
-                                    <User className="text-[#006D7E]" /> Cập nhật Thông tin
+                                    <User className="text-[#006D7E]" /> {__('Staff Update Info')}
                                 </h3>
 
                                 <form onSubmit={handleUpdateProfile} className="space-y-8">
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                         <div className="space-y-3">
-                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Họ và Tên</label>
+                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">{__('Auth Name')}</label>
                                             <input 
                                                 type="text"
                                                 value={data.name}
@@ -191,7 +193,7 @@ export default function Profile() {
                                             {errors.name && <p className="text-rose-500 text-[10px] font-bold mt-1 px-2">{errors.name}</p>}
                                         </div>
                                         <div className="space-y-3">
-                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Email Hệ thống</label>
+                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">{__('Admin System Email')}</label>
                                             <input 
                                                 type="email"
                                                 value={data.email}
@@ -201,19 +203,19 @@ export default function Profile() {
                                             {errors.email && <p className="text-rose-500 text-[10px] font-bold mt-1 px-2">{errors.email}</p>}
                                         </div>
                                         <div className="space-y-3">
-                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Số điện thoại</label>
+                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">{__('Staff Phone Label')}</label>
                                             <input 
                                                 type="text"
                                                 value={data.phone}
                                                 onChange={e => setData('phone', e.target.value)}
-                                                placeholder="Chưa cập nhật"
+                                                placeholder={__('Admin Not Updated')}
                                                 className="w-full bg-slate-50 border-none rounded-2xl p-4 focus:ring-2 focus:ring-[#006D7E] transition-all font-black text-[#004D5C]"
                                             />
                                         </div>
                                         <div className="space-y-3">
-                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Ngày tham gia</label>
+                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">{__('Admin Joined Date')}</label>
                                             <div className="w-full bg-slate-100/50 text-slate-400 rounded-2xl p-4 font-black italic cursor-not-allowed">
-                                                {new Date(auth.user.created_at).toLocaleDateString('vi-VN')}
+                                                {new Date(auth.user.created_at).toLocaleDateString(usePage().props.locale === 'en' ? 'en-US' : 'vi-VN')}
                                             </div>
                                         </div>
                                     </div>
@@ -225,7 +227,7 @@ export default function Profile() {
                                             disabled={processing}
                                             className="bg-[#004D5C] text-white font-black py-4 px-10 rounded-2xl flex items-center gap-3 shadow-2xl shadow-[#004d5c]/20"
                                         >
-                                            <Save className="h-5 w-5" /> LƯU THAY ĐỔI
+                                            <Save className="h-5 w-5" /> {__('Staff Save Changes')}
                                         </motion.button>
                                     </div>
                                 </form>
@@ -241,12 +243,12 @@ export default function Profile() {
                                 className="bg-white p-12 rounded-[50px] shadow-sm border border-white/50"
                             >
                                 <h3 className="text-xl font-black text-[#004D5C] italic mb-10 tracking-tight flex items-center gap-3">
-                                    <Lock className="text-[#006D7E]" /> Đổi Mật khẩu
+                                    <Lock className="text-[#006D7E]" /> {__('Staff Change Password')}
                                 </h3>
 
                                 <form onSubmit={handleUpdatePassword} className="max-w-xl space-y-8">
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Mật khẩu hiện tại</label>
+                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">{__('Profile Current Password')}</label>
                                         <input 
                                             type="password"
                                             value={passwordData.current_password}
@@ -256,7 +258,7 @@ export default function Profile() {
                                         {passwordErrors.current_password && <p className="text-rose-500 text-[10px] font-bold mt-1 px-2">{passwordErrors.current_password}</p>}
                                     </div>
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Mật khẩu mới</label>
+                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">{__('Profile New Password')}</label>
                                         <input 
                                             type="password"
                                             value={passwordData.password}
@@ -266,7 +268,7 @@ export default function Profile() {
                                         {passwordErrors.password && <p className="text-rose-500 text-[10px] font-bold mt-1 px-2">{passwordErrors.password}</p>}
                                     </div>
                                     <div className="space-y-3">
-                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">Xác nhận mật khẩu</label>
+                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest ml-2">{__('Auth Confirm Password')}</label>
                                         <input 
                                             type="password"
                                             value={passwordData.password_confirmation}
@@ -282,7 +284,7 @@ export default function Profile() {
                                             disabled={passwordProcessing}
                                             className="bg-[#004D5C] text-white font-black py-4 px-10 rounded-2xl flex items-center gap-3 shadow-2xl shadow-[#004d5c]/20"
                                         >
-                                            <Save className="h-5 w-5" /> CẬP NHẬT MẬT KHẨU
+                                            <Save className="h-5 w-5" /> {__('Staff Update Password Button')}
                                         </motion.button>
                                     </div>
                                 </form>

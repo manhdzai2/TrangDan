@@ -5,8 +5,11 @@ import {
     Calendar, Briefcase, FileText, CheckCircle, XCircle, User, Download, Clock
 } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { useTranslation } from '@/Hooks/useTranslation';
 
 export default function Show({ application }) {
+    const { __ } = useTranslation();
+
     const mapStatusClass = (status) => {
         switch(status) {
             case 'pending': return 'bg-amber-50 text-amber-600 border-amber-100';
@@ -19,17 +22,16 @@ export default function Show({ application }) {
 
     const mapStatusText = (status) => {
         switch(status) {
-            case 'pending': return 'Chờ duyệt';
-            case 'reviewed': return 'Đã xem';
-            case 'accepted': return 'Đã tuyển';
-            case 'rejected': return 'Từ chối';
+            case 'pending': return __('Admin Status Pending');
+            case 'reviewed': return __('Admin Status Reviewed');
+            case 'accepted': return __('Admin Status Accepted');
+            case 'rejected': return __('Admin Status Rejected');
             default: return status;
         }
     };
 
     const updateStatus = (status) => {
-        const text = status === 'accepted' ? 'Chấp nhận' : 'Từ chối';
-        if (confirm(`Bạn có chắc muốn ${text} ứng viên này?`)) {
+        if (confirm(__('Admin Confirm Action'))) {
             router.put(route('admin.applications.updateStatus', application.id), { status });
         }
     };
@@ -51,7 +53,7 @@ export default function Show({ application }) {
 
     return (
         <AdminLayout>
-            <Head title={`Chi tiết: ${application.name}`} />
+            <Head title={`${__('Admin App Detail Title')}: ${application.name}`} />
 
             <motion.div 
                 initial={{ opacity: 0, x: -20 }}
@@ -65,7 +67,7 @@ export default function Show({ application }) {
                     <div className="h-10 w-10 bg-white rounded-xl flex items-center justify-center shadow-sm border border-slate-100 group-hover:bg-[#006D7E] group-hover:text-white transition-all">
                         <ChevronLeft className="h-5 w-5" />
                     </div>
-                    QUAY LẠI DANH SÁCH
+                    {__('Admin Back To List')}
                 </Link>
             </motion.div>
 
@@ -113,20 +115,20 @@ export default function Show({ application }) {
 
                         {/* Grid thông tin cá nhân đầy đủ */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-10 border-y border-slate-50 relative z-10">
-                            <InfoCard icon={<Briefcase className="h-4 w-4" />} label="Vị trí ứng tuyển" value={application.applied_position || application.vacancy?.title} />
-                            <InfoCard icon={<User className="h-4 w-4" />} label="Tuổi" value={application.age ? `${application.age} tuổi` : 'N/A'} />
-                            <InfoCard icon={<MapPin className="h-4 w-4" />} label="Địa chỉ" value={application.address || 'N/A'} />
-                            <InfoCard icon={<Calendar className="h-4 w-4" />} label="Ngày gửi hồ sơ" value={new Date(application.created_at).toLocaleDateString('vi-VN', { month: 'long', day: 'numeric', year: 'numeric' })} />
-                            <InfoCard icon={<Clock className="h-4 w-4" />} label="Ngày có thể đi làm" value={application.start_date ? new Date(application.start_date).toLocaleDateString('vi-VN') : 'N/A'} />
-                            <InfoCard icon={<FileText className="h-4 w-4" />} label="Nguồn hồ sơ" value={application.source || 'Trực tiếp'} />
+                            <InfoCard icon={<Briefcase className="h-4 w-4" />} label={__('Admin Table Position')} value={application.applied_position || application.vacancy?.title} />
+                            <InfoCard icon={<User className="h-4 w-4" />} label={__('Admin Age')} value={application.age ? `${application.age}` : 'N/A'} />
+                            <InfoCard icon={<MapPin className="h-4 w-4" />} label={__('Admin Address')} value={application.address || 'N/A'} />
+                            <InfoCard icon={<Calendar className="h-4 w-4" />} label={__('Admin Date Submitted')} value={new Date(application.created_at).toLocaleDateString(undefined, { month: 'long', day: 'numeric', year: 'numeric' })} />
+                            <InfoCard icon={<Clock className="h-4 w-4" />} label={__('Admin Start Date')} value={application.start_date ? new Date(application.start_date).toLocaleDateString() : 'N/A'} />
+                            <InfoCard icon={<FileText className="h-4 w-4" />} label={__('Admin Table App Source')} value={application.source || __('Admin Source Direct')} />
                         </div>
 
                         <div className="mt-12 relative z-10">
                             <div className="text-[10px] font-black text-slate-300 uppercase tracking-[0.3em] mb-8 flex items-center gap-3">
-                                <FileText className="h-4 w-4 text-[#006D7E]" /> Nội dung giới thiệu
+                                <FileText className="h-4 w-4 text-[#006D7E]" /> {__('Admin Intro Content')}
                             </div>
                             <div className="bg-[#F3F7F8] p-10 rounded-[40px] text-[#004D5C] leading-relaxed font-medium italic shadow-inner border border-white/50 text-sm">
-                                {application.cover_letter || 'Người ứng tuyển không để lại thư giới thiệu. Hồ sơ được gửi thông qua hệ thống tuyển dụng Almus Tech.'}
+                                {application.cover_letter || __('Admin No Cover Letter')}
                             </div>
                         </div>
                     </motion.div>
@@ -147,7 +149,7 @@ export default function Show({ application }) {
                             className="absolute -top-10 -right-10 w-40 h-40 bg-white/5 rounded-full blur-3xl"
                         ></motion.div>
                         
-                        <h3 className="text-white font-black text-2xl italic mb-8 tracking-tighter relative z-10">Quyết định Tuyển dụng</h3>
+                        <h3 className="text-white font-black text-2xl italic mb-8 tracking-tighter relative z-10">{__('Admin Selection Decision')}</h3>
                         <div className="space-y-6 relative z-10">
                             <motion.button 
                                 whileHover={{ scale: 1.02, y: -4 }}
@@ -155,7 +157,7 @@ export default function Show({ application }) {
                                 onClick={() => updateStatus('accepted')}
                                 className="w-full bg-emerald-500 text-white font-black py-6 rounded-2xl flex items-center justify-center gap-3 shadow-xl shadow-emerald-900/40 uppercase text-[11px] tracking-[0.2em]"
                             >
-                                <CheckCircle className="h-6 w-6" /> CHẤP NHẬN ỨNG VIÊN
+                                <CheckCircle className="h-6 w-6" /> {__('Admin Accept Candidate')}
                             </motion.button>
                             <motion.button 
                                 whileHover={{ scale: 1.02 }}
@@ -163,11 +165,11 @@ export default function Show({ application }) {
                                 onClick={() => updateStatus('rejected')}
                                 className="w-full bg-white/10 text-white hover:bg-rose-500 font-black py-6 rounded-2xl flex items-center justify-center gap-3 transition-all active:scale-95 border border-white/10 uppercase text-[11px] tracking-[0.2em]"
                             >
-                                <XCircle className="h-6 w-6" /> TỪ CHỐI HỒ SƠ
+                                <XCircle className="h-6 w-6" /> {__('Admin Reject Candidate')}
                             </motion.button>
                         </div>
                         <p className="text-white/30 text-[9px] font-black uppercase tracking-[0.3em] text-center mt-10 relative z-10 leading-relaxed italic">
-                            Thao tác này sẽ cập nhật trạng thái ngay lập tức
+                            {__('Admin Status Update Warning')}
                         </p>
                     </motion.div>
 
@@ -176,11 +178,11 @@ export default function Show({ application }) {
                         className="bg-white p-10 rounded-[50px] shadow-sm border border-white/50 group"
                     >
                         <h3 className="text-[10px] font-black text-slate-300 uppercase tracking-[0.3em] mb-8 flex items-center gap-3">
-                            <User className="h-4 w-4 text-[#006D7E]" /> Thông tin bổ sung
+                            <User className="h-4 w-4 text-[#006D7E]" /> {__('Admin Additional Info')}
                         </h3>
                         <div className="space-y-6">
                             <div>
-                                <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Hệ thống ID</div>
+                                <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">{__('Admin System ID')}</div>
                                 <div className="font-mono text-[11px] font-black text-slate-300">#AMT-APP-{application.id.toString().padStart(4, '0')}</div>
                             </div>
                             {application.cv_path && (
@@ -195,7 +197,7 @@ export default function Show({ application }) {
                                         <div className="h-10 w-10 bg-white rounded-xl flex items-center justify-center text-[#006D7E] shadow-sm group-hover/cv:bg-[#004D5C] group-hover/cv:text-white transition-all">
                                             <Download className="h-5 w-5" />
                                         </div>
-                                        <span className="text-[10px] font-black text-[#004D5C] uppercase tracking-widest">Hồ sơ CV (PDF)</span>
+                                        <span className="text-[10px] font-black text-[#004D5C] uppercase tracking-widest">{__('Admin CV PDF')}</span>
                                     </div>
                                 </motion.a>
                             )}

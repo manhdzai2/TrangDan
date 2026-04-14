@@ -3,8 +3,10 @@ import { Head, useForm } from '@inertiajs/react';
 import { Plus, Search, Filter, Eye, Edit, Trash2, X, Check, Sparkles, LayoutGrid } from 'lucide-react';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslation } from '@/Hooks/useTranslation';
 
 export default function Index({ vacancies }) {
+    const { __ } = useTranslation();
     const [showModal, setShowModal] = useState(false);
     const [editingJob, setEditingJob] = useState(null);
 
@@ -62,14 +64,14 @@ export default function Index({ vacancies }) {
     };
 
     const handleDelete = (id) => {
-        if (confirm('Bạn có chắc chắn muốn xóa tin tuyển dụng này?')) {
+        if (confirm(__('Admin Vacancy Delete Confirm'))) {
             destroy(route('admin.vacancies.destroy', id));
         }
     };
 
     const handleGenerateAI = async () => {
         if (!data.title) {
-            alert('Vui lòng nhập tiêu đề để AI có thể tạo mô tả!');
+            alert(__('Admin Vacancy AI Error Title'));
             return;
         }
 
@@ -95,7 +97,7 @@ export default function Index({ vacancies }) {
 
     return (
         <AdminLayout>
-            <Head title="Quản lý Tin tuyển dụng" />
+            <Head title={__('Admin Vacancy Title')} />
             
             <motion.div 
                 initial={{ opacity: 0, y: -20 }}
@@ -103,8 +105,8 @@ export default function Index({ vacancies }) {
                 className="flex justify-between items-center mb-10"
             >
                 <div>
-                    <h1 className="text-4xl font-black text-[#004D5C] dark:text-white tracking-tighter mb-2 italic">Tin tuyển dụng</h1>
-                    <p className="text-slate-400 font-black uppercase tracking-widest text-[10px]">Quản lý và cập nhật danh sách vị trí đang tuyển</p>
+                    <h1 className="text-4xl font-black text-[#004D5C] dark:text-white tracking-tighter mb-2 italic">{__('Admin Vacancy Header')}</h1>
+                    <p className="text-slate-400 font-black uppercase tracking-widest text-[10px]">{__('Admin Vacancy Subtitle')}</p>
                 </div>
                 <motion.button 
                     whileHover={{ scale: 1.02, y: -2 }}
@@ -112,7 +114,7 @@ export default function Index({ vacancies }) {
                     onClick={openCreateModal}
                     className="bg-[#006D7E] text-white font-black py-4 px-8 rounded-2xl flex items-center gap-2 shadow-2xl shadow-[#006d7e]/20 transition-all group"
                 >
-                    <Plus className="h-6 w-6 group-hover:rotate-90 transition-transform duration-500" /> ĐĂNG TIN MỚI
+                    <Plus className="h-6 w-6 group-hover:rotate-90 transition-transform duration-500" /> {__('Admin Vacancy Add New')}
                 </motion.button>
             </motion.div>
 
@@ -127,7 +129,7 @@ export default function Index({ vacancies }) {
                         <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 h-5 w-5" />
                         <input 
                             type="text" 
-                            placeholder="Tìm kiếm vị trí, kỹ năng..." 
+                            placeholder={__('Admin Vacancy Search Placeholder')} 
                             className="w-full bg-white dark:bg-slate-800 border-none rounded-2xl pl-16 pr-6 py-4 text-[11px] font-black uppercase tracking-wider focus:ring-2 focus:ring-[#006D7E] transition-all shadow-sm text-[#004D5C] dark:text-white placeholder:text-slate-300 dark:placeholder:text-slate-600" 
                         />
                     </div>
@@ -144,12 +146,12 @@ export default function Index({ vacancies }) {
                     <table className="w-full text-left">
                         <thead>
                             <tr className="bg-slate-50/50 dark:bg-white/5 text-slate-300 dark:text-slate-600 text-[10px] font-black uppercase tracking-[0.3em]">
-                                <th className="px-10 py-6">Công việc</th>
-                                <th className="px-10 py-6">Loại hình</th>
-                                <th className="px-10 py-6">Mức lương</th>
-                                <th className="px-10 py-6 text-center">Ứng viên</th>
-                                <th className="px-10 py-6 text-center">Trạng thái</th>
-                                <th className="px-10 py-6 text-right pr-12">Thao tác</th>
+                                <th className="px-10 py-6">{__('Admin Table Job')}</th>
+                                <th className="px-10 py-6">{__('Admin Table Type')}</th>
+                                <th className="px-10 py-6">{__('Admin Table Salary')}</th>
+                                <th className="px-10 py-6 text-center">{__('Admin Table Candidates')}</th>
+                                <th className="px-10 py-6 text-center">{__('Admin Table Status')}</th>
+                                <th className="px-10 py-6 text-right pr-12">{__('Admin Table Action')}</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-slate-50">
@@ -178,13 +180,13 @@ export default function Index({ vacancies }) {
                                     <td className="px-10 py-7 text-center bg-white dark:bg-slate-900 group-hover:bg-transparent transition-colors">
                                         <div className="inline-flex flex-col">
                                             <span className="text-2xl font-black text-[#004D5C] dark:text-white leading-none italic">{job.applications_count}</span>
-                                            <span className="text-[9px] text-slate-300 dark:text-slate-600 font-black uppercase tracking-widest mt-1.5 leading-none">Hồ sơ</span>
+                                            <span className="text-[9px] text-slate-300 dark:text-slate-600 font-black uppercase tracking-widest mt-1.5 leading-none">{__('Admin Apps Label')}</span>
                                         </div>
                                     </td>
                                     <td className="px-10 py-7 text-center bg-white dark:bg-slate-900 group-hover:bg-transparent transition-colors">
                                         <span className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-widest shadow-sm ${job.is_active ? 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-800' : 'bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 border border-rose-100 dark:border-rose-800'}`}>
                                             <span className={`h-2 w-2 rounded-full ${job.is_active ? 'bg-emerald-500 animate-pulse' : 'bg-rose-500'}`}></span>
-                                            {job.is_active ? 'Hoạt động' : 'Tạm dừng'}
+                                            {job.is_active ? __('Admin Status Active') : __('Admin Status Paused')}
                                         </span>
                                     </td>
                                     <td className="px-10 py-7 text-right pr-12 bg-white dark:bg-slate-900 group-hover:bg-transparent transition-colors">
@@ -235,10 +237,10 @@ export default function Index({ vacancies }) {
                             <div className="p-10 border-b border-slate-50 dark:border-white/5 flex justify-between items-center bg-slate-50/30 dark:bg-transparent">
                                 <div>
                                     <h3 className="text-3xl font-black text-[#004D5C] dark:text-white tracking-tight italic">
-                                        {editingJob ? 'Cập nhật Tin tuyển dụng' : 'Đăng Tin tuyển dụng Mới'}
+                                        {editingJob ? __('Admin Vacancy Update Title') : __('Admin Vacancy Create Title')}
                                     </h3>
                                     <div className="flex items-center gap-4 mt-2">
-                                        <p className="text-slate-400 dark:text-slate-500 text-[10px] font-black uppercase tracking-widest leading-none">Cung cấp thông tin chi tiết cho vị trí này</p>
+                                        <p className="text-slate-400 dark:text-slate-500 text-[10px] font-black uppercase tracking-widest leading-none">{__('Admin Vacancy Detail Note')}</p>
                                         <motion.button
                                             type="button"
                                             onClick={handleGenerateAI}
@@ -246,7 +248,7 @@ export default function Index({ vacancies }) {
                                             whileTap={{ scale: 0.95 }}
                                             className="flex items-center gap-2 bg-[#EEF8F9] text-[#006D7E] px-3 py-1.5 rounded-lg border border-[#006D7E]/10 hover:bg-[#006D7E] hover:text-white transition-all text-[9px] font-black uppercase tracking-widest shadow-sm"
                                         >
-                                            <Sparkles className="w-3 h-3" /> Tạo bởi AI
+                                            <Sparkles className="w-3 h-3" /> {__('Admin Vacancy AI Generate')}
                                         </motion.button>
                                     </div>
                                 </div>
@@ -262,7 +264,7 @@ export default function Index({ vacancies }) {
                             <form onSubmit={submit} className="p-10 overflow-y-auto flex-1 custom-scrollbar">
                                 <div className="space-y-8">
                                     <div>
-                                        <label className="text-[10px] font-black text-[#004D5C] dark:text-[#CCEBF0] uppercase tracking-[0.2em] block mb-4">Tên vị trí tuyển dụng *</label>
+                                        <label className="text-[10px] font-black text-[#004D5C] dark:text-[#CCEBF0] uppercase tracking-[0.2em] block mb-4">{__('Admin Vacancy Job Title')}</label>
                                         <input 
                                             type="text" 
                                             required
@@ -276,7 +278,7 @@ export default function Index({ vacancies }) {
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                         <div>
-                                            <label className="text-[10px] font-black text-[#004D5C] dark:text-[#CCEBF0] uppercase tracking-[0.2em] block mb-4">Địa điểm làm việc *</label>
+                                            <label className="text-[10px] font-black text-[#004D5C] dark:text-[#CCEBF0] uppercase tracking-[0.2em] block mb-4">{__('Admin Vacancy Location')}</label>
                                             <input 
                                                 type="text" 
                                                 required
@@ -287,7 +289,7 @@ export default function Index({ vacancies }) {
                                             />
                                         </div>
                                         <div>
-                                            <label className="text-[10px] font-black text-[#004D5C] uppercase tracking-[0.2em] block mb-4">Mức lương dự kiến</label>
+                                            <label className="text-[10px] font-black text-[#004D5C] uppercase tracking-[0.2em] block mb-4">{__('Admin Vacancy Expect Salary')}</label>
                                             <input 
                                                 type="text" 
                                                 value={data.salary}
@@ -300,7 +302,7 @@ export default function Index({ vacancies }) {
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                         <div>
-                                            <label className="text-[10px] font-black text-[#004D5C] uppercase tracking-[0.2em] block mb-4">Loại hình công việc</label>
+                                            <label className="text-[10px] font-black text-[#004D5C] uppercase tracking-[0.2em] block mb-4">{__('Admin Vacancy Job Type')}</label>
                                             <select 
                                                 value={data.type}
                                                 onChange={e => setData('type', e.target.value)}
@@ -314,7 +316,7 @@ export default function Index({ vacancies }) {
                                         </div>
                                         <div className="flex items-end">
                                             <label className="flex items-center gap-4 cursor-pointer group bg-[#F3F7F8] px-8 py-5 rounded-[24px] w-full border border-transparent hover:border-[#006D7E]/10 transition-all">
-                                                <div className="flex-1 text-[10px] font-black text-[#004D5C] uppercase tracking-[0.2em] italic">Trạng thái tuyển dụng</div>
+                                                <div className="flex-1 text-[10px] font-black text-[#004D5C] uppercase tracking-[0.2em] italic">{__('Admin Vacancy Recruit Status')}</div>
                                                 <div className="relative">
                                                     <input 
                                                         type="checkbox" 
@@ -329,7 +331,7 @@ export default function Index({ vacancies }) {
                                     </div>
 
                                     <div>
-                                        <label className="text-[10px] font-black text-[#004D5C] uppercase tracking-[0.2em] block mb-4">Mô tả công việc</label>
+                                        <label className="text-[10px] font-black text-[#004D5C] uppercase tracking-[0.2em] block mb-4">{__('Admin Vacancy Job Desc')}</label>
                                         <textarea 
                                             value={data.description}
                                             onChange={e => setData('description', e.target.value)}
@@ -340,7 +342,7 @@ export default function Index({ vacancies }) {
                                     </div>
 
                                     <div>
-                                        <label className="text-[10px] font-black text-[#004D5C] uppercase tracking-[0.2em] block mb-4">Yêu cầu ứng viên</label>
+                                        <label className="text-[10px] font-black text-[#004D5C] uppercase tracking-[0.2em] block mb-4">{__('Admin Vacancy Requirements')}</label>
                                         <textarea 
                                             value={data.requirements}
                                             onChange={e => setData('requirements', e.target.value)}
@@ -351,7 +353,7 @@ export default function Index({ vacancies }) {
                                     </div>
 
                                     <div>
-                                        <label className="text-[10px] font-black text-[#004D5C] uppercase tracking-[0.2em] block mb-4">Quyền lợi</label>
+                                        <label className="text-[10px] font-black text-[#004D5C] uppercase tracking-[0.2em] block mb-4">{__('Admin Vacancy Benefits')}</label>
                                         <textarea 
                                             value={data.benefits}
                                             onChange={e => setData('benefits', e.target.value)}
@@ -362,7 +364,7 @@ export default function Index({ vacancies }) {
                                     </div>
 
                                     <div>
-                                        <label className="text-[10px] font-black text-[#004D5C] uppercase tracking-[0.2em] block mb-4">Quy trình tuyển dụng</label>
+                                        <label className="text-[10px] font-black text-[#004D5C] uppercase tracking-[0.2em] block mb-4">{__('Admin Vacancy Process')}</label>
                                         <textarea 
                                             value={data.recruitment_process}
                                             onChange={e => setData('recruitment_process', e.target.value)}
@@ -378,7 +380,7 @@ export default function Index({ vacancies }) {
                                         onClick={closeModal}
                                         className="flex-1 py-5 text-slate-400 font-black text-[11px] uppercase tracking-[0.2em] hover:text-[#004D5C] transition-colors italic"
                                     >
-                                        HỦY BỎ
+                                        {__('Admin Cancel Uppercase')}
                                     </button>
                                     <motion.button 
                                         whileHover={{ scale: 1.02, y: -2 }}
@@ -392,7 +394,7 @@ export default function Index({ vacancies }) {
                                         ) : (
                                             <Check className="h-6 w-6" />
                                         )}
-                                        {editingJob ? 'CẬP NHẬT NGAY' : 'XÁC NHẬN ĐĂNG TIN'}
+                                        {editingJob ? __('Admin Vacancy Update Button') : __('Admin Vacancy Confirm Button')}
                                     </motion.button>
                                 </div>
                             </form>

@@ -3,8 +3,10 @@ import { useForm } from '@inertiajs/react';
 import { useRef } from 'react';
 import { motion, Transition } from 'framer-motion';
 import { Lock, key as KeyIcon, Eye, Save, CheckCircle } from 'lucide-react';
+import { useTranslation } from '@/Hooks/useTranslation';
 
 export default function UpdatePasswordForm({ className = '' }) {
+    const { __ } = useTranslation();
     const passwordInput = useRef();
     const currentPasswordInput = useRef();
 
@@ -49,7 +51,7 @@ export default function UpdatePasswordForm({ className = '' }) {
                     {/* Current Password */}
                     <div className="space-y-2">
                         <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#004D5C]/50 dark:text-white/30 ml-4">
-                            Mật khẩu hiện tại
+                            {__('Profile Current Password')}
                         </label>
                         <div className="relative group">
                             <Lock className="absolute left-6 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-300 group-focus-within:text-amber-400 transition-colors" />
@@ -72,7 +74,7 @@ export default function UpdatePasswordForm({ className = '' }) {
                     {/* New Password */}
                     <div className="space-y-2">
                         <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#004D5C]/50 dark:text-white/30 ml-4">
-                            Mật khẩu mới
+                            {__('Profile New Password')}
                         </label>
                         <div className="relative group">
                             <KeyIcon className="absolute left-6 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-300 group-focus-within:text-amber-400 transition-colors" />
@@ -84,7 +86,7 @@ export default function UpdatePasswordForm({ className = '' }) {
                                 value={data.password}
                                 onChange={(e) => setData('password', e.target.value)}
                                 autoComplete="new-password"
-                                placeholder="Tối thiểu 8 ký tự"
+                                placeholder={__('Profile New Password Placeholder')}
                             />
                         </div>
                         <InputError message={errors.password} className="ml-4" />
@@ -93,7 +95,7 @@ export default function UpdatePasswordForm({ className = '' }) {
                     {/* Confirm Password */}
                     <div className="space-y-2">
                         <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#004D5C]/50 dark:text-white/30 ml-4">
-                            Xác nhận mật khẩu
+                            {__('Auth Confirm Password')}
                         </label>
                         <div className="relative group">
                             <CheckCircle className="absolute left-6 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-300 group-focus-within:text-amber-400 transition-colors" />
@@ -104,7 +106,7 @@ export default function UpdatePasswordForm({ className = '' }) {
                                 value={data.password_confirmation}
                                 onChange={(e) => setData('password_confirmation', e.target.value)}
                                 autoComplete="new-password"
-                                placeholder="Nhập lại mật khẩu mới"
+                                placeholder={__('Profile Confirm Password Placeholder')}
                             />
                         </div>
                         <InputError message={errors.password_confirmation} className="ml-4" />
@@ -119,7 +121,7 @@ export default function UpdatePasswordForm({ className = '' }) {
                         className="px-10 py-4 bg-gradient-to-r from-amber-400 to-orange-500 text-white rounded-[24px] text-xs font-black uppercase tracking-[0.2em] shadow-xl shadow-amber-400/20 hover:shadow-amber-400/40 disabled:opacity-50 transition-all flex items-center gap-3"
                     >
                         <Save className="h-4 w-4" />
-                        Đổi mật khẩu
+                        {__('Profile Update Password Button')}
                     </motion.button>
 
                     <Transition
@@ -133,7 +135,7 @@ export default function UpdatePasswordForm({ className = '' }) {
                         className="flex items-center gap-2 text-emerald-500 text-xs font-black uppercase tracking-widest"
                     >
                         <CheckCircle className="h-4 w-4" />
-                        Đã cập nhật
+                        {__('Profile Updated')}
                     </Transition>
                 </div>
             </form>
