@@ -172,7 +172,7 @@ export default function Index({ applications, filters }) {
                             <tr className="text-slate-300 dark:text-slate-600 text-[10px] font-black uppercase tracking-[0.3em]">
                                 <th className="px-10 py-4">Ứng viên & Nguồn</th>
                                 <th className="px-10 py-4">Vị trí ứng tuyển</th>
-                                <th className="px-10 py-4">Ngày nộp</th>
+                                <th className="px-10 py-4 text-center">Lucid Score</th>
                                 <th className="px-10 py-4 text-center">Trạng thái</th>
                                 <th className="px-10 py-4 text-right pr-12">Thao tác</th>
                             </tr>
@@ -206,8 +206,21 @@ export default function Index({ applications, filters }) {
                                         <div className="text-[#004D5C] dark:text-slate-200 font-black text-sm italic">{app.vacancy?.title || 'N/A'}</div>
                                         <div className="text-[9px] text-slate-300 dark:text-slate-500 font-black uppercase tracking-widest mt-1">Hà Nội</div>
                                     </td>
-                                    <td className="px-10 py-6 text-slate-400 dark:text-slate-500 text-[10px] font-black tracking-widest uppercase bg-white dark:bg-slate-900 group-hover:bg-transparent transition-colors">
-                                        {new Date(app.created_at).toLocaleDateString('vi-VN')}
+                                    <td className="px-10 py-6 bg-white dark:bg-slate-900 group-hover:bg-transparent transition-colors text-center">
+                                        {app.ai_analysis?.match_score ? (
+                                            <div className="flex flex-col items-center gap-1">
+                                                <div className="text-lg font-black text-[#006D7E] italic">{app.ai_analysis.match_score}<span className="text-[10px] opacity-50">%</span></div>
+                                                <div className="w-12 h-1 bg-slate-100 dark:bg-white/5 rounded-full overflow-hidden">
+                                                    <motion.div 
+                                                        initial={{ width: 0 }}
+                                                        animate={{ width: `${app.ai_analysis.match_score}%` }}
+                                                        className={`h-full ${app.ai_analysis.match_score > 80 ? 'bg-emerald-500' : app.ai_analysis.match_score > 50 ? 'bg-amber-500' : 'bg-rose-500'}`}
+                                                    />
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <span className="text-[9px] font-black text-slate-300 uppercase tracking-widest italic opacity-50">N/A</span>
+                                        )}
                                     </td>
                                     <td className="px-10 py-6 text-center bg-white dark:bg-slate-900 group-hover:bg-transparent transition-colors">
                                         <span className={`inline-flex px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-widest shadow-sm border ${mapStatusClass(app.status)}`}>
@@ -282,15 +295,17 @@ export default function Index({ applications, filters }) {
                                     {selectedApp.start_date && <InfoItem icon={<Clock />} label="Ngày đi làm" value={new Date(selectedApp.start_date).toLocaleDateString('vi-VN')} />}
                                 </div>
 
-                                <motion.a 
-                                    whileHover={{ scale: 1.02, y: -2 }}
-                                    whileTap={{ scale: 0.98 }}
-                                    href={`/storage/${selectedApp.cv_path}`} 
-                                    target="_blank"
-                                    className="mt-6 bg-[#006D7E] text-white font-black py-4 rounded-2xl flex items-center justify-center gap-3 shadow-xl text-[10px] uppercase tracking-widest"
-                                >
-                                    <Download className="h-4 w-4" /> XEM CV (PDF)
-                                </motion.a>
+                                {selectedApp.cv_path && (
+                                    <motion.a 
+                                        whileHover={{ scale: 1.02, y: -2 }}
+                                        whileTap={{ scale: 0.98 }}
+                                        href={`/storage/${selectedApp.cv_path}`} 
+                                        target="_blank"
+                                        className="mt-6 bg-[#006D7E] text-white font-black py-4 rounded-2xl flex items-center justify-center gap-3 shadow-xl text-[10px] uppercase tracking-widest"
+                                    >
+                                        <Download className="h-4 w-4" /> XEM CV (PDF)
+                                    </motion.a>
+                                )}
                             </div>
 
                             {/* Right Panel: Content & Actions */}

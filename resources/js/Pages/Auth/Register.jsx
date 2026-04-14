@@ -1,9 +1,8 @@
 import React, { useEffect } from 'react';
 import RecruitmentLayout from '@/Layouts/RecruitmentLayout';
-import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
-import TextInput from '@/Components/TextInput';
 import { Head, Link, useForm } from '@inertiajs/react';
+import { Sparkles, ArrowRight, User, Lock, Mail } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm({
@@ -28,94 +27,146 @@ export default function Register() {
         <RecruitmentLayout>
             <Head title="Đăng ký thành viên - AMT Careers" />
 
-            <div className="min-h-[80vh] flex flex-col sm:justify-center items-center pt-10 pb-20 px-6">
-                <div className="w-full sm:max-w-xl mt-6 px-10 py-12 glass-effect shadow-2xl border-white/40">
-                    <div className="text-center mb-10">
-                        <h2 className="text-4xl font-black text-slate-800 tracking-tight mb-3">Tạo tài khoản mới</h2>
-                        <p className="text-slate-500 font-medium text-lg">Bắt đầu hành trình sự nghiệp đầy hứa hẹn tại AMT</p>
-                    </div>
-
-                    <form onSubmit={submit} className="space-y-6">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <InputLabel htmlFor="name" value="Họ và Tên" className="text-slate-600 font-bold ml-1 mb-2" />
-                                <TextInput
-                                    id="name"
-                                    name="name"
-                                    value={data.name}
-                                    className="block w-full border-slate-200 focus:border-[#06AED5] focus:ring-[#06AED5] rounded-xl shadow-sm h-12"
-                                    autoComplete="name"
-                                    isFocused={true}
-                                    onChange={(e) => setData('name', e.target.value)}
-                                    required
-                                />
-                                <InputError message={errors.name} className="mt-2" />
-                            </div>
-
-                            <div>
-                                <InputLabel htmlFor="email" value="Địa chỉ Email" className="text-slate-600 font-bold ml-1 mb-2" />
-                                <TextInput
-                                    id="email"
-                                    type="email"
-                                    name="email"
-                                    value={data.email}
-                                    className="block w-full border-slate-200 focus:border-[#06AED5] focus:ring-[#06AED5] rounded-xl shadow-sm h-12"
-                                    autoComplete="username"
-                                    onChange={(e) => setData('email', e.target.value)}
-                                    required
-                                />
-                                <InputError message={errors.email} className="mt-2" />
-                            </div>
-                        </div>
-
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div>
-                                <InputLabel htmlFor="password" value="Mật khẩu" className="text-slate-600 font-bold ml-1 mb-2" />
-                                <TextInput
-                                    id="password"
-                                    type="password"
-                                    name="password"
-                                    value={data.password}
-                                    className="block w-full border-slate-200 focus:border-[#06AED5] focus:ring-[#06AED5] rounded-xl shadow-sm h-12"
-                                    autoComplete="new-password"
-                                    onChange={(e) => setData('password', e.target.value)}
-                                    required
-                                />
-                                <InputError message={errors.password} className="mt-2" />
-                            </div>
-
-                            <div>
-                                <InputLabel htmlFor="password_confirmation" value="Xác nhận mật khẩu" className="text-slate-600 font-bold ml-1 mb-2" />
-                                <TextInput
-                                    id="password_confirmation"
-                                    type="password"
-                                    name="password_confirmation"
-                                    value={data.password_confirmation}
-                                    className="block w-full border-slate-200 focus:border-[#06AED5] focus:ring-[#06AED5] rounded-xl shadow-sm h-12"
-                                    autoComplete="new-password"
-                                    onChange={(e) => setData('password_confirmation', e.target.value)}
-                                    required
-                                />
-                                <InputError message={errors.password_confirmation} className="mt-2" />
-                            </div>
-                        </div>
-
-                        <div className="pt-6">
-                            <button
-                                className={`w-full btn-primary text-xl flex items-center justify-center py-4 ${processing && 'opacity-25'}`}
-                                disabled={processing}
-                            >
-                                Đăng ký ngay
-                            </button>
-                        </div>
-
-                        <div className="text-center mt-8 pt-8 border-t border-slate-100">
-                            <span className="text-slate-500 text-lg">Đã có tài khoản? </span>
-                            <Link href="/login" className="text-[#06AED5] font-black hover:underline text-lg ml-2">Đăng nhập</Link>
-                        </div>
-                    </form>
+            <section className="min-h-screen pt-40 pb-20 bg-slate-50 dark:bg-slate-950 transition-colors duration-500 relative overflow-hidden flex items-center justify-center">
+                {/* Background Blobs */}
+                <div className="absolute top-0 left-0 w-full h-full pointer-events-none opacity-20 dark:opacity-40">
+                    <div className="absolute top-[10%] left-[5%] w-96 h-96 bg-[#006D7E] blur-[120px] rounded-full animate-pulse"></div>
+                    <div className="absolute bottom-[10%] right-[5%] w-80 h-80 bg-[#004D5C] blur-[100px] rounded-full"></div>
                 </div>
-            </div>
+
+                <motion.div 
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                    className="w-full max-w-2xl px-6 relative z-10"
+                >
+                    <div className="bg-white dark:bg-slate-900 px-10 py-16 rounded-[60px] shadow-2l shadow-[#006D7E]/10 border border-white dark:border-white/5 relative overflow-hidden">
+                        <div className="absolute top-0 left-0 p-10 opacity-10">
+                            <Sparkles className="h-24 w-24 text-[#006D7E]" />
+                        </div>
+
+                        <div className="text-center mb-12">
+                            <motion.div 
+                                initial={{ opacity: 0, y: -10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                className="inline-flex items-center gap-2 px-4 py-2 bg-[#EEF8F9] dark:bg-[#002B33] text-[#006D7E] rounded-full text-[10px] font-black uppercase tracking-[0.3em] mb-8 border border-[#006D7E]/10"
+                            >
+                                <Sparkles className="h-3 w-3 fill-current" /> GIA NHẬP ALMUS TECH
+                            </motion.div>
+                            <h2 className="text-5xl font-black text-[#004D5C] dark:text-[#CCEBF0] tracking-tighter italic mb-4">Tạo tài khoản mới</h2>
+                            <p className="text-slate-500 dark:text-slate-400 font-medium italic">Bắt đầu hành trình sự nghiệp đầy hứa hẹn tại AMT</p>
+                        </div>
+
+                        <form onSubmit={submit} className="space-y-6">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                {/* Name */}
+                                <div className="space-y-3">
+                                    <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60 dark:text-white ml-2">Họ và Tên</label>
+                                    <div className="relative group">
+                                        <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-slate-400 group-focus-within:text-[#006D7E] transition-colors">
+                                            <User className="h-5 w-5" />
+                                        </div>
+                                        <input 
+                                            id="name"
+                                            type="text"
+                                            required
+                                            value={data.name}
+                                            onChange={(e) => setData('name', e.target.value)}
+                                            className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl py-4 pl-14 pr-5 focus:ring-2 focus:ring-[#006D7E]/20 focus:border-[#006D7E] transition placeholder:text-slate-300 dark:placeholder:text-white/10 font-bold text-sm text-[#004D5C] dark:text-white"
+                                            placeholder="Nguyễn Văn A"
+                                            autoComplete="name"
+                                        />
+                                    </div>
+                                    {errors.name && <div className="text-rose-500 text-[10px] mt-2 font-black italic ml-2">⚠️ {errors.name}</div>}
+                                </div>
+
+                                {/* Email */}
+                                <div className="space-y-3">
+                                    <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60 dark:text-white ml-2">Địa chỉ Email</label>
+                                    <div className="relative group">
+                                        <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-slate-400 group-focus-within:text-[#006D7E] transition-colors">
+                                            <Mail className="h-5 w-5" />
+                                        </div>
+                                        <input 
+                                            id="email"
+                                            type="email"
+                                            required
+                                            value={data.email}
+                                            onChange={(e) => setData('email', e.target.value)}
+                                            className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl py-4 pl-14 pr-5 focus:ring-2 focus:ring-[#006D7E]/20 focus:border-[#006D7E] transition placeholder:text-slate-300 dark:placeholder:text-white/10 font-bold text-sm text-[#004D5C] dark:text-white"
+                                            placeholder="email@example.com"
+                                            autoComplete="username"
+                                        />
+                                    </div>
+                                    {errors.email && <div className="text-rose-500 text-[10px] mt-2 font-black italic ml-2">⚠️ {errors.email}</div>}
+                                </div>
+                            </div>
+
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                {/* Password */}
+                                <div className="space-y-3">
+                                    <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60 dark:text-white ml-2">Mật khẩu</label>
+                                    <div className="relative group">
+                                        <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-slate-400 group-focus-within:text-[#006D7E] transition-colors">
+                                            <Lock className="h-5 w-5" />
+                                        </div>
+                                        <input 
+                                            id="password"
+                                            type="password"
+                                            required
+                                            value={data.password}
+                                            onChange={(e) => setData('password', e.target.value)}
+                                            className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl py-4 pl-14 pr-5 focus:ring-2 focus:ring-[#006D7E]/20 focus:border-[#006D7E] transition placeholder:text-slate-300 dark:placeholder:text-white/10 font-bold text-sm text-[#004D5C] dark:text-white"
+                                            placeholder="••••••••"
+                                            autoComplete="new-password"
+                                        />
+                                    </div>
+                                    {errors.password && <div className="text-rose-500 text-[10px] mt-2 font-black italic ml-2">⚠️ {errors.password}</div>}
+                                </div>
+
+                                {/* Confirm Password */}
+                                <div className="space-y-3">
+                                    <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60 dark:text-white ml-2">Xác nhận mật khẩu</label>
+                                    <div className="relative group">
+                                        <div className="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none text-slate-400 group-focus-within:text-[#006D7E] transition-colors">
+                                            <Lock className="h-5 w-5" />
+                                        </div>
+                                        <input 
+                                            id="password_confirmation"
+                                            type="password"
+                                            required
+                                            value={data.password_confirmation}
+                                            onChange={(e) => setData('password_confirmation', e.target.value)}
+                                            className="w-full bg-slate-50 dark:bg-white/5 border border-slate-200 dark:border-white/10 rounded-2xl py-4 pl-14 pr-5 focus:ring-2 focus:ring-[#006D7E]/20 focus:border-[#006D7E] transition placeholder:text-slate-300 dark:placeholder:text-white/10 font-bold text-sm text-[#004D5C] dark:text-white"
+                                            placeholder="••••••••"
+                                            autoComplete="new-password"
+                                        />
+                                    </div>
+                                    {errors.password_confirmation && <div className="text-rose-500 text-[10px] mt-2 font-black italic ml-2">⚠️ {errors.password_confirmation}</div>}
+                                </div>
+                            </div>
+
+                            <div className="pt-8">
+                                <motion.button
+                                    whileHover={{ y: -4, scale: 1.02 }}
+                                    whileTap={{ scale: 0.98 }}
+                                    disabled={processing}
+                                    className="w-full bg-[#004D5C] text-white py-5 rounded-[24px] font-black uppercase tracking-[0.2em] shadow-xl shadow-[#004D5C]/20 hover:bg-[#003540] transition-all flex items-center justify-center gap-3 disabled:opacity-50"
+                                >
+                                    TẠO TÀI KHOẢN NGAY <ArrowRight className="h-5 w-5" />
+                                </motion.button>
+                            </div>
+                            
+                            <div className="text-center mt-12 pt-8 border-t border-slate-100 dark:border-white/5">
+                                <p className="text-slate-400 dark:text-slate-500 font-medium italic mb-2">Đã có tài khoản?</p>
+                                <Link href="/login" className="inline-flex items-center gap-2 text-[#006D7E] font-black uppercase tracking-[0.2em] text-xs hover:gap-4 transition-all group">
+                                    <ArrowRight className="h-4 w-4 rotate-180" /> Quay lại đăng nhập
+                                </Link>
+                            </div>
+                        </form>
+                    </div>
+                </motion.div>
+            </section>
         </RecruitmentLayout>
     );
 }

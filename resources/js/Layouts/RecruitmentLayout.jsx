@@ -8,10 +8,31 @@ import {
 
 
 import LanguageSwitcher from '@/Components/LanguageSwitcher';
+import { ToastContainer } from '@/Components/Toast';
+
 
 export default function RecruitmentLayout({ children }) {
-    const { auth, translations } = usePage().props;
+    const { auth, translations, flash } = usePage().props;
     const { url } = usePage();
+    const [toasts, setToasts] = React.useState([]);
+
+    React.useEffect(() => {
+        if (flash.success) {
+            addToast(flash.success, 'success');
+        }
+        if (flash.error) {
+            addToast(flash.error, 'error');
+        }
+    }, [flash]);
+
+    const addToast = (message, type) => {
+        const id = Date.now();
+        setToasts(prev => [...prev, { id, message, type, onClose: () => removeToast(id) }]);
+    };
+
+    const removeToast = (id) => {
+        setToasts(prev => prev.filter(t => t.id !== id));
+    };
     
     // Helper to translate
     const __ = (key) => translations[key] || key;
@@ -195,6 +216,8 @@ export default function RecruitmentLayout({ children }) {
                     <p className="text-slate-300 dark:text-slate-800 text-[10px] font-black uppercase tracking-[0.2em]">HỀ THỐNG TUYỂN DỤNG TRỰC TRAYếN</p>
                 </div>
             </footer>
+
+            <ToastContainer flashes={toasts} />
         </div>
     );
 }

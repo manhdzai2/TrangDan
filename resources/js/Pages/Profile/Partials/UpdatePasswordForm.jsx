@@ -1,10 +1,8 @@
 import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
-import { Transition } from '@headlessui/react';
 import { useForm } from '@inertiajs/react';
 import { useRef } from 'react';
+import { motion, Transition } from 'framer-motion';
+import { Lock, key as KeyIcon, Eye, Save, CheckCircle } from 'lucide-react';
 
 export default function UpdatePasswordForm({ className = '' }) {
     const passwordInput = useRef();
@@ -46,94 +44,96 @@ export default function UpdatePasswordForm({ className = '' }) {
 
     return (
         <section className={className}>
-            <header>
-                <h2 className="text-lg font-medium text-gray-900">
-                    Update Password
-                </h2>
+            <form onSubmit={updatePassword} className="space-y-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {/* Current Password */}
+                    <div className="space-y-2">
+                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#004D5C]/50 dark:text-white/30 ml-4">
+                            Mật khẩu hiện tại
+                        </label>
+                        <div className="relative group">
+                            <Lock className="absolute left-6 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-300 group-focus-within:text-amber-400 transition-colors" />
+                            <input
+                                id="current_password"
+                                ref={currentPasswordInput}
+                                type="password"
+                                className="w-full bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/10 rounded-[24px] pl-14 pr-6 py-4 text-sm font-bold text-[#004D5C] dark:text-white placeholder:text-slate-300 focus:ring-4 focus:ring-amber-400/10 focus:border-amber-400 transition-all outline-none"
+                                value={data.current_password}
+                                onChange={(e) => setData('current_password', e.target.value)}
+                                autoComplete="current-password"
+                                placeholder="••••••••"
+                            />
+                        </div>
+                        <InputError message={errors.current_password} className="ml-4" />
+                    </div>
 
-                <p className="mt-1 text-sm text-gray-600">
-                    Ensure your account is using a long, random password to stay
-                    secure.
-                </p>
-            </header>
+                    <div className="hidden md:block"></div>
 
-            <form onSubmit={updatePassword} className="mt-6 space-y-6">
-                <div>
-                    <InputLabel
-                        htmlFor="current_password"
-                        value="Current Password"
-                    />
+                    {/* New Password */}
+                    <div className="space-y-2">
+                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#004D5C]/50 dark:text-white/30 ml-4">
+                            Mật khẩu mới
+                        </label>
+                        <div className="relative group">
+                            <KeyIcon className="absolute left-6 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-300 group-focus-within:text-amber-400 transition-colors" />
+                            <input
+                                id="password"
+                                ref={passwordInput}
+                                type="password"
+                                className="w-full bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/10 rounded-[24px] pl-14 pr-6 py-4 text-sm font-bold text-[#004D5C] dark:text-white placeholder:text-slate-300 focus:ring-4 focus:ring-amber-400/10 focus:border-amber-400 transition-all outline-none"
+                                value={data.password}
+                                onChange={(e) => setData('password', e.target.value)}
+                                autoComplete="new-password"
+                                placeholder="Tối thiểu 8 ký tự"
+                            />
+                        </div>
+                        <InputError message={errors.password} className="ml-4" />
+                    </div>
 
-                    <TextInput
-                        id="current_password"
-                        ref={currentPasswordInput}
-                        value={data.current_password}
-                        onChange={(e) =>
-                            setData('current_password', e.target.value)
-                        }
-                        type="password"
-                        className="mt-1 block w-full"
-                        autoComplete="current-password"
-                    />
-
-                    <InputError
-                        message={errors.current_password}
-                        className="mt-2"
-                    />
+                    {/* Confirm Password */}
+                    <div className="space-y-2">
+                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#004D5C]/50 dark:text-white/30 ml-4">
+                            Xác nhận mật khẩu
+                        </label>
+                        <div className="relative group">
+                            <CheckCircle className="absolute left-6 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-300 group-focus-within:text-amber-400 transition-colors" />
+                            <input
+                                id="password_confirmation"
+                                type="password"
+                                className="w-full bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/10 rounded-[24px] pl-14 pr-6 py-4 text-sm font-bold text-[#004D5C] dark:text-white placeholder:text-slate-300 focus:ring-4 focus:ring-amber-400/10 focus:border-amber-400 transition-all outline-none"
+                                value={data.password_confirmation}
+                                onChange={(e) => setData('password_confirmation', e.target.value)}
+                                autoComplete="new-password"
+                                placeholder="Nhập lại mật khẩu mới"
+                            />
+                        </div>
+                        <InputError message={errors.password_confirmation} className="ml-4" />
+                    </div>
                 </div>
 
-                <div>
-                    <InputLabel htmlFor="password" value="New Password" />
-
-                    <TextInput
-                        id="password"
-                        ref={passwordInput}
-                        value={data.password}
-                        onChange={(e) => setData('password', e.target.value)}
-                        type="password"
-                        className="mt-1 block w-full"
-                        autoComplete="new-password"
-                    />
-
-                    <InputError message={errors.password} className="mt-2" />
-                </div>
-
-                <div>
-                    <InputLabel
-                        htmlFor="password_confirmation"
-                        value="Confirm Password"
-                    />
-
-                    <TextInput
-                        id="password_confirmation"
-                        value={data.password_confirmation}
-                        onChange={(e) =>
-                            setData('password_confirmation', e.target.value)
-                        }
-                        type="password"
-                        className="mt-1 block w-full"
-                        autoComplete="new-password"
-                    />
-
-                    <InputError
-                        message={errors.password_confirmation}
-                        className="mt-2"
-                    />
-                </div>
-
-                <div className="flex items-center gap-4">
-                    <PrimaryButton disabled={processing}>Save</PrimaryButton>
+                <div className="flex items-center gap-6 pt-4 px-4">
+                    <motion.button
+                        whileHover={{ scale: 1.02, y: -2 }}
+                        whileTap={{ scale: 0.98 }}
+                        disabled={processing}
+                        className="px-10 py-4 bg-gradient-to-r from-amber-400 to-orange-500 text-white rounded-[24px] text-xs font-black uppercase tracking-[0.2em] shadow-xl shadow-amber-400/20 hover:shadow-amber-400/40 disabled:opacity-50 transition-all flex items-center gap-3"
+                    >
+                        <Save className="h-4 w-4" />
+                        Đổi mật khẩu
+                    </motion.button>
 
                     <Transition
                         show={recentlySuccessful}
-                        enter="transition ease-in-out"
-                        enterFrom="opacity-0"
-                        leave="transition ease-in-out"
+                        enter="transition ease-out duration-300"
+                        enterFrom="opacity-0 translate-x-4"
+                        enterTo="opacity-100 translate-x-0"
+                        leave="transition ease-in duration-200"
+                        leaveFrom="opacity-100"
                         leaveTo="opacity-0"
+                        className="flex items-center gap-2 text-emerald-500 text-xs font-black uppercase tracking-widest"
                     >
-                        <p className="text-sm text-gray-600">
-                            Saved.
-                        </p>
+                        <CheckCircle className="h-4 w-4" />
+                        Đã cập nhật
                     </Transition>
                 </div>
             </form>

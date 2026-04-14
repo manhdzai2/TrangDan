@@ -6,9 +6,19 @@ import {
     Search, MapPin, Clock, Briefcase, 
     ChevronRight, Filter, Sparkles 
 } from 'lucide-react';
+import { JobCardSkeleton } from '@/Components/Skeleton';
+import { useEffect } from 'react';
+
 
 export default function Index({ vacancies }) {
     const [search, setSearch] = useState('');
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        // Simulate initial loading for premium feel
+        const timer = setTimeout(() => setIsLoading(false), 800);
+        return () => clearTimeout(timer);
+    }, []);
     
     const filteredJobs = vacancies.filter(job => 
         job.title.toLowerCase().includes(search.toLowerCase()) ||
@@ -62,63 +72,71 @@ export default function Index({ vacancies }) {
                         layout
                         className="grid grid-cols-1 gap-6"
                     >
-                        <AnimatePresence mode='popLayout'>
-                            {filteredJobs.map((job, index) => (
-                                <motion.div
-                                    key={job.id}
-                                    layout
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    exit={{ opacity: 0, scale: 0.95 }}
-                                    transition={{ 
-                                        duration: 0.6, 
-                                        delay: index * 0.05,
-                                        ease: [0.16, 1, 0.3, 1]
-                                    }}
-                                >
-                                    <Link 
-                                        href={`/jobs/${job.id}`}
-                                        className="bg-white dark:bg-slate-900 p-8 md:p-12 rounded-[48px] border border-slate-50 dark:border-white/5 shadow-sm hover:shadow-2xl hover:shadow-[#006D7E]/5 transition-all duration-700 flex flex-col md:flex-row md:items-center justify-between gap-8 group overflow-hidden relative"
+                        {isLoading ? (
+                            <>
+                                <JobCardSkeleton />
+                                <JobCardSkeleton />
+                                <JobCardSkeleton />
+                            </>
+                        ) : (
+                            <AnimatePresence mode='popLayout'>
+                                {filteredJobs.map((job, index) => (
+                                    <motion.div
+                                        key={job.id}
+                                        layout
+                                        initial={{ opacity: 0, y: 20 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, scale: 0.95 }}
+                                        transition={{ 
+                                            duration: 0.6, 
+                                            delay: index * 0.05,
+                                            ease: [0.16, 1, 0.3, 1]
+                                        }}
                                     >
-                                        <div className="absolute top-0 left-0 w-2 h-full bg-[#006D7E] -translate-x-full group-hover:translate-x-0 transition-transform duration-700"></div>
-                                        <div className="flex-1">
-                                            <div className="flex items-center gap-4 mb-4">
-                                                <div className="px-3 py-1 bg-[#EEF8F9] dark:bg-[#002B33] text-[#006D7E] rounded-full text-[9px] font-black uppercase tracking-widest border border-[#006D7E]/5">
-                                                    {job.type}
+                                        <Link 
+                                            href={`/jobs/${job.id}`}
+                                            className="bg-white dark:bg-slate-900 p-8 md:p-12 rounded-[48px] border border-slate-50 dark:border-white/5 shadow-sm hover:shadow-2xl hover:shadow-[#006D7E]/5 transition-all duration-700 flex flex-col md:flex-row md:items-center justify-between gap-8 group overflow-hidden relative"
+                                        >
+                                            <div className="absolute top-0 left-0 w-2 h-full bg-[#006D7E] -translate-x-full group-hover:translate-x-0 transition-transform duration-700"></div>
+                                            <div className="flex-1">
+                                                <div className="flex items-center gap-4 mb-4">
+                                                    <div className="px-3 py-1 bg-[#EEF8F9] dark:bg-[#002B33] text-[#006D7E] rounded-full text-[9px] font-black uppercase tracking-widest border border-[#006D7E]/5">
+                                                        {job.type}
+                                                    </div>
+                                                    <div className="text-[10px] font-bold text-slate-300 uppercase tracking-widest italic">POSTED RECENTLY</div>
                                                 </div>
-                                                <div className="text-[10px] font-bold text-slate-300 uppercase tracking-widest italic">POSTED RECENTLY</div>
+                                                <h3 className="text-3xl font-black text-[#004D5C] dark:text-[#CCEBF0] italic tracking-tight group-hover:text-[#006D7E] transition-colors duration-500 mb-6">{job.title}</h3>
+                                                <div className="flex flex-wrap gap-8">
+                                                    <div className="flex items-center gap-2 text-slate-400 text-xs font-medium italic">
+                                                        <MapPin className="h-4 w-4 text-[#006D7E]" /> {job.location}
+                                                    </div>
+                                                    <div className="flex items-center gap-2 text-slate-400 text-xs font-medium italic">
+                                                        <Clock className="h-4 w-4 text-[#006D7E]" /> {job.created_at_diff || 'Hôm nay'}
+                                                    </div>
+                                                    <div className="flex items-center gap-2 text-[#006D7E] text-sm font-black italic">
+                                                        <Briefcase className="h-4 w-4" /> {job.salary}
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <h3 className="text-3xl font-black text-[#004D5C] dark:text-[#CCEBF0] italic tracking-tight group-hover:text-[#006D7E] transition-colors duration-500 mb-6">{job.title}</h3>
-                                            <div className="flex flex-wrap gap-8">
-                                                <div className="flex items-center gap-2 text-slate-400 text-xs font-medium italic">
-                                                    <MapPin className="h-4 w-4 text-[#006D7E]" /> {job.location}
+                                            <div className="flex items-center gap-10">
+                                                <div className="hidden lg:block text-right">
+                                                    <div className="text-[10px] font-black text-slate-300 dark:text-slate-600 uppercase tracking-widest mb-1 italic">Yêu cầu</div>
+                                                    <div className="text-sm font-black text-[#004D5C] dark:text-[#CCEBF0] italic">Senior Experience</div>
                                                 </div>
-                                                <div className="flex items-center gap-2 text-slate-400 text-xs font-medium italic">
-                                                    <Clock className="h-4 w-4 text-[#006D7E]" /> {job.created_at_diff || 'Hôm nay'}
-                                                </div>
-                                                <div className="flex items-center gap-2 text-[#006D7E] text-sm font-black italic">
-                                                    <Briefcase className="h-4 w-4" /> {job.salary}
-                                                </div>
+                                                <motion.div 
+                                                    whileHover={{ x: 5 }}
+                                                    className="h-20 w-20 rounded-full border border-slate-100 dark:border-white/5 flex items-center justify-center group-hover:bg-[#006D7E] group-hover:border-[#006D7E] transition-all duration-700 shadow-sm"
+                                                >
+                                                    <ChevronRight className="h-8 w-8 text-slate-400 dark:text-slate-600 group-hover:text-white transition-all duration-500" />
+                                                </motion.div>
                                             </div>
-                                        </div>
-                                        <div className="flex items-center gap-10">
-                                            <div className="hidden lg:block text-right">
-                                                <div className="text-[10px] font-black text-slate-300 dark:text-slate-600 uppercase tracking-widest mb-1 italic">Yêu cầu</div>
-                                                <div className="text-sm font-black text-[#004D5C] dark:text-[#CCEBF0] italic">Senior Experience</div>
-                                            </div>
-                                            <motion.div 
-                                                whileHover={{ x: 5 }}
-                                                className="h-20 w-20 rounded-full border border-slate-100 dark:border-white/5 flex items-center justify-center group-hover:bg-[#006D7E] group-hover:border-[#006D7E] transition-all duration-700 shadow-sm"
-                                            >
-                                                <ChevronRight className="h-8 w-8 text-slate-400 dark:text-slate-600 group-hover:text-white transition-all duration-500" />
-                                            </motion.div>
-                                        </div>
-                                    </Link>
-                                </motion.div>
-                            ))}
-                        </AnimatePresence>
+                                        </Link>
+                                    </motion.div>
+                                ))}
+                            </AnimatePresence>
+                        )}
 
-                        {filteredJobs.length === 0 && (
+                        {!isLoading && filteredJobs.length === 0 && (
                             <motion.div 
                                 initial={{ opacity: 0 }}
                                 animate={{ opacity: 1 }}

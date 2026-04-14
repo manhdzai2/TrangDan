@@ -2,8 +2,10 @@ import RecruitmentLayout from '@/Layouts/RecruitmentLayout';
 import { Head, useForm, Link, usePage } from '@inertiajs/react';
 import { 
     ChevronLeft, MapPin, Clock, Briefcase, 
-    CheckCircle, FileText, Send, Sparkles, Phone, Home, Calendar, User as UserIcon
+    CheckCircle, FileText, Send, Sparkles, Phone, Home, Calendar, User as UserIcon,
+    UploadCloud, X, FileDigit
 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Show({ vacancy }) {
     const { auth, translations } = usePage().props;
@@ -57,7 +59,6 @@ export default function Show({ vacancy }) {
         e.preventDefault();
         
         if (!auth.user) {
-            // Lưu URL để redirect về sau khi đăng nhập
             window.location.href = '/login';
             return;
         }
@@ -145,23 +146,6 @@ export default function Show({ vacancy }) {
                                     )}
                                 </div>
                             </div>
-
-                            {/* Quy trình tuyển dụng */}
-                            {vacancy.recruitment_process && (
-                                <div className="bg-[#004D5C] p-12 md:p-16 rounded-[60px] shadow-xl text-white relative overflow-hidden">
-                                    <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
-                                    <div className="relative z-10">
-                                        <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full text-[10px] font-black uppercase tracking-[0.2em] mb-8 border border-white/20">
-                                            <Sparkles className="h-3 w-3" /> QUY TRÌNH TUYỂN DỤNG
-                                        </div>
-                                        <h3 className="text-3xl font-black italic tracking-tighter mb-8">Các bước tiếp theo</h3>
-                                        <div 
-                                            className="leading-loose text-white/70 font-medium italic"
-                                            dangerouslySetInnerHTML={{ __html: vacancy.recruitment_process }} 
-                                        />
-                                    </div>
-                                </div>
-                            )}
                         </div>
 
                         {/* Application Sidebar */}
@@ -170,28 +154,43 @@ export default function Show({ vacancy }) {
                                 <div className="bg-[#004D5C] dark:bg-slate-900 p-10 rounded-[60px] shadow-2xl relative overflow-hidden text-white transition-colors duration-500">
                                     <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl"></div>
                                     
-                                    {!auth.user && (
-                                        <div className="bg-amber-500/20 border border-amber-400/30 text-amber-300 text-[10px] font-black uppercase tracking-widest px-4 py-3 rounded-2xl mb-8 text-center relative z-10">
-                                            Bạn cần <Link href="/login" className="underline hover:text-white">đăng nhập</Link> để nộp hồ sơ
+                                    {!auth.user ? (
+                                        <div className="text-center py-12 px-6">
+                                            <div className="h-20 w-20 bg-white/10 rounded-[32px] flex items-center justify-center text-white mx-auto mb-8 shadow-xl border border-white/20">
+                                                <UserIcon className="h-10 w-10" />
+                                            </div>
+                                            <h3 className="text-2xl font-black mb-4 tracking-tighter italic leading-tight">Gia nhập đội ngũ Almus Tech!</h3>
+                                            <p className="text-white/60 font-medium italic mb-10 leading-relaxed text-sm">Vui lòng đăng nhập để nộp hồ sơ trực tuyến cho vị trí này.</p>
+                                            
+                                            <div className="space-y-4">
+                                                <Link 
+                                                    href={route('login')}
+                                                    className="w-full bg-white text-[#004D5C] py-5 rounded-[24px] font-black uppercase tracking-[0.2em] shadow-xl hover:translate-y-[-4px] transition flex items-center justify-center gap-3"
+                                                >
+                                                    ĐĂNG NHẬP NGAY
+                                                </Link>
+                                                <Link 
+                                                    href={route('register')}
+                                                    className="w-full bg-transparent border-2 border-white/20 text-white py-5 rounded-[24px] font-black uppercase tracking-[0.2em] hover:bg-white/10 transition flex items-center justify-center gap-3"
+                                                >
+                                                    TẠO TÀI KHOẢN
+                                                </Link>
+                                            </div>
                                         </div>
-                                    )}
-
-                                    {wasSuccessful ? (
+                                    ) : wasSuccessful ? (
                                         <div className="bg-white/10 p-8 rounded-[32px] text-center border border-white/20 animate-in zoom-in duration-500">
                                             <div className="h-16 w-16 bg-white rounded-full flex items-center justify-center text-[#004D5C] mx-auto mb-6 shadow-xl">
                                                 <CheckCircle className="h-8 w-8" />
                                             </div>
                                             <h3 className="text-xl font-black mb-2">Gửi hồ sơ thành công!</h3>
-                                            <p className="text-white/60 text-sm font-medium italic">Chúng tôi sẽ liên hệ với bạn trong vòng 2-3 ngày làm việc.</p>
+                                            <p className="text-white/60 text-sm font-medium italic">Chúng tôi sẽ liên hệ với bạn trong sớm nhất.</p>
                                         </div>
                                     ) : (
                                         <form onSubmit={submit} className="space-y-4">
-                                            {/* Họ và tên */}
                                             <div>
                                                 <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60">Họ và tên *</label>
                                                 <input 
-                                                    type="text"
-                                                    required
+                                                    type="text" required
                                                     value={data.name}
                                                     onChange={e => setData('name', e.target.value)}
                                                     className="w-full bg-white/10 border border-white/20 rounded-2xl p-3.5 focus:ring-2 focus:ring-white/20 transition placeholder:text-white/20 font-bold text-sm"
@@ -200,13 +199,10 @@ export default function Show({ vacancy }) {
                                                 {errors.name && <div className="text-rose-400 text-[10px] mt-1 font-black">{errors.name}</div>}
                                             </div>
 
-                                            {/* Tuổi */}
                                             <div>
                                                 <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60">Tuổi *</label>
                                                 <input 
-                                                    type="number"
-                                                    required
-                                                    min="16" max="70"
+                                                    type="number" required min="16" max="70"
                                                     value={data.age}
                                                     onChange={e => setData('age', e.target.value)}
                                                     className="w-full bg-white/10 border border-white/20 rounded-2xl p-3.5 focus:ring-2 focus:ring-white/20 transition placeholder:text-white/20 font-bold text-sm"
@@ -215,12 +211,10 @@ export default function Show({ vacancy }) {
                                                 {errors.age && <div className="text-rose-400 text-[10px] mt-1 font-black">{errors.age}</div>}
                                             </div>
 
-                                            {/* Email */}
                                             <div>
-                                                <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60">Email liên hệ *</label>
+                                                <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60">Email *</label>
                                                 <input 
-                                                    type="email"
-                                                    required
+                                                    type="email" required
                                                     value={data.email}
                                                     onChange={e => setData('email', e.target.value)}
                                                     className="w-full bg-white/10 border border-white/20 rounded-2xl p-3.5 focus:ring-2 focus:ring-white/20 transition placeholder:text-white/20 font-bold text-sm"
@@ -229,26 +223,24 @@ export default function Show({ vacancy }) {
                                                 {errors.email && <div className="text-rose-400 text-[10px] mt-1 font-black">{errors.email}</div>}
                                             </div>
 
-                                            {/* Số điện thoại */}
                                             <div>
                                                 <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60">Số điện thoại *</label>
                                                 <input 
-                                                    type="tel"
-                                                    required
+                                                    type="tel" required
                                                     value={data.phone}
                                                     onChange={e => setData('phone', e.target.value)}
+                                                    pattern="^(0|84)(3|5|7|8|9)([0-9]{8})$"
+                                                    title="Vui lòng nhập số điện thoại Việt Nam hợp lệ (VD: 0901234567)"
                                                     className="w-full bg-white/10 border border-white/20 rounded-2xl p-3.5 focus:ring-2 focus:ring-white/20 transition placeholder:text-white/20 font-bold text-sm"
-                                                    placeholder="0901 234 567"
+                                                    placeholder="09xx xxx xxx"
                                                 />
                                                 {errors.phone && <div className="text-rose-400 text-[10px] mt-1 font-black">{errors.phone}</div>}
                                             </div>
 
-                                            {/* Địa chỉ */}
                                             <div>
                                                 <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60">Địa chỉ *</label>
                                                 <input 
-                                                    type="text"
-                                                    required
+                                                    type="text" required
                                                     value={data.address}
                                                     onChange={e => setData('address', e.target.value)}
                                                     className="w-full bg-white/10 border border-white/20 rounded-2xl p-3.5 focus:ring-2 focus:ring-white/20 transition placeholder:text-white/20 font-bold text-sm"
@@ -257,55 +249,85 @@ export default function Show({ vacancy }) {
                                                 {errors.address && <div className="text-rose-400 text-[10px] mt-1 font-black">{errors.address}</div>}
                                             </div>
 
-                                            {/* Vị trí ứng tuyển (readonly) */}
                                             <div>
-                                                <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60">Vị trí ứng tuyển</label>
-                                                <div className="w-full bg-white/5 border border-white/10 rounded-2xl p-3.5 font-bold text-sm text-white/70 italic">
-                                                    {vacancy.title}
-                                                </div>
-                                            </div>
-
-                                            {/* Ngày có thể đi làm */}
-                                            <div>
-                                                <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60">Ngày có thể bắt đầu *</label>
+                                                <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60">Ngày bắt đầu *</label>
                                                 <input 
-                                                    type="date"
-                                                    required
+                                                    type="date" required
                                                     value={data.start_date}
                                                     min={new Date().toISOString().split('T')[0]}
                                                     onChange={e => setData('start_date', e.target.value)}
-                                                    className="w-full bg-white/10 border border-white/20 rounded-2xl p-3.5 focus:ring-2 focus:ring-white/20 transition font-bold text-sm text-white [color-scheme:dark]"
+                                                    className="w-full bg-white/10 border border-white/20 rounded-2xl p-3.5 font-bold text-sm text-white [color-scheme:dark]"
                                                 />
                                                 {errors.start_date && <div className="text-rose-400 text-[10px] mt-1 font-black">{errors.start_date}</div>}
                                             </div>
 
-                                            {/* Thư giới thiệu */}
                                             <div>
                                                 <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60">Thư giới thiệu</label>
                                                 <textarea 
                                                     value={data.cover_letter}
                                                     onChange={e => setData('cover_letter', e.target.value)}
                                                     className="w-full bg-white/10 border border-white/20 rounded-2xl p-3.5 h-24 focus:ring-2 focus:ring-white/20 transition placeholder:text-white/20 font-bold text-sm italic"
-                                                    placeholder="Hãy cho chúng tôi biết tại sao bạn là lựa chọn phù hợp..."
+                                                    placeholder="..."
                                                 ></textarea>
-                                                {errors.cover_letter && <div className="text-rose-400 text-[10px] mt-1 font-black">{errors.cover_letter}</div>}
                                             </div>
 
-                                            {/* CV */}
                                             <div>
-                                                <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60">Hồ sơ CV (PDF)</label>
-                                                <input 
-                                                    type="file"
-                                                    accept=".pdf,.doc,.docx"
-                                                    onChange={e => setData('cv', e.target.files[0])}
-                                                    className="w-full text-xs text-white/60 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-black file:uppercase file:bg-white/10 file:text-white hover:file:bg-white/20 cursor-pointer"
-                                                />
-                                                {errors.cv && <div className="text-rose-400 text-[10px] mt-1 font-black">{errors.cv}</div>}
+                                                <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-3 block opacity-60">Hồ sơ CV (PDF/DOCX)</label>
+                                                <div 
+                                                    className={`relative group transition-all duration-500 rounded-[32px] overflow-hidden ${
+                                                        data.cv ? 'bg-[#EEF8F9]/20 border-2 border-dashed border-[#006D7E]/30' : 'bg-white/5 border-2 border-dashed border-white/10 hover:border-white/30'
+                                                    }`}
+                                                    onDragOver={(e) => { e.preventDefault(); e.currentTarget.classList.add('border-[#006D7E]/50', 'bg-[#EEF8F9]/10'); }}
+                                                    onDragLeave={(e) => { e.preventDefault(); e.currentTarget.classList.remove('border-[#006D7E]/50', 'bg-[#EEF8F9]/10'); }}
+                                                    onDrop={(e) => {
+                                                        e.preventDefault();
+                                                        e.currentTarget.classList.remove('border-[#006D7E]/50', 'bg-[#EEF8F9]/10');
+                                                        const file = e.dataTransfer.files[0];
+                                                        if (file && (file.type === 'application/pdf' || file.name.match(/\.(doc|docx)$/i))) {
+                                                            setData('cv', file);
+                                                        }
+                                                    }}
+                                                >
+                                                    <input 
+                                                        type="file"
+                                                        accept=".pdf,.doc,.docx"
+                                                        onChange={e => setData('cv', e.target.files[0])}
+                                                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                                                    />
+                                                    
+                                                    {!data.cv ? (
+                                                        <div className="p-8 flex flex-col items-center justify-center text-center gap-4">
+                                                            <div className="h-16 w-16 bg-white/5 rounded-[24px] flex items-center justify-center text-white/40 group-hover:text-white group-hover:bg-[#006D7E] transition-all duration-500">
+                                                                <UploadCloud className="h-8 w-8" />
+                                                            </div>
+                                                            <div>
+                                                                <p className="text-white font-bold text-sm tracking-tight mb-1">Click hoặc kéo thả CV</p>
+                                                            </div>
+                                                        </div>
+                                                    ) : (
+                                                        <div className="p-6 flex items-center gap-5 relative z-20">
+                                                            <div className="h-14 w-14 bg-[#004D5C] rounded-2xl flex items-center justify-center text-white shadow-xl">
+                                                                <FileDigit className="h-7 w-7" />
+                                                            </div>
+                                                            <div className="flex-1 min-w-0">
+                                                                <p className="text-white font-black text-sm truncate pr-8 italic">{data.cv.name}</p>
+                                                            </div>
+                                                            <button 
+                                                                type="button"
+                                                                onClick={(e) => { e.preventDefault(); setData('cv', null); }}
+                                                                className="h-10 w-10 bg-rose-500/20 hover:bg-rose-500 text-rose-500 hover:text-white rounded-xl flex items-center justify-center transition-all duration-300"
+                                                            >
+                                                                <X className="h-5 w-5" />
+                                                            </button>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                {errors.cv && <div className="text-rose-400 text-[10px] mt-2 font-black italic">⚠️ {errors.cv}</div>}
                                             </div>
                                             
                                             <button 
                                                 type="submit"
-                                                disabled={processing || !auth.user}
+                                                disabled={processing}
                                                 className="w-full bg-white text-[#004D5C] py-5 rounded-[24px] font-black uppercase tracking-[0.2em] shadow-xl hover:translate-y-[-4px] active:scale-95 transition flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed mt-4"
                                             >
                                                 <Send className="h-5 w-5" /> {processing ? 'ĐANG GỬI...' : 'GỬI HỒ SƠ'}
@@ -313,7 +335,7 @@ export default function Show({ vacancy }) {
 
                                             {Object.keys(errors).length > 0 && (
                                                 <div className="bg-rose-500/20 border border-rose-500/50 p-4 rounded-2xl text-[10px] text-white font-bold italic text-center">
-                                                    Vui lòng kiểm tra lại thông tin hồ sơ của bạn.
+                                                    Vui lòng kiểm tra lại thông tin.
                                                 </div>
                                             )}
                                         </form>

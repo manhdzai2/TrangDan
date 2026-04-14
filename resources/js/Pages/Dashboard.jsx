@@ -11,9 +11,18 @@ import {
     MoreHorizontal, Eye, ExternalLink, ArrowUpRight,
     Activity, Zap, Target, Clock, Filter, BarChart3 as BarChart3Icon
 } from 'lucide-react';
+import Skeleton from '@/Components/Skeleton';
+import { useEffect } from 'react';
+
 
 export default function Dashboard({ stats, charts, recent_applications }) {
     const [timeScale, setTimeScale] = useState('daily');
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const timer = setTimeout(() => setIsLoading(false), 800);
+        return () => clearTimeout(timer);
+    }, []);
     const PIE_COLORS = ['#006D7E', '#66B2BD', '#99D6E0', '#CCEBF0'];
 
     const getActiveChartData = () => {
@@ -106,7 +115,11 @@ export default function Dashboard({ stats, charts, recent_applications }) {
                                 <TrendingUp className="h-3 w-3 mr-1" /> {stats.trends.openings}
                             </div>
                         </div>
-                        <div className="text-5xl font-black text-[#004D5C] dark:text-white mb-3 tracking-tighter italic leading-none transition-colors">{stats.total_openings}</div>
+                        {isLoading ? (
+                            <Skeleton className="h-12 w-24 mb-3" />
+                        ) : (
+                            <div className="text-5xl font-black text-[#004D5C] dark:text-white mb-3 tracking-tighter italic leading-none transition-colors">{stats.total_openings}</div>
+                        )}
                         <div className="text-slate-400 dark:text-slate-600 text-[11px] font-black uppercase tracking-widest">Vị trí tuyển dụng</div>
                     </div>
                 </motion.div>
@@ -123,7 +136,11 @@ export default function Dashboard({ stats, charts, recent_applications }) {
                                 <TrendingUp className="h-3 w-3 mr-1" /> {stats.trends.candidates}
                             </div>
                         </div>
-                        <div className="text-5xl font-black text-[#004D5C] dark:text-white mb-3 tracking-tighter italic leading-none transition-colors">{stats.total_candidates}</div>
+                        {isLoading ? (
+                            <Skeleton className="h-12 w-24 mb-3" />
+                        ) : (
+                            <div className="text-5xl font-black text-[#004D5C] dark:text-white mb-3 tracking-tighter italic leading-none transition-colors">{stats.total_candidates}</div>
+                        )}
                         <div className="text-slate-400 dark:text-slate-600 text-[11px] font-black uppercase tracking-widest">Tổng hồ sơ ứng tuyển</div>
                     </div>
                 </motion.div>

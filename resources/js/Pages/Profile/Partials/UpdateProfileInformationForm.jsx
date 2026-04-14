@@ -1,9 +1,7 @@
 import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
-import { Transition } from '@headlessui/react';
 import { Link, useForm, usePage } from '@inertiajs/react';
+import { motion, Transition } from 'framer-motion';
+import { Mail, User as UserIcon, CheckCircle, AlertCircle, Save } from 'lucide-react';
 
 export default function UpdateProfileInformation({
     mustVerifyEmail,
@@ -26,85 +24,99 @@ export default function UpdateProfileInformation({
 
     return (
         <section className={className}>
-            <header>
-                <h2 className="text-lg font-medium text-gray-900">
-                    Profile Information
-                </h2>
+            <form onSubmit={submit} className="space-y-8">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {/* Name Input */}
+                    <div className="space-y-2">
+                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#004D5C]/50 dark:text-white/30 ml-4">
+                            Họ và tên
+                        </label>
+                        <div className="relative group">
+                            <UserIcon className="absolute left-6 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-300 group-focus-within:text-[#00B4D8] transition-colors" />
+                            <input
+                                id="name"
+                                type="text"
+                                className="w-full bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/10 rounded-[24px] pl-14 pr-6 py-4 text-sm font-bold text-[#004D5C] dark:text-white placeholder:text-slate-300 focus:ring-4 focus:ring-[#00B4D8]/10 focus:border-[#00B4D8] transition-all outline-none"
+                                value={data.name}
+                                onChange={(e) => setData('name', e.target.value)}
+                                required
+                                autoComplete="name"
+                                placeholder="Nhập họ và tên đầy đủ..."
+                            />
+                        </div>
+                        <InputError message={errors.name} className="ml-4" />
+                    </div>
 
-                <p className="mt-1 text-sm text-gray-600">
-                    Update your account's profile information and email address.
-                </p>
-            </header>
-
-            <form onSubmit={submit} className="mt-6 space-y-6">
-                <div>
-                    <InputLabel htmlFor="name" value="Name" />
-
-                    <TextInput
-                        id="name"
-                        className="mt-1 block w-full"
-                        value={data.name}
-                        onChange={(e) => setData('name', e.target.value)}
-                        required
-                        isFocused
-                        autoComplete="name"
-                    />
-
-                    <InputError className="mt-2" message={errors.name} />
-                </div>
-
-                <div>
-                    <InputLabel htmlFor="email" value="Email" />
-
-                    <TextInput
-                        id="email"
-                        type="email"
-                        className="mt-1 block w-full"
-                        value={data.email}
-                        onChange={(e) => setData('email', e.target.value)}
-                        required
-                        autoComplete="username"
-                    />
-
-                    <InputError className="mt-2" message={errors.email} />
+                    {/* Email Input */}
+                    <div className="space-y-2">
+                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-[#004D5C]/50 dark:text-white/30 ml-4">
+                            Địa chỉ Email
+                        </label>
+                        <div className="relative group">
+                            <Mail className="absolute left-6 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-300 group-focus-within:text-[#00B4D8] transition-colors" />
+                            <input
+                                id="email"
+                                type="email"
+                                className="w-full bg-slate-50 dark:bg-white/5 border border-slate-100 dark:border-white/10 rounded-[24px] pl-14 pr-6 py-4 text-sm font-bold text-[#004D5C] dark:text-white placeholder:text-slate-300 focus:ring-4 focus:ring-[#00B4D8]/10 focus:border-[#00B4D8] transition-all outline-none"
+                                value={data.email}
+                                onChange={(e) => setData('email', e.target.value)}
+                                required
+                                autoComplete="username"
+                                placeholder="example@almustech.com"
+                            />
+                        </div>
+                        <InputError message={errors.email} className="ml-4" />
+                    </div>
                 </div>
 
                 {mustVerifyEmail && user.email_verified_at === null && (
-                    <div>
-                        <p className="mt-2 text-sm text-gray-800">
-                            Your email address is unverified.
+                    <div className="p-4 bg-amber-500/10 border border-amber-500/20 rounded-3xl flex items-start gap-4 mx-4">
+                        <AlertCircle className="h-5 w-5 text-amber-500 mt-1 shrink-0" />
+                        <div>
+                            <p className="text-sm font-bold text-amber-700 dark:text-amber-400">
+                                Email của bạn chưa được xác minh.
+                            </p>
                             <Link
                                 href={route('verification.send')}
                                 method="post"
                                 as="button"
-                                className="rounded-md text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                                className="mt-2 text-xs font-black uppercase tracking-widest text-amber-600 hover:text-amber-500 underline transition-colors"
                             >
-                                Click here to re-send the verification email.
+                                Gửi lại email xác minh
                             </Link>
-                        </p>
-
-                        {status === 'verification-link-sent' && (
-                            <div className="mt-2 text-sm font-medium text-green-600">
-                                A new verification link has been sent to your
-                                email address.
-                            </div>
-                        )}
+                            {status === 'verification-link-sent' && (
+                                <div className="mt-2 text-xs font-bold text-emerald-500 flex items-center gap-1">
+                                    <CheckCircle className="h-4 w-4" />
+                                    Một liên kết xác minh mới đã được gửi!
+                                </div>
+                            )}
+                        </div>
                     </div>
                 )}
 
-                <div className="flex items-center gap-4">
-                    <PrimaryButton disabled={processing}>Save</PrimaryButton>
+                <div className="flex items-center gap-6 pt-4 px-4">
+                    <motion.button
+                        whileHover={{ scale: 1.02, y: -2 }}
+                        whileTap={{ scale: 0.98 }}
+                        disabled={processing}
+                        className="px-10 py-4 bg-gradient-to-r from-[#004D5C] to-[#018296] text-white rounded-[24px] text-xs font-black uppercase tracking-[0.2em] shadow-xl shadow-[#004D5C]/20 hover:shadow-[#004D5C]/40 disabled:opacity-50 transition-all flex items-center gap-3"
+                    >
+                        <Save className="h-4 w-4" />
+                        Lưu thay đổi
+                    </motion.button>
 
                     <Transition
                         show={recentlySuccessful}
-                        enter="transition ease-in-out"
-                        enterFrom="opacity-0"
-                        leave="transition ease-in-out"
+                        enter="transition ease-out duration-300"
+                        enterFrom="opacity-0 translate-x-4"
+                        enterTo="opacity-100 translate-x-0"
+                        leave="transition ease-in duration-200"
+                        leaveFrom="opacity-100"
                         leaveTo="opacity-0"
+                        className="flex items-center gap-2 text-emerald-500 text-xs font-black uppercase tracking-widest"
                     >
-                        <p className="text-sm text-gray-600">
-                            Saved.
-                        </p>
+                        <CheckCircle className="h-4 w-4" />
+                        Đã cập nhật
                     </Transition>
                 </div>
             </form>

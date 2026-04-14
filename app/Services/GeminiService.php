@@ -25,7 +25,7 @@ class GeminiService
         }
 
         try {
-            // Upgrading to Gemini 2.5 Flash (Current stable in 2026)
+            // Reverting to the project's original stable model (Gemini 2.5) 
             $response = Http::timeout(40)->post($this->baseUrl . 'gemini-2.5-flash:generateContent?key=' . $this->apiKey, [
                 'contents' => [
                     [

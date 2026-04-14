@@ -7,11 +7,34 @@ import {
     FileText, LogOut, User, Bell, Search, Plus, Menu, X as CloseIcon,
     Sun, Moon
 } from 'lucide-react';
+import { ToastContainer } from '@/Components/Toast';
+
 
 export default function AdminLayout({ children }) {
     const { auth, url, unreadApplicationsCount } = usePage().props;
     const user = auth.user;
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+    const [toasts, setToasts] = useState([]);
+    const { flash } = usePage().props;
+
+    useEffect(() => {
+        if (flash.success) {
+            addToast(flash.success, 'success');
+        }
+        if (flash.error) {
+            addToast(flash.error, 'error');
+        }
+    }, [flash]);
+
+    const addToast = (message, type) => {
+        const id = Date.now();
+        setToasts(prev => [...prev, { id, message, type, onClose: () => removeToast(id) }]);
+    };
+
+    const removeToast = (id) => {
+        setToasts(prev => prev.filter(t => t.id !== id));
+    };
+
     const [isDark, setIsDark] = useState(() => {
         if (typeof window !== 'undefined') {
             return localStorage.getItem('theme') === 'dark' || 
@@ -118,31 +141,7 @@ export default function AdminLayout({ children }) {
                     </motion.div>
                 </nav>
 
-                <div className="p-6">
-                    <motion.div 
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.9 }}
-                        className="bg-white/5 rounded-[24px] p-4 backdrop-blur-sm border border-white/10 shadow-inner"
-                    >
-                        <div className="flex items-center gap-3 mb-2">
-                             <div className="h-8 w-8 bg-white/10 rounded-lg flex items-center justify-center text-[10px] font-black italic">
-                                {user.name.charAt(0)}
-                            </div>
-                            <div className="overflow-hidden">
-                                <div className="text-[10px] font-black truncate text-white/70 uppercase tracking-widest">{user.name}</div>
-                            </div>
-                        </div>
-                        <Link 
-                            href={route('logout')} 
-                            method="post" 
-                            as="button"
-                            className="w-full py-2.5 text-[10px] font-black uppercase tracking-widest text-[#CCEBF0] hover:text-white flex items-center gap-2 transition-colors group"
-                        >
-                            <LogOut className="h-4 w-4 group-hover:translate-x-1 transition-transform" /> Đăng xuất
-                        </Link>
-                    </motion.div>
-                </div>
+                {/* Sidebar Footer removed as it moved to header */}
             </motion.aside>
 
             {/* Main Content */}
@@ -177,13 +176,31 @@ export default function AdminLayout({ children }) {
                                 {isDark ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
                              </motion.button>
                              
-                             <Link href={route('admin.applications.index')}>
-                                <IconButton 
-                                    icon={<Bell className="h-5 w-5" />} 
-                                    alert={unreadApplicationsCount > 0} 
-                                    badge={unreadApplicationsCount}
-                                />
-                             </Link>
+                             {/* User Profile Block */}
+                             <div className="flex items-center gap-4 pl-2">
+                                <Link 
+                                    href={route('profile.edit')}
+                                    className="flex items-center gap-3 p-1.5 pr-4 rounded-2xl bg-white dark:bg-slate-800 border border-slate-100 dark:border-white/5 hover:shadow-xl transition-all group"
+                                >
+                                    <div className="h-9 w-9 bg-[#004D5C] dark:bg-[#006D7E] text-white rounded-xl flex items-center justify-center text-[11px] font-black italic shadow-lg shadow-[#004D5C]/20">
+                                        {user.name.charAt(0)}
+                                    </div>
+                                    <div className="text-left">
+                                        <div className="text-[10px] font-black text-[#004D5C] dark:text-[#CCEBF0] uppercase tracking-wider leading-none mb-1">{user.name}</div>
+                                        <div className="text-[8px] font-bold text-slate-300 dark:text-slate-600 uppercase tracking-[0.2em] leading-none">Quản trị viên</div>
+                                    </div>
+                                </Link>
+
+                                <Link 
+                                    href={route('logout')} 
+                                    method="post" 
+                                    as="button"
+                                    className="p-3 bg-white dark:bg-slate-800 rounded-2xl shadow-sm text-slate-400 hover:text-rose-500 hover:shadow-xl transition-all border border-slate-100 dark:border-white/5 group"
+                                    title="Đăng xuất"
+                                >
+                                    <LogOut className="h-5 w-5 group-hover:translate-x-0.5 transition-transform" />
+                                </Link>
+                             </div>
                         </div>
                         <div className="h-8 w-[1px] bg-slate-100 dark:bg-white/5"></div>
                         <div className="text-right">
@@ -209,6 +226,8 @@ export default function AdminLayout({ children }) {
                     </AnimatePresence>
                 </div>
             </main>
+
+            <ToastContainer flashes={toasts} />
         </div>
     );
 }
