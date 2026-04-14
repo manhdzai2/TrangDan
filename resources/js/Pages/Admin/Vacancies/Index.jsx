@@ -1,6 +1,6 @@
 import AdminLayout from '@/Layouts/AdminLayout';
 import { Head, useForm } from '@inertiajs/react';
-import { Plus, Search, Filter, Eye, Edit, Trash2, X, Check } from 'lucide-react';
+import { Plus, Search, Filter, Eye, Edit, Trash2, X, Check, Sparkles, LayoutGrid } from 'lucide-react';
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -11,6 +11,9 @@ export default function Index({ vacancies }) {
     const { data, setData, post, put, delete: destroy, processing, reset, errors } = useForm({
         title: '',
         description: '',
+        recruitment_process: '',
+        requirements: '',
+        benefits: '',
         location: '',
         salary: '',
         type: 'Full-time',
@@ -28,6 +31,9 @@ export default function Index({ vacancies }) {
         setData({
             title: job.title,
             description: job.description || '',
+            recruitment_process: job.recruitment_process || '',
+            requirements: job.requirements || '',
+            benefits: job.benefits || '',
             location: job.location || '',
             salary: job.salary || '',
             type: job.type || 'Full-time',
@@ -61,6 +67,32 @@ export default function Index({ vacancies }) {
         }
     };
 
+    const handleGenerateAI = async () => {
+        if (!data.title) {
+            alert('Vui lòng nhập tiêu đề để AI có thể tạo mô tả!');
+            return;
+        }
+
+        try {
+            const response = await fetch(route('admin.vacancies.generate-jd'), {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                },
+                body: JSON.stringify({ title: data.title }),
+            });
+
+            const result = await response.json();
+            if (result.jd) {
+                // Split the JD by section if possible, or just dump into description
+                setData('description', result.jd);
+            }
+        } catch (error) {
+            console.error('Error generating JD:', error);
+        }
+    };
+
     return (
         <AdminLayout>
             <Head title="Quản lý Tin tuyển dụng" />
@@ -71,7 +103,7 @@ export default function Index({ vacancies }) {
                 className="flex justify-between items-center mb-10"
             >
                 <div>
-                    <h1 className="text-4xl font-black text-[#004D5C] tracking-tighter mb-2 italic">Tin tuyển dụng</h1>
+                    <h1 className="text-4xl font-black text-[#004D5C] dark:text-white tracking-tighter mb-2 italic">Tin tuyển dụng</h1>
                     <p className="text-slate-400 font-black uppercase tracking-widest text-[10px]">Quản lý và cập nhật danh sách vị trí đang tuyển</p>
                 </div>
                 <motion.button 
@@ -88,21 +120,21 @@ export default function Index({ vacancies }) {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.2 }}
-                className="bg-white rounded-[40px] shadow-sm border border-white/50 overflow-hidden mb-12"
+                className="bg-white dark:bg-slate-900 rounded-[40px] shadow-sm border border-white/50 dark:border-white/5 overflow-hidden mb-12"
             >
-                <div className="p-8 border-b border-slate-50 flex gap-6 bg-slate-50/20">
+                <div className="p-8 border-b border-slate-50 dark:border-white/5 flex gap-6 bg-slate-50/20 dark:bg-transparent">
                     <div className="relative flex-1">
                         <Search className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 h-5 w-5" />
                         <input 
                             type="text" 
                             placeholder="Tìm kiếm vị trí, kỹ năng..." 
-                            className="w-full bg-white border-none rounded-2xl pl-16 pr-6 py-4 text-[11px] font-black uppercase tracking-wider focus:ring-2 focus:ring-[#006D7E] transition-all shadow-sm text-[#004D5C] placeholder:text-slate-300" 
+                            className="w-full bg-white dark:bg-slate-800 border-none rounded-2xl pl-16 pr-6 py-4 text-[11px] font-black uppercase tracking-wider focus:ring-2 focus:ring-[#006D7E] transition-all shadow-sm text-[#004D5C] dark:text-white placeholder:text-slate-300 dark:placeholder:text-slate-600" 
                         />
                     </div>
                     <motion.button 
                         whileHover={{ scale: 1.05 }}
                         whileTap={{ scale: 0.95 }}
-                        className="p-5 bg-white rounded-2xl text-slate-400 hover:text-[#004D5C] transition-all shadow-sm border border-slate-100"
+                        className="p-5 bg-white dark:bg-slate-800 rounded-2xl text-slate-400 hover:text-[#004D5C] dark:hover:text-white transition-all shadow-sm border border-slate-100 dark:border-white/5"
                     >
                         <Filter className="h-6 w-6" />
                     </motion.button>
@@ -111,7 +143,7 @@ export default function Index({ vacancies }) {
                 <div className="overflow-x-auto">
                     <table className="w-full text-left">
                         <thead>
-                            <tr className="bg-slate-50/50 text-slate-300 text-[10px] font-black uppercase tracking-[0.3em]">
+                            <tr className="bg-slate-50/50 dark:bg-white/5 text-slate-300 dark:text-slate-600 text-[10px] font-black uppercase tracking-[0.3em]">
                                 <th className="px-10 py-6">Công việc</th>
                                 <th className="px-10 py-6">Loại hình</th>
                                 <th className="px-10 py-6">Mức lương</th>
@@ -127,41 +159,41 @@ export default function Index({ vacancies }) {
                                     initial={{ opacity: 0, x: -10 }}
                                     animate={{ opacity: 1, x: 0 }}
                                     transition={{ delay: 0.1 * index }}
-                                    className="hover:bg-[#F3F7F8]/80 transition duration-500 group cursor-default"
+                                    className="hover:bg-[#F3F7F8]/80 dark:hover:bg-white/5 transition duration-500 group cursor-default"
                                 >
-                                    <td className="px-10 py-7">
-                                        <div className="font-black text-[#004D5C] tracking-tight italic text-xl mb-1.5 transition-colors group-hover:text-[#006D7E]">{job.title}</div>
-                                        <div className="flex items-center gap-2 text-[10px] text-slate-400 font-black uppercase tracking-widest">
-                                            <span className="bg-[#EEF8F9] text-[#006D7E] px-3 py-1 rounded-lg text-[9px] shadow-sm border border-[#006D7E]/5">JOB-{100 + job.id}</span>
-                                            <span className="text-slate-200">/</span>
+                                    <td className="px-10 py-7 bg-white dark:bg-slate-900 group-hover:bg-transparent transition-colors">
+                                        <div className="font-black text-[#004D5C] dark:text-white tracking-tight italic text-xl mb-1.5 transition-colors group-hover:text-[#006D7E]">{job.title}</div>
+                                        <div className="flex items-center gap-2 text-[10px] text-slate-400 dark:text-slate-500 font-black uppercase tracking-widest">
+                                            <span className="bg-[#EEF8F9] dark:bg-[#002B33] text-[#006D7E] dark:text-[#CCEBF0] px-3 py-1 rounded-lg text-[9px] shadow-sm border border-[#006D7E]/5">{job.type}</span>
+                                            <span className="text-slate-200 dark:text-slate-800">/</span>
                                             <span>{job.location}</span>
                                         </div>
                                     </td>
-                                    <td className="px-10 py-7">
-                                        <div className="px-4 py-2 bg-indigo-50/50 text-indigo-600 rounded-xl text-[9px] font-black uppercase tracking-widest border border-indigo-100 shadow-sm inline-block">
+                                    <td className="px-10 py-7 bg-white dark:bg-slate-900 group-hover:bg-transparent transition-colors">
+                                        <div className="px-4 py-2 bg-indigo-50/50 dark:bg-indigo-900/20 text-indigo-600 dark:text-indigo-400 rounded-xl text-[9px] font-black uppercase tracking-widest border border-indigo-100 dark:border-indigo-800/30 shadow-sm inline-block">
                                             {job.type}
                                         </div>
                                     </td>
-                                    <td className="px-10 py-7 text-sm font-black text-[#006D7E] italic tracking-tight">{job.salary}</td>
-                                    <td className="px-10 py-7 text-center">
+                                    <td className="px-10 py-7 text-sm font-black text-[#006D7E] dark:text-[#CCEBF0] italic tracking-tight bg-white dark:bg-slate-900 group-hover:bg-transparent transition-colors">{job.salary}</td>
+                                    <td className="px-10 py-7 text-center bg-white dark:bg-slate-900 group-hover:bg-transparent transition-colors">
                                         <div className="inline-flex flex-col">
-                                            <span className="text-2xl font-black text-[#004D5C] leading-none italic">{job.applications_count}</span>
-                                            <span className="text-[9px] text-slate-300 font-black uppercase tracking-widest mt-1.5 leading-none">Hồ sơ</span>
+                                            <span className="text-2xl font-black text-[#004D5C] dark:text-white leading-none italic">{job.applications_count}</span>
+                                            <span className="text-[9px] text-slate-300 dark:text-slate-600 font-black uppercase tracking-widest mt-1.5 leading-none">Hồ sơ</span>
                                         </div>
                                     </td>
-                                    <td className="px-10 py-7 text-center">
-                                        <span className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-widest shadow-sm ${job.is_active ? 'bg-emerald-50 text-emerald-600 border border-emerald-100' : 'bg-rose-50 text-rose-600 border border-rose-100'}`}>
+                                    <td className="px-10 py-7 text-center bg-white dark:bg-slate-900 group-hover:bg-transparent transition-colors">
+                                        <span className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl text-[9px] font-black uppercase tracking-widest shadow-sm ${job.is_active ? 'bg-emerald-50 dark:bg-emerald-900/20 text-emerald-600 dark:text-emerald-400 border border-emerald-100 dark:border-emerald-800' : 'bg-rose-50 dark:bg-rose-900/20 text-rose-600 dark:text-rose-400 border border-rose-100 dark:border-rose-800'}`}>
                                             <span className={`h-2 w-2 rounded-full ${job.is_active ? 'bg-emerald-500 animate-pulse' : 'bg-rose-500'}`}></span>
                                             {job.is_active ? 'Hoạt động' : 'Tạm dừng'}
                                         </span>
                                     </td>
-                                    <td className="px-10 py-7 text-right pr-12">
+                                    <td className="px-10 py-7 text-right pr-12 bg-white dark:bg-slate-900 group-hover:bg-transparent transition-colors">
                                         <div className="flex justify-end gap-3 translate-x-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500">
                                             <motion.button 
                                                 whileHover={{ scale: 1.1 }}
                                                 whileTap={{ scale: 0.9 }}
                                                 onClick={() => openEditModal(job)}
-                                                className="p-3 text-slate-300 hover:text-amber-500 hover:bg-amber-50 rounded-2xl transition-all shadow-sm bg-white border border-slate-50"
+                                                className="p-3 text-slate-300 hover:text-amber-500 dark:hover:text-amber-400 hover:bg-amber-50 dark:hover:bg-amber-900/20 rounded-2xl transition-all shadow-sm bg-white dark:bg-slate-800 border border-slate-50 dark:border-white/5"
                                             >
                                                 <Edit className="h-5 w-5" />
                                             </motion.button>
@@ -169,7 +201,7 @@ export default function Index({ vacancies }) {
                                                 whileHover={{ scale: 1.1 }}
                                                 whileTap={{ scale: 0.9 }}
                                                 onClick={() => handleDelete(job.id)}
-                                                className="p-3 text-slate-300 hover:text-rose-500 hover:bg-rose-50 rounded-2xl transition-all shadow-sm bg-white border border-slate-50"
+                                                className="p-3 text-slate-300 hover:text-rose-500 dark:hover:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-900/20 rounded-2xl transition-all shadow-sm bg-white dark:bg-slate-800 border border-slate-50 dark:border-white/5"
                                             >
                                                 <Trash2 className="h-5 w-5" />
                                             </motion.button>
@@ -198,47 +230,60 @@ export default function Index({ vacancies }) {
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.9, y: 20 }}
                             transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                            className="bg-white rounded-[40px] w-full max-w-2xl relative z-10 shadow-2xl overflow-hidden"
+                            className="bg-white dark:bg-slate-900 rounded-[40px] w-full max-w-2xl relative z-10 shadow-2xl overflow-hidden flex flex-col max-h-[90vh]"
                         >
-                            <div className="p-10 border-b border-slate-50 flex justify-between items-center bg-slate-50/30">
+                            <div className="p-10 border-b border-slate-50 dark:border-white/5 flex justify-between items-center bg-slate-50/30 dark:bg-transparent">
                                 <div>
-                                    <h3 className="text-3xl font-black text-[#004D5C] tracking-tight italic">
+                                    <h3 className="text-3xl font-black text-[#004D5C] dark:text-white tracking-tight italic">
                                         {editingJob ? 'Cập nhật Tin tuyển dụng' : 'Đăng Tin tuyển dụng Mới'}
                                     </h3>
-                                    <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest mt-2 leading-none">Cung cấp thông tin chi tiết cho vị trí này</p>
+                                    <div className="flex items-center gap-4 mt-2">
+                                        <p className="text-slate-400 dark:text-slate-500 text-[10px] font-black uppercase tracking-widest leading-none">Cung cấp thông tin chi tiết cho vị trí này</p>
+                                        <motion.button
+                                            type="button"
+                                            onClick={handleGenerateAI}
+                                            whileHover={{ scale: 1.05 }}
+                                            whileTap={{ scale: 0.95 }}
+                                            className="flex items-center gap-2 bg-[#EEF8F9] text-[#006D7E] px-3 py-1.5 rounded-lg border border-[#006D7E]/10 hover:bg-[#006D7E] hover:text-white transition-all text-[9px] font-black uppercase tracking-widest shadow-sm"
+                                        >
+                                            <Sparkles className="w-3 h-3" /> Tạo bởi AI
+                                        </motion.button>
+                                    </div>
                                 </div>
                                 <motion.button 
                                     whileHover={{ rotate: 90, scale: 1.1 }}
                                     whileTap={{ scale: 0.9 }}
                                     onClick={closeModal} 
-                                    className="p-4 bg-white rounded-2xl text-slate-300 hover:text-rose-500 transition shadow-sm border border-slate-50"
+                                    className="p-4 bg-white dark:bg-slate-800 rounded-2xl text-slate-300 hover:text-rose-500 transition shadow-sm border border-slate-50 dark:border-white/5"
                                 >
                                     <X className="h-6 w-6" />
                                 </motion.button>
                             </div>
-                            <form onSubmit={submit} className="p-10 overflow-y-auto max-h-[70vh] custom-scrollbar">
-                                <div className="space-y-10">
+                            <form onSubmit={submit} className="p-10 overflow-y-auto flex-1 custom-scrollbar">
+                                <div className="space-y-8">
                                     <div>
-                                        <label className="text-[10px] font-black text-[#004D5C] uppercase tracking-[0.2em] block mb-4">Tên vị trí tuyển dụng</label>
+                                        <label className="text-[10px] font-black text-[#004D5C] dark:text-[#CCEBF0] uppercase tracking-[0.2em] block mb-4">Tên vị trí tuyển dụng *</label>
                                         <input 
                                             type="text" 
+                                            required
                                             value={data.title}
                                             onChange={e => setData('title', e.target.value)}
                                             placeholder="Ví dụ: Senior React Developer" 
-                                            className="w-full bg-[#F3F7F8] border-none rounded-[24px] px-8 py-5 text-sm font-black text-[#004D5C] focus:ring-4 focus:ring-[#006D7E]/10 transition-all shadow-inner placeholder:text-slate-300 italic" 
+                                            className="w-full bg-[#F3F7F8] dark:bg-slate-800 border-none rounded-[24px] px-8 py-5 text-sm font-black text-[#004D5C] dark:text-white focus:ring-4 focus:ring-[#006D7E]/10 transition-all shadow-inner placeholder:text-slate-300 dark:placeholder:text-slate-600 italic" 
                                         />
                                         {errors.title && <div className="text-rose-500 text-[9px] font-black mt-3 uppercase tracking-widest italic">{errors.title}</div>}
                                     </div>
 
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                         <div>
-                                            <label className="text-[10px] font-black text-[#004D5C] uppercase tracking-[0.2em] block mb-4">Địa điểm làm việc</label>
+                                            <label className="text-[10px] font-black text-[#004D5C] dark:text-[#CCEBF0] uppercase tracking-[0.2em] block mb-4">Địa điểm làm việc *</label>
                                             <input 
                                                 type="text" 
+                                                required
                                                 value={data.location}
                                                 onChange={e => setData('location', e.target.value)}
                                                 placeholder="Ví dụ: Hà Nội / Remote" 
-                                                className="w-full bg-[#F3F7F8] border-none rounded-[24px] px-8 py-5 text-sm font-black text-[#004D5C] focus:ring-4 focus:ring-[#006D7E]/10 transition-all shadow-inner placeholder:text-slate-300 italic" 
+                                                className="w-full bg-[#F3F7F8] dark:bg-slate-800 border-none rounded-[24px] px-8 py-5 text-sm font-black text-[#004D5C] dark:text-white focus:ring-4 focus:ring-[#006D7E]/10 transition-all shadow-inner placeholder:text-slate-300 dark:placeholder:text-slate-600 italic" 
                                             />
                                         </div>
                                         <div>
@@ -253,7 +298,7 @@ export default function Index({ vacancies }) {
                                         </div>
                                     </div>
 
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                         <div>
                                             <label className="text-[10px] font-black text-[#004D5C] uppercase tracking-[0.2em] block mb-4">Loại hình công việc</label>
                                             <select 
@@ -284,12 +329,45 @@ export default function Index({ vacancies }) {
                                     </div>
 
                                     <div>
-                                        <label className="text-[10px] font-black text-[#004D5C] uppercase tracking-[0.2em] block mb-4">Mô tả & Yêu cầu</label>
+                                        <label className="text-[10px] font-black text-[#004D5C] uppercase tracking-[0.2em] block mb-4">Mô tả công việc</label>
                                         <textarea 
                                             value={data.description}
                                             onChange={e => setData('description', e.target.value)}
-                                            rows="6"
-                                            placeholder="Nhập mô tả chi tiết, yêu cầu và quyền lợi dành cho ứng viên..." 
+                                            rows="4"
+                                            placeholder="Nhập mô tả chi tiết về công việc..." 
+                                            className="w-full bg-[#F3F7F8] border-none rounded-[32px] px-8 py-6 text-sm font-black text-[#004D5C] focus:ring-4 focus:ring-[#006D7E]/10 transition-all shadow-inner resize-none placeholder:text-slate-300 italic"
+                                        ></textarea>
+                                    </div>
+
+                                    <div>
+                                        <label className="text-[10px] font-black text-[#004D5C] uppercase tracking-[0.2em] block mb-4">Yêu cầu ứng viên</label>
+                                        <textarea 
+                                            value={data.requirements}
+                                            onChange={e => setData('requirements', e.target.value)}
+                                            rows="4"
+                                            placeholder="Kinh nghiệm, kỹ năng yêu cầu..." 
+                                            className="w-full bg-[#F3F7F8] border-none rounded-[32px] px-8 py-6 text-sm font-black text-[#004D5C] focus:ring-4 focus:ring-[#006D7E]/10 transition-all shadow-inner resize-none placeholder:text-slate-300 italic"
+                                        ></textarea>
+                                    </div>
+
+                                    <div>
+                                        <label className="text-[10px] font-black text-[#004D5C] uppercase tracking-[0.2em] block mb-4">Quyền lợi</label>
+                                        <textarea 
+                                            value={data.benefits}
+                                            onChange={e => setData('benefits', e.target.value)}
+                                            rows="4"
+                                            placeholder="Lương thưởng, bảo hiểm, các phúc lợi khác..." 
+                                            className="w-full bg-[#F3F7F8] border-none rounded-[32px] px-8 py-6 text-sm font-black text-[#004D5C] focus:ring-4 focus:ring-[#006D7E]/10 transition-all shadow-inner resize-none placeholder:text-slate-300 italic"
+                                        ></textarea>
+                                    </div>
+
+                                    <div>
+                                        <label className="text-[10px] font-black text-[#004D5C] uppercase tracking-[0.2em] block mb-4">Quy trình tuyển dụng</label>
+                                        <textarea 
+                                            value={data.recruitment_process}
+                                            onChange={e => setData('recruitment_process', e.target.value)}
+                                            rows="5"
+                                            placeholder="Ví dụ: Bước 1: Nộp hồ sơ → Bước 2: Phỏng vấn sơ bộ online → Bước 3: Phỏng vấn trực tiếp → Bước 4: Nhận việc" 
                                             className="w-full bg-[#F3F7F8] border-none rounded-[32px] px-8 py-6 text-sm font-black text-[#004D5C] focus:ring-4 focus:ring-[#006D7E]/10 transition-all shadow-inner resize-none placeholder:text-slate-300 italic"
                                         ></textarea>
                                     </div>

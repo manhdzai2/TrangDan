@@ -14,25 +14,29 @@ class ApplicationSeeder extends Seeder
      */
     public function run(): void
     {
-        Application::truncate();
+        // Don't truncate here if we call it from DatabaseSeeder which might have cleaned up
         
         $vacancies = Vacancy::all();
         if ($vacancies->isEmpty()) return;
 
-        $sources = ['LinkedIn', 'Facebook', 'Referral', 'Direct', 'Indeed', 'Google Jobs'];
+        $sources = ['LinkedIn', 'Facebook', 'Referral', 'Direct', 'Indeed', 'Google Jobs', 'Headhunter', 'GitHub'];
         $statuses = ['pending', 'reviewed', 'accepted', 'rejected'];
 
         foreach ($vacancies as $vacancy) {
-            // Seed 20-30 applications per vacancy
-            $count = rand(25, 35);
+            // Seed 15-25 applications per vacancy
+            $count = rand(15, 25);
             for ($i = 0; $i < $count; $i++) {
+                // Random date within the last 730 days (2 years)
+                $createdAt = Carbon::now()->subDays(rand(0, 730));
+                
                 Application::create([
                     'vacancy_id' => $vacancy->id,
                     'name' => fake()->name(),
                     'email' => fake()->unique()->safeEmail(),
                     'source' => collect($sources)->random(),
                     'status' => collect($statuses)->random(),
-                    'created_at' => Carbon::now()->subDays(rand(0, 30)),
+                    'created_at' => $createdAt,
+                    'updated_at' => $createdAt->copy()->addDays(rand(1, 14)),
                 ]);
             }
         }

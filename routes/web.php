@@ -3,10 +3,15 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\JobController;
 use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\UserApplicationController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\LanguageController;
 use Inertia\Inertia;
+
+// Language Switch
+Route::get('language/{locale}', [LanguageController::class, 'switch'])->name('language.switch');
 
 // Public Routes
 Route::get('/', function () {
@@ -23,7 +28,12 @@ Route::get('/process', function () {
 
 Route::get('/jobs', [JobController::class, 'index'])->name('jobs.index');
 Route::get('/jobs/{vacancy}', [JobController::class, 'show'])->name('jobs.show');
-Route::post('/jobs/{vacancy}/apply', [ApplicationController::class, 'store'])->name('jobs.apply');
+
+// Protected Apply Route
+Route::middleware('auth')->post('/jobs/{vacancy}/apply', [ApplicationController::class, 'store'])->name('jobs.apply');
+
+// User: Xem hồ sơ đã nộp
+Route::middleware('auth')->get('/my-applications', [UserApplicationController::class, 'index'])->name('my.applications');
 
 // Dashboard Alias (Breeze Compatibility)
 Route::middleware(['auth'])->get('/dashboard', function () {
@@ -78,19 +88,36 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::delete('/profile/avatar', [\App\Http\Controllers\Admin\ProfileController::class, 'deleteAvatar'])->name('admin.profile.avatar');
 
     Route::get('/vacancies', [\App\Http\Controllers\Admin\VacancyController::class, 'index'])->name('admin.vacancies.index');
+    Route::post('/vacancies/generate-jd', [\App\Http\Controllers\Admin\VacancyController::class, 'generateJD'])->name('admin.vacancies.generate-jd');
     Route::post('/vacancies', [\App\Http\Controllers\Admin\VacancyController::class, 'store'])->name('admin.vacancies.store');
     Route::put('/vacancies/{vacancy}', [\App\Http\Controllers\Admin\VacancyController::class, 'update'])->name('admin.vacancies.update');
     Route::delete('/vacancies/{vacancy}', [\App\Http\Controllers\Admin\VacancyController::class, 'destroy'])->name('admin.vacancies.destroy');
     
+    Route::get('/applications/kanban', [\App\Http\Controllers\Admin\ApplicationController::class, 'kanban'])->name('admin.applications.kanban');
     Route::get('/applications', [\App\Http\Controllers\Admin\ApplicationController::class, 'index'])->name('admin.applications.index');
     Route::get('/applications/{application}', [\App\Http\Controllers\Admin\ApplicationController::class, 'show'])->name('admin.applications.show');
     Route::put('/applications/{application}/status', [\App\Http\Controllers\Admin\ApplicationController::class, 'updateStatus'])->name('admin.applications.updateStatus');
+    Route::post('/applications/{application}/ai-analyze', [\App\Http\Controllers\Admin\ApplicationController::class, 'aiAnalyze'])->name('admin.applications.ai-analyze');
+    Route::get('/export/applications', [\App\Http\Controllers\Admin\ExportController::class, 'exportApplications'])->name('admin.export.applications');
     
     Route::get('/reports', [\App\Http\Controllers\Admin\ReportController::class, 'index'])->name('admin.reports.index');
     
     Route::get('/settings', function() {
         return inertia('Admin/Settings');
     })->name('admin.settings');
+
+    // Company Information
+    Route::get('/company-info', [\App\Http\Controllers\Admin\CompanyInfoController::class, 'index'])->name('admin.company.index');
+    Route::post('/company-info', [\App\Http\Controllers\Admin\CompanyInfoController::class, 'update'])->name('admin.company.update');
+
+    // Enhanced Application Features
+    Route::post('/applications/{application}/contact', [\App\Http\Controllers\Admin\ApplicationController::class, 'contact'])->name('admin.applications.contact');
+
+    // System Features
+    Route::post('/system/backup', function() {
+        // Simulated backup logic
+        return back()->with('success', 'Hệ thống đã được sao lưu thành công (Simulated).');
+    })->name('admin.system.backup');
 });
 
 require __DIR__.'/auth.php';

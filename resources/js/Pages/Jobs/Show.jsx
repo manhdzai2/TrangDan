@@ -1,30 +1,83 @@
 import RecruitmentLayout from '@/Layouts/RecruitmentLayout';
-import { Head, useForm, Link } from '@inertiajs/react';
+import { Head, useForm, Link, usePage } from '@inertiajs/react';
 import { 
     ChevronLeft, MapPin, Clock, Briefcase, 
-    CheckCircle, FileText, Send, Sparkles 
+    CheckCircle, FileText, Send, Sparkles, Phone, Home, Calendar, User as UserIcon
 } from 'lucide-react';
 
 export default function Show({ vacancy }) {
+    const { auth, translations } = usePage().props;
+    const __ = (key) => translations[key] || key;
+
+    // JSON-LD for Google Jobs
+    const jobSchema = {
+        "@context": "https://schema.org/",
+        "@type": "JobPosting",
+        "title": vacancy.title,
+        "description": vacancy.description,
+        "datePosted": vacancy.created_at,
+        "validThrough": "2026-12-31T23:59:59Z",
+        "employmentType": vacancy.type,
+        "hiringOrganization": {
+            "@type": "Organization",
+            "name": "Almus Tech",
+            "sameAs": "https://almus-tech.vn"
+        },
+        "jobLocation": {
+            "@type": "Place",
+            "address": {
+                "@type": "PostalAddress",
+                "addressLocality": vacancy.location,
+                "addressCountry": "VN"
+            }
+        },
+        "baseSalary": vacancy.salary ? {
+            "@type": "MonetaryAmount",
+            "currency": "VND",
+            "value": {
+                "@type": "QuantitativeValue",
+                "value": vacancy.salary,
+                "unitText": "MONTH"
+            }
+        } : undefined
+    };
+    
     const { data, setData, post, processing, errors, reset, wasSuccessful } = useForm({
-        name: '',
-        email: '',
-        resume: null,
+        name: auth.user?.name || '',
+        email: auth.user?.email || '',
+        phone: '',
+        address: '',
+        age: '',
+        start_date: '',
+        cv: null,
         cover_letter: '',
     });
 
     const submit = (e) => {
         e.preventDefault();
+        
+        if (!auth.user) {
+            // Lưu URL để redirect về sau khi đăng nhập
+            window.location.href = '/login';
+            return;
+        }
+
         post(route('jobs.apply', vacancy.id), {
+            forceFormData: true,
             onSuccess: () => reset(),
         });
     };
 
     return (
         <RecruitmentLayout>
-            <Head title={`${vacancy.title} | AMT SOLUTIONS`} />
+            <Head>
+                <title>{`${vacancy.title} | Almus Tech`}</title>
+                <script type="application/ld+json">
+                    {JSON.stringify(jobSchema)}
+                </script>
+            </Head>
 
-            <section className="pt-32 pb-20 bg-slate-50 relative overflow-hidden">
+            <section className="pt-32 pb-20 bg-slate-50 dark:bg-slate-950 transition-colors duration-500 relative overflow-hidden">
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="mb-12">
                         <Link 
@@ -38,18 +91,18 @@ export default function Show({ vacancy }) {
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
                         {/* Job Content */}
                         <div className="lg:col-span-2 space-y-12">
-                            <div className="bg-white p-12 md:p-16 rounded-[60px] shadow-sm border border-white/50 relative overflow-hidden">
+                            <div className="bg-white dark:bg-slate-900 p-12 md:p-16 rounded-[60px] shadow-sm border border-white/50 dark:border-white/5 relative overflow-hidden">
                                 <div className="absolute top-0 right-0 p-12 hidden md:block">
-                                    <div className="h-20 w-20 bg-[#EEF8F9] rounded-[32px] flex items-center justify-center text-[#006D7E] text-4xl font-black italic shadow-inner">
+                                    <div className="h-20 w-20 bg-[#EEF8F9] dark:bg-[#002B33] rounded-[32px] flex items-center justify-center text-[#006D7E] text-4xl font-black italic shadow-inner">
                                         {vacancy.title.charAt(0)}
                                     </div>
                                 </div>
 
                                 <div className="max-w-2xl">
-                                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#EEF8F9] text-[#006D7E] rounded-full text-[10px] font-black uppercase tracking-[0.2em] mb-8 border border-[#006D7E]/10">
+                                    <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#EEF8F9] dark:bg-[#002B33] text-[#006D7E] rounded-full text-[10px] font-black uppercase tracking-[0.2em] mb-8 border border-[#006D7E]/10">
                                         <Sparkles className="h-3 w-3 fill-current" /> TUYỂN DỤNG 2026
                                     </div>
-                                    <h1 className="text-5xl md:text-6xl font-black text-[#004D5C] tracking-tighter italic leading-none mb-10">
+                                    <h1 className="text-5xl md:text-6xl font-black text-[#004D5C] dark:text-[#CCEBF0] tracking-tighter italic leading-none mb-10">
                                         {vacancy.title}
                                     </h1>
                                     
@@ -60,32 +113,68 @@ export default function Show({ vacancy }) {
                                     </div>
                                 </div>
 
-                                <div className="prose prose-slate prose-lg max-w-none prose-headings:text-[#004D5C] prose-headings:font-black prose-headings:italic prose-p:text-slate-500 prose-p:italic prose-p:font-medium">
-                                    <h3 className="text-2xl mb-6">Mô tả công việc</h3>
-                                    <p className="whitespace-pre-wrap leading-loose mb-10">
-                                        {vacancy.description || 'Chúng tôi đang tìm kiếm một tài năng đam mê để gia nhập đội ngũ AMT. Bạn sẽ tham gia vào các dự án quy mô lớn, áp dụng các công nghệ tiên tiến nhất để giải quyết những bài toán hóc búa...'}
-                                    </p>
+                                <div className="prose prose-slate dark:prose-invert prose-lg max-w-none prose-headings:text-[#004D5C] dark:prose-headings:text-[#CCEBF0] prose-headings:font-black prose-headings:italic">
+                                    <h3 className="text-2xl mb-6 tracking-tighter">Mô tả công việc</h3>
+                                    {vacancy.description ? (
+                                        <div 
+                                            className="leading-loose mb-10 text-slate-700 dark:text-slate-300 font-medium"
+                                            dangerouslySetInnerHTML={{ __html: vacancy.description }} 
+                                        />
+                                    ) : (
+                                        <p className="leading-loose mb-10 text-slate-400">Chúng tôi đang tìm kiếm một tài năng đam mê để gia nhập đội ngũ Almus Tech...</p>
+                                    )}
 
-                                    <h3 className="text-2xl mb-6">Yêu cầu ứng viên</h3>
-                                    <p className="whitespace-pre-wrap leading-loose mb-10">
-                                        {vacancy.requirements || '- Tối thiểu 2 năm kinh nghiệm trong lĩnh vực liên quan.\n- Tư duy giải quyết vấn đề tốt.\n- Khả năng làm việc nhóm và chịu được áp lực cao.'}
-                                    </p>
+                                    {vacancy.requirements && (
+                                        <>
+                                            <h3 className="text-2xl mb-6 tracking-tighter">Yêu cầu ứng viên</h3>
+                                            <div 
+                                                className="leading-loose mb-10 text-slate-700 dark:text-slate-300 font-medium"
+                                                dangerouslySetInnerHTML={{ __html: vacancy.requirements }} 
+                                            />
+                                        </>
+                                    )}
                                     
-                                    <h3 className="text-2xl mb-6">Quyền lợi</h3>
-                                    <p className="whitespace-pre-wrap leading-loose">
-                                        {vacancy.benefits || '- Lương thưởng cạnh tranh theo năng lực.\n- Môi trường làm việc hiện đại, chuyên nghiệp.\n- Bảo hiểm cao cấp và các khóa đào tạo chuyên sâu.'}
-                                    </p>
+                                    {vacancy.benefits && (
+                                        <>
+                                            <h3 className="text-2xl mb-6 tracking-tighter">Quyền lợi</h3>
+                                            <div 
+                                                className="leading-loose text-slate-700 dark:text-slate-300 font-medium"
+                                                dangerouslySetInnerHTML={{ __html: vacancy.benefits }} 
+                                            />
+                                        </>
+                                    )}
                                 </div>
                             </div>
+
+                            {/* Quy trình tuyển dụng */}
+                            {vacancy.recruitment_process && (
+                                <div className="bg-[#004D5C] p-12 md:p-16 rounded-[60px] shadow-xl text-white relative overflow-hidden">
+                                    <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full translate-x-1/2 -translate-y-1/2 blur-3xl"></div>
+                                    <div className="relative z-10">
+                                        <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full text-[10px] font-black uppercase tracking-[0.2em] mb-8 border border-white/20">
+                                            <Sparkles className="h-3 w-3" /> QUY TRÌNH TUYỂN DỤNG
+                                        </div>
+                                        <h3 className="text-3xl font-black italic tracking-tighter mb-8">Các bước tiếp theo</h3>
+                                        <div 
+                                            className="leading-loose text-white/70 font-medium italic"
+                                            dangerouslySetInnerHTML={{ __html: vacancy.recruitment_process }} 
+                                        />
+                                    </div>
+                                </div>
+                            )}
                         </div>
 
                         {/* Application Sidebar */}
                         <div className="lg:col-span-1">
                             <div className="sticky top-32">
-                                <div className="bg-[#004D5C] p-12 rounded-[60px] shadow-2xl relative overflow-hidden text-white">
+                                <div className="bg-[#004D5C] dark:bg-slate-900 p-10 rounded-[60px] shadow-2xl relative overflow-hidden text-white transition-colors duration-500">
                                     <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl"></div>
                                     
-                                    <h2 className="text-3xl font-black italic mb-8 tracking-tighter">Đăng ký ngay</h2>
+                                    {!auth.user && (
+                                        <div className="bg-amber-500/20 border border-amber-400/30 text-amber-300 text-[10px] font-black uppercase tracking-widest px-4 py-3 rounded-2xl mb-8 text-center relative z-10">
+                                            Bạn cần <Link href="/login" className="underline hover:text-white">đăng nhập</Link> để nộp hồ sơ
+                                        </div>
+                                    )}
 
                                     {wasSuccessful ? (
                                         <div className="bg-white/10 p-8 rounded-[32px] text-center border border-white/20 animate-in zoom-in duration-500">
@@ -96,58 +185,148 @@ export default function Show({ vacancy }) {
                                             <p className="text-white/60 text-sm font-medium italic">Chúng tôi sẽ liên hệ với bạn trong vòng 2-3 ngày làm việc.</p>
                                         </div>
                                     ) : (
-                                        <form onSubmit={submit} className="space-y-6">
+                                        <form onSubmit={submit} className="space-y-4">
+                                            {/* Họ và tên */}
                                             <div>
-                                                <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60">Họ và tên</label>
+                                                <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60">Họ và tên *</label>
                                                 <input 
-                                                    type="text" 
+                                                    type="text"
                                                     required
                                                     value={data.name}
                                                     onChange={e => setData('name', e.target.value)}
-                                                    className="w-full bg-white/10 border-white/20 rounded-2xl p-4 focus:ring-4 focus:ring-white/10 transition placeholder:text-white/20 font-bold"
+                                                    className="w-full bg-white/10 border border-white/20 rounded-2xl p-3.5 focus:ring-2 focus:ring-white/20 transition placeholder:text-white/20 font-bold text-sm"
                                                     placeholder="Nguyễn Văn A"
                                                 />
                                                 {errors.name && <div className="text-rose-400 text-[10px] mt-1 font-black">{errors.name}</div>}
                                             </div>
+
+                                            {/* Tuổi */}
                                             <div>
-                                                <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60">Email liên hệ</label>
+                                                <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60">Tuổi *</label>
                                                 <input 
-                                                    type="email" 
+                                                    type="number"
+                                                    required
+                                                    min="16" max="70"
+                                                    value={data.age}
+                                                    onChange={e => setData('age', e.target.value)}
+                                                    className="w-full bg-white/10 border border-white/20 rounded-2xl p-3.5 focus:ring-2 focus:ring-white/20 transition placeholder:text-white/20 font-bold text-sm"
+                                                    placeholder="25"
+                                                />
+                                                {errors.age && <div className="text-rose-400 text-[10px] mt-1 font-black">{errors.age}</div>}
+                                            </div>
+
+                                            {/* Email */}
+                                            <div>
+                                                <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60">Email liên hệ *</label>
+                                                <input 
+                                                    type="email"
                                                     required
                                                     value={data.email}
                                                     onChange={e => setData('email', e.target.value)}
-                                                    className="w-full bg-white/10 border-white/20 rounded-2xl p-4 focus:ring-4 focus:ring-white/10 transition placeholder:text-white/20 font-bold"
+                                                    className="w-full bg-white/10 border border-white/20 rounded-2xl p-3.5 focus:ring-2 focus:ring-white/20 transition placeholder:text-white/20 font-bold text-sm"
                                                     placeholder="example@email.com"
                                                 />
                                                 {errors.email && <div className="text-rose-400 text-[10px] mt-1 font-black">{errors.email}</div>}
                                             </div>
+
+                                            {/* Số điện thoại */}
+                                            <div>
+                                                <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60">Số điện thoại *</label>
+                                                <input 
+                                                    type="tel"
+                                                    required
+                                                    value={data.phone}
+                                                    onChange={e => setData('phone', e.target.value)}
+                                                    className="w-full bg-white/10 border border-white/20 rounded-2xl p-3.5 focus:ring-2 focus:ring-white/20 transition placeholder:text-white/20 font-bold text-sm"
+                                                    placeholder="0901 234 567"
+                                                />
+                                                {errors.phone && <div className="text-rose-400 text-[10px] mt-1 font-black">{errors.phone}</div>}
+                                            </div>
+
+                                            {/* Địa chỉ */}
+                                            <div>
+                                                <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60">Địa chỉ *</label>
+                                                <input 
+                                                    type="text"
+                                                    required
+                                                    value={data.address}
+                                                    onChange={e => setData('address', e.target.value)}
+                                                    className="w-full bg-white/10 border border-white/20 rounded-2xl p-3.5 focus:ring-2 focus:ring-white/20 transition placeholder:text-white/20 font-bold text-sm"
+                                                    placeholder="TP. Hồ Chí Minh"
+                                                />
+                                                {errors.address && <div className="text-rose-400 text-[10px] mt-1 font-black">{errors.address}</div>}
+                                            </div>
+
+                                            {/* Vị trí ứng tuyển (readonly) */}
+                                            <div>
+                                                <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60">Vị trí ứng tuyển</label>
+                                                <div className="w-full bg-white/5 border border-white/10 rounded-2xl p-3.5 font-bold text-sm text-white/70 italic">
+                                                    {vacancy.title}
+                                                </div>
+                                            </div>
+
+                                            {/* Ngày có thể đi làm */}
+                                            <div>
+                                                <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60">Ngày có thể bắt đầu *</label>
+                                                <input 
+                                                    type="date"
+                                                    required
+                                                    value={data.start_date}
+                                                    min={new Date().toISOString().split('T')[0]}
+                                                    onChange={e => setData('start_date', e.target.value)}
+                                                    className="w-full bg-white/10 border border-white/20 rounded-2xl p-3.5 focus:ring-2 focus:ring-white/20 transition font-bold text-sm text-white [color-scheme:dark]"
+                                                />
+                                                {errors.start_date && <div className="text-rose-400 text-[10px] mt-1 font-black">{errors.start_date}</div>}
+                                            </div>
+
+                                            {/* Thư giới thiệu */}
                                             <div>
                                                 <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60">Thư giới thiệu</label>
                                                 <textarea 
                                                     value={data.cover_letter}
                                                     onChange={e => setData('cover_letter', e.target.value)}
-                                                    className="w-full bg-white/10 border-white/20 rounded-2xl p-4 h-32 focus:ring-4 focus:ring-white/10 transition placeholder:text-white/20 font-bold text-sm italic"
-                                                    placeholder="Hãy cho chúng tôi biết tại sao bạn là mảnh ghép hoàn hảo..."
+                                                    className="w-full bg-white/10 border border-white/20 rounded-2xl p-3.5 h-24 focus:ring-2 focus:ring-white/20 transition placeholder:text-white/20 font-bold text-sm italic"
+                                                    placeholder="Hãy cho chúng tôi biết tại sao bạn là lựa chọn phù hợp..."
                                                 ></textarea>
+                                                {errors.cover_letter && <div className="text-rose-400 text-[10px] mt-1 font-black">{errors.cover_letter}</div>}
+                                            </div>
+
+                                            {/* CV */}
+                                            <div>
+                                                <label className="text-[10px] font-black uppercase tracking-[0.2em] mb-2 block opacity-60">Hồ sơ CV (PDF)</label>
+                                                <input 
+                                                    type="file"
+                                                    accept=".pdf,.doc,.docx"
+                                                    onChange={e => setData('cv', e.target.files[0])}
+                                                    className="w-full text-xs text-white/60 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-[10px] file:font-black file:uppercase file:bg-white/10 file:text-white hover:file:bg-white/20 cursor-pointer"
+                                                />
+                                                {errors.cv && <div className="text-rose-400 text-[10px] mt-1 font-black">{errors.cv}</div>}
                                             </div>
                                             
                                             <button 
-                                                disabled={processing}
-                                                className="w-full bg-white text-[#004D5C] py-6 rounded-[24px] font-black uppercase tracking-[0.2em] shadow-xl hover:translate-y-[-4px] active:scale-95 transition flex items-center justify-center gap-3 disabled:opacity-50"
+                                                type="submit"
+                                                disabled={processing || !auth.user}
+                                                className="w-full bg-white text-[#004D5C] py-5 rounded-[24px] font-black uppercase tracking-[0.2em] shadow-xl hover:translate-y-[-4px] active:scale-95 transition flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed mt-4"
                                             >
-                                                <Send className="h-5 w-5" /> GỬI HỒ SƠ CỦA BẠN
+                                                <Send className="h-5 w-5" /> {processing ? 'ĐANG GỬI...' : 'GỬI HỒ SƠ'}
                                             </button>
+
+                                            {Object.keys(errors).length > 0 && (
+                                                <div className="bg-rose-500/20 border border-rose-500/50 p-4 rounded-2xl text-[10px] text-white font-bold italic text-center">
+                                                    Vui lòng kiểm tra lại thông tin hồ sơ của bạn.
+                                                </div>
+                                            )}
                                         </form>
                                     )}
                                 </div>
 
-                                <div className="mt-10 p-10 bg-white rounded-[40px] shadow-sm border border-slate-100 flex items-center gap-6">
-                                    <div className="h-12 w-12 bg-[#EEF8F9] rounded-2xl flex items-center justify-center text-[#006D7E]">
+                                <div className="mt-10 p-10 bg-white dark:bg-slate-900 rounded-[40px] shadow-sm border border-slate-100 dark:border-white/5 flex items-center gap-6 transition-colors duration-500">
+                                    <div className="h-12 w-12 bg-[#EEF8F9] dark:bg-[#002B33] rounded-2xl flex items-center justify-center text-[#006D7E]">
                                         <FileText className="h-6 w-6" />
                                     </div>
                                     <div>
                                         <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Tuyển dụng</div>
-                                        <div className="text-lg font-black text-[#004D5C] italic">HR Division - AMT</div>
+                                        <div className="text-lg font-black text-[#004D5C] dark:text-[#CCEBF0] italic">HR Division - Almus Tech</div>
                                     </div>
                                 </div>
                             </div>

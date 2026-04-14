@@ -28,8 +28,8 @@ class DashboardController extends Controller
             ]
         ];
 
-        // Group applications by day for the last 30 days
-        $volumeData = Application::selectRaw('DATE(created_at) as date, count(*) as count')
+        // Group applications by day for the last 30 days (Daily)
+        $dailyData = Application::selectRaw('DATE(created_at) as date, count(*) as count')
             ->where('created_at', '>=', now()->subDays(30))
             ->when(!$isAdmin, fn($q) => $q->whereHas('vacancy', fn($v) => $v->where('user_id', $userId)))
             ->groupBy('date')
@@ -37,6 +37,29 @@ class DashboardController extends Controller
             ->get()
             ->map(fn($item) => [
                 'name' => Carbon::parse($item->date)->format('d/m'),
+                'volume' => $item->count
+            ]);
+
+        // Group applications by month for the last 12 months (Monthly)
+        $monthlyData = Application::selectRaw('DATE_FORMAT(created_at, "%Y-%m") as month, count(*) as count')
+            ->where('created_at', '>=', now()->subMonths(12))
+            ->when(!$isAdmin, fn($q) => $q->whereHas('vacancy', fn($v) => $v->where('user_id', $userId)))
+            ->groupBy('month')
+            ->orderBy('month')
+            ->get()
+            ->map(fn($item) => [
+                'name' => 'T' . Carbon::parse($item->month . '-01')->format('m/y'),
+                'volume' => $item->count
+            ]);
+
+        // Group applications by year (Yearly)
+        $yearlyData = Application::selectRaw('YEAR(created_at) as year, count(*) as count')
+            ->when(!$isAdmin, fn($q) => $q->whereHas('vacancy', fn($v) => $v->where('user_id', $userId)))
+            ->groupBy('year')
+            ->orderBy('year')
+            ->get()
+            ->map(fn($item) => [
+                'name' => $item->year,
                 'volume' => $item->count
             ]);
 
@@ -52,8 +75,15 @@ class DashboardController extends Controller
             ]);
 
         $charts = [
-            'application_volume' => $volumeData,
-            'application_sources' => $sourceData
+            'application_daily' => $dailyData,
+            'application_monthly' => $monthlyData,
+            'application_yearly' => $yearlyData,
+            'application_sources' => $sourceData,
+            'funnel' => [
+                ['name' => 'Ứng tuyển', 'value' => $stats['total_candidates'], 'color' => '#66B2BD'],
+                ['name' => 'Đã duyệt', 'value' => $stats['interviews'], 'color' => '#006D7E'],
+                ['name' => 'Đã tuyển', 'value' => $stats['hired'], 'color' => '#004D5C'],
+            ]
         ];
 
         $recent_applications = Application::with('vacancy')

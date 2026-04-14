@@ -51,6 +51,7 @@ class RegisteredUserController extends Controller
             return redirect(route('admin.dashboard', absolute: false));
         }
 
-        return redirect('/');
+        // Người dùng thường quay về trang đang ứng tuyển hoặc trang chủ
+        return redirect()->intended('/');
     }
 }

@@ -2,7 +2,7 @@ import AdminLayout from '@/Layouts/AdminLayout';
 import { Head, Link, router } from '@inertiajs/react';
 import { 
     ChevronLeft, Mail, Phone, MapPin, 
-    Calendar, Briefcase, FileText, CheckCircle, XCircle, User, Download
+    Calendar, Briefcase, FileText, CheckCircle, XCircle, User, Download, Clock
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
@@ -75,7 +75,7 @@ export default function Show({ application }) {
                 animate="visible"
                 className="grid grid-cols-1 lg:grid-cols-3 gap-10"
             >
-                {/* Left Column: Brief info */}
+                {/* Left Column: Profile info */}
                 <div className="lg:col-span-2 space-y-10">
                     <motion.div 
                         variants={itemVariants}
@@ -102,36 +102,31 @@ export default function Show({ application }) {
                             </motion.div>
                             <div>
                                 <h1 className="text-5xl font-black text-[#004D5C] tracking-tighter italic mb-4 leading-none">{application.name}</h1>
-                                <div className="flex flex-wrap gap-8 text-slate-400 font-black uppercase tracking-widest text-[10px]">
+                                <div className="flex flex-wrap gap-6 text-slate-400 font-black uppercase tracking-widest text-[10px]">
                                     <div className="flex items-center gap-3"><Mail className="h-4 w-4 text-[#006D7E]" /> {application.email}</div>
-                                    <div className="flex items-center gap-3"><Phone className="h-4 w-4 text-[#006D7E]" /> 098****888</div>
+                                    {application.phone && (
+                                        <div className="flex items-center gap-3"><Phone className="h-4 w-4 text-[#006D7E]" /> {application.phone}</div>
+                                    )}
                                 </div>
                             </div>
                         </div>
 
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 py-10 border-y border-slate-50 relative z-10">
-                            <div className="space-y-2">
-                                <div className="text-[10px] font-black text-slate-300 uppercase tracking-[0.3em] mb-3 flex items-center gap-3">
-                                    <Briefcase className="h-4 w-4 text-[#006D7E]" /> Vị trí ứng tuyển
-                                </div>
-                                <div className="text-2xl font-black text-[#004D5C] italic tracking-tight">{application.vacancy?.title}</div>
-                            </div>
-                            <div className="space-y-2">
-                                <div className="text-[10px] font-black text-slate-300 uppercase tracking-[0.3em] mb-3 flex items-center gap-3">
-                                    <Calendar className="h-4 w-4 text-[#006D7E]" /> Ngày gửi hồ sơ
-                                </div>
-                                <div className="text-2xl font-black text-[#004D5C] italic tracking-tight">
-                                    {new Date(application.created_at).toLocaleDateString('vi-VN', { month: 'long', day: 'numeric', year: 'numeric' })}
-                                </div>
-                            </div>
+                        {/* Grid thông tin cá nhân đầy đủ */}
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-10 border-y border-slate-50 relative z-10">
+                            <InfoCard icon={<Briefcase className="h-4 w-4" />} label="Vị trí ứng tuyển" value={application.applied_position || application.vacancy?.title} />
+                            <InfoCard icon={<User className="h-4 w-4" />} label="Tuổi" value={application.age ? `${application.age} tuổi` : 'N/A'} />
+                            <InfoCard icon={<MapPin className="h-4 w-4" />} label="Địa chỉ" value={application.address || 'N/A'} />
+                            <InfoCard icon={<Calendar className="h-4 w-4" />} label="Ngày gửi hồ sơ" value={new Date(application.created_at).toLocaleDateString('vi-VN', { month: 'long', day: 'numeric', year: 'numeric' })} />
+                            <InfoCard icon={<Clock className="h-4 w-4" />} label="Ngày có thể đi làm" value={application.start_date ? new Date(application.start_date).toLocaleDateString('vi-VN') : 'N/A'} />
+                            <InfoCard icon={<FileText className="h-4 w-4" />} label="Nguồn hồ sơ" value={application.source || 'Trực tiếp'} />
                         </div>
 
                         <div className="mt-12 relative z-10">
                             <div className="text-[10px] font-black text-slate-300 uppercase tracking-[0.3em] mb-8 flex items-center gap-3">
                                 <FileText className="h-4 w-4 text-[#006D7E]" /> Nội dung giới thiệu
                             </div>
-                            <div className="bg-[#F3F7F8] p-10 rounded-[40px] text-[#004D5C] leading-relaxed font-black italic shadow-inner border border-white/50 text-sm">
-                                "{application.cover_letter || 'Người ứng tuyển không để lại thư giới thiệu. Hồ sơ được gửi thông qua hệ thống tuyển dụng AMT.'}"
+                            <div className="bg-[#F3F7F8] p-10 rounded-[40px] text-[#004D5C] leading-relaxed font-medium italic shadow-inner border border-white/50 text-sm">
+                                {application.cover_letter || 'Người ứng tuyển không để lại thư giới thiệu. Hồ sơ được gửi thông qua hệ thống tuyển dụng Almus Tech.'}
                             </div>
                         </div>
                     </motion.div>
@@ -172,7 +167,7 @@ export default function Show({ application }) {
                             </motion.button>
                         </div>
                         <p className="text-white/30 text-[9px] font-black uppercase tracking-[0.3em] text-center mt-10 relative z-10 leading-relaxed italic">
-                            Thao tác này sẽ gửi thông báo và cập nhật trạng thái ngay lập tức
+                            Thao tác này sẽ cập nhật trạng thái ngay lập tức
                         </p>
                     </motion.div>
 
@@ -183,33 +178,42 @@ export default function Show({ application }) {
                         <h3 className="text-[10px] font-black text-slate-300 uppercase tracking-[0.3em] mb-8 flex items-center gap-3">
                             <User className="h-4 w-4 text-[#006D7E]" /> Thông tin bổ sung
                         </h3>
-                        <div className="space-y-8">
-                            <div className="group-hover:translate-x-2 transition-transform duration-500">
-                                <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Nguồn hồ sơ</div>
-                                <div className="text-lg font-black text-[#006D7E] italic">{application.source || 'Hệ thống Trực tiếp'}</div>
-                            </div>
-                            <div className="group-hover:translate-x-2 transition-transform duration-500 delay-75">
+                        <div className="space-y-6">
+                            <div>
                                 <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Hệ thống ID</div>
                                 <div className="font-mono text-[11px] font-black text-slate-300">#AMT-APP-{application.id.toString().padStart(4, '0')}</div>
                             </div>
-                            <motion.a 
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                href={`/storage/${application.cv_path}`}
-                                target="_blank"
-                                className="flex items-center justify-between p-6 bg-[#EEF8F9] rounded-[32px] border border-[#006D7E]/10 group/cv"
-                            >
-                                <div className="flex items-center gap-4">
-                                    <div className="h-10 w-10 bg-white rounded-xl flex items-center justify-center text-[#006D7E] shadow-sm group-hover/cv:bg-[#004D5C] group-hover/cv:text-white transition-all">
-                                        <Download className="h-5 w-5" />
+                            {application.cv_path && (
+                                <motion.a 
+                                    whileHover={{ scale: 1.05 }}
+                                    whileTap={{ scale: 0.95 }}
+                                    href={`/storage/${application.cv_path}`}
+                                    target="_blank"
+                                    className="flex items-center justify-between p-6 bg-[#EEF8F9] rounded-[32px] border border-[#006D7E]/10 group/cv"
+                                >
+                                    <div className="flex items-center gap-4">
+                                        <div className="h-10 w-10 bg-white rounded-xl flex items-center justify-center text-[#006D7E] shadow-sm group-hover/cv:bg-[#004D5C] group-hover/cv:text-white transition-all">
+                                            <Download className="h-5 w-5" />
+                                        </div>
+                                        <span className="text-[10px] font-black text-[#004D5C] uppercase tracking-widest">Hồ sơ CV (PDF)</span>
                                     </div>
-                                    <span className="text-[10px] font-black text-[#004D5C] uppercase tracking-widest">Hồ sơ CV (PDF)</span>
-                                </div>
-                            </motion.a>
+                                </motion.a>
+                            )}
                         </div>
                     </motion.div>
                 </div>
             </motion.div>
         </AdminLayout>
+    );
+}
+
+function InfoCard({ icon, label, value }) {
+    return (
+        <div className="bg-[#F3F7F8] px-6 py-5 rounded-[24px] shadow-inner">
+            <div className="flex items-center gap-2 text-[9px] font-black text-[#006D7E] uppercase tracking-[0.25em] mb-2">
+                {icon} {label}
+            </div>
+            <div className="text-lg font-black text-[#004D5C] italic tracking-tight leading-tight">{value}</div>
+        </div>
     );
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import RecruitmentLayout from '../Layouts/RecruitmentLayout';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, usePage } from '@inertiajs/react';
 import { motion } from 'framer-motion';
 import { 
     ArrowRight, Star, Cpu, Users, 
@@ -21,8 +21,8 @@ const Card = ({ title, description, icon, delay = 0 }) => (
         <div className="h-20 w-20 bg-[#EEF8F9] rounded-[32px] flex items-center justify-center text-[#006D7E] mb-8 group-hover:bg-[#006D7E] group-hover:text-white transition-all duration-700 shadow-inner">
             {icon}
         </div>
-        <h3 className="text-xl font-black text-[#004D5C] italic mb-4 tracking-tight group-hover:text-[#006D7E] transition-colors duration-300">{title}</h3>
-        <p className="text-slate-400 text-sm font-medium italic leading-relaxed">{description}</p>
+        <h3 className="text-xl font-black text-[#004D5C] dark:text-[#CCEBF0] italic mb-4 tracking-tight group-hover:text-[#006D7E] transition-colors duration-300">{title}</h3>
+        <p className="text-slate-500 dark:text-slate-400 text-sm font-medium italic leading-relaxed">{description}</p>
     </motion.div>
 );
 
@@ -41,7 +41,7 @@ const SectionHeader = ({ subtitle, title, description }) => (
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="text-6xl font-black text-[#004D5C] tracking-tighter italic mb-8 leading-none"
+            className="text-6xl font-black text-[#004D5C] dark:text-[#CCEBF0] tracking-tighter italic mb-8 leading-none"
         >
             {title}
         </motion.h2>
@@ -50,7 +50,7 @@ const SectionHeader = ({ subtitle, title, description }) => (
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 1, delay: 0.2 }}
-            className="text-slate-400 text-lg font-medium italic max-w-2xl mx-auto leading-relaxed"
+            className="text-slate-500 dark:text-slate-400 text-lg font-medium italic max-w-2xl mx-auto leading-relaxed"
         >
             {description}
         </motion.p>
@@ -58,6 +58,7 @@ const SectionHeader = ({ subtitle, title, description }) => (
 );
 
 export default function Home() {
+    const { company } = usePage().props;
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: {
@@ -80,10 +81,10 @@ export default function Home() {
 
     return (
         <RecruitmentLayout>
-            <Head title="Gia nhập AMT SOLUTIONS | Tương lai Công nghệ" />
+            <Head title="Gia nhập Almus Tech | Tương lai Công nghệ" />
 
             {/* Hero Section */}
-            <section className="min-h-screen relative flex items-center pt-20 overflow-hidden bg-white">
+            <section className="min-h-screen relative flex items-center pt-20 overflow-hidden bg-white dark:bg-slate-950 transition-colors duration-500">
                 <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
                     <motion.div 
                         initial={{ opacity: 0 }}
@@ -106,16 +107,16 @@ export default function Home() {
                             initial="hidden"
                             animate="visible"
                         >
-                            <motion.div variants={itemVariants} className="inline-flex items-center gap-3 px-6 py-2.5 bg-[#EEF8F9] text-[#006D7E] rounded-full text-[10px] font-black uppercase tracking-[0.3em] mb-10 border border-[#006D7E]/10 animate-pulse">
+                            <motion.div variants={itemVariants} className="inline-flex items-center gap-3 px-6 py-2.5 bg-[#EEF8F9] dark:bg-[#002B33] text-[#006D7E] rounded-full text-[10px] font-black uppercase tracking-[0.3em] mb-10 border border-[#006D7E]/10 animate-pulse">
                                 <Sparkles className="h-4 w-4" /> Tuyển dụng tài năng 2026
                             </motion.div>
                             
-                            <motion.h1 variants={itemVariants} className="text-8xl font-black text-[#004D5C] tracking-tighter italic leading-[0.85] mb-10">
+                            <motion.h1 variants={itemVariants} className="text-8xl font-black text-[#004D5C] dark:text-[#CCEBF0] tracking-tighter italic leading-[0.85] mb-10">
                                 Đột Phá <br /> <span className="text-[#006D7E]">Giới Hạn</span> <br /> Công Nghệ
                             </motion.h1>
 
-                            <motion.p variants={itemVariants} className="text-xl text-slate-400 font-medium italic mb-12 max-w-lg leading-relaxed">
-                                Gia nhập đội ngũ AMT để cùng nhau kiến tạo những giải pháp thay đổi thế giới bằng trí tuệ và sự sáng tạo không ngừng.
+                            <motion.p variants={itemVariants} className="text-xl text-slate-500 dark:text-slate-400 font-medium italic mb-12 max-w-lg leading-relaxed">
+                                {company?.mission || 'Gia nhập đội ngũ Almus Tech để cùng nhau kiến tạo những giải pháp thay đổi thế giới bằng trí tuệ và sự sáng tạo không ngừng.'}
                             </motion.p>
 
                             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-6">
@@ -130,7 +131,7 @@ export default function Home() {
                                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                                     <Link 
                                         href="/process" 
-                                        className="px-12 py-5 bg-white text-[#004D5C] border border-slate-100 rounded-[24px] text-[10px] font-black uppercase tracking-[0.2em] shadow-xl hover:shadow-2xl transition-all duration-500 flex items-center justify-center gap-3"
+                                        className="px-12 py-5 bg-white dark:bg-slate-900 text-[#004D5C] dark:text-[#CCEBF0] border border-slate-100 dark:border-white/5 rounded-[24px] text-[10px] font-black uppercase tracking-[0.2em] shadow-xl hover:shadow-2xl transition-all duration-500 flex items-center justify-center gap-3"
                                     >
                                         Quy trình tuyển dụng
                                     </Link>
@@ -148,14 +149,14 @@ export default function Home() {
                                 <div className="space-y-8">
                                     <motion.div 
                                         whileHover={{ y: -10 }}
-                                        className="bg-white p-10 rounded-[60px] shadow-2xl border border-white/50 relative overflow-hidden group"
+                                        className="bg-white dark:bg-slate-900 p-10 rounded-[60px] shadow-2xl border border-white/50 dark:border-white/5 relative overflow-hidden group"
                                     >
-                                        <div className="absolute top-0 right-0 w-32 h-32 bg-[#EEF8F9] rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl group-hover:scale-150 transition duration-700"></div>
-                                        <div className="h-16 w-16 bg-[#EEF8F9] rounded-3xl flex items-center justify-center text-[#006D7E] mb-8 shadow-inner">
+                                        <div className="absolute top-0 right-0 w-32 h-32 bg-[#EEF8F9] dark:bg-[#002B33] rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl group-hover:scale-150 transition duration-700"></div>
+                                        <div className="h-16 w-16 bg-[#EEF8F9] dark:bg-[#002B33] rounded-3xl flex items-center justify-center text-[#006D7E] mb-8 shadow-inner">
                                             <Cpu className="h-8 w-8" />
                                         </div>
-                                        <div className="text-5xl font-black text-[#004D5C] italic mb-3 tracking-tighter">200+</div>
-                                        <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest">Kỹ sư AI & Cloud</p>
+                                        <div className="text-5xl font-black text-[#004D5C] dark:text-[#CCEBF0] italic mb-3 tracking-tighter">200+</div>
+                                        <p className="text-slate-500 dark:text-slate-400 text-[10px] font-black uppercase tracking-widest">Kỹ sư AI & Cloud</p>
                                     </motion.div>
                                     <motion.div 
                                         whileHover={{ y: -10 }}
@@ -176,13 +177,13 @@ export default function Home() {
                                     </motion.div>
                                     <motion.div 
                                         whileHover={{ y: -10 }}
-                                        className="bg-white p-10 rounded-[60px] shadow-2xl border border-white/50 relative overflow-hidden group"
+                                        className="bg-white dark:bg-slate-900 p-10 rounded-[60px] shadow-2xl border border-white/50 dark:border-white/5 relative overflow-hidden group"
                                     >
-                                        <div className="h-16 w-16 bg-amber-50 rounded-3xl flex items-center justify-center text-amber-500 mb-8 shadow-inner">
+                                        <div className="h-16 w-16 bg-amber-50 dark:bg-amber-900/20 rounded-3xl flex items-center justify-center text-amber-500 mb-8 shadow-inner">
                                             <Star className="h-8 w-8 fill-current" />
                                         </div>
-                                        <div className="text-3xl font-black text-[#004D5C] italic mb-2 tracking-tighter">Top 100</div>
-                                        <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest leading-tight">Nơi làm việc tốt nhất</p>
+                                        <div className="text-3xl font-black text-[#004D5C] dark:text-[#CCEBF0] italic mb-2 tracking-tighter">Top 100</div>
+                                        <p className="text-slate-500 dark:text-slate-400 text-[10px] font-black uppercase tracking-widest leading-tight">Nơi làm việc tốt nhất</p>
                                     </motion.div>
                                 </div>
                             </motion.div>
@@ -192,10 +193,10 @@ export default function Home() {
             </section>
 
             {/* Why Work with Us */}
-            <section className="py-40 bg-slate-50 relative overflow-hidden">
+            <section className="py-40 bg-slate-50 dark:bg-slate-950 border-t border-slate-100 dark:border-white/5 relative overflow-hidden transition-colors duration-500">
                 <div className="max-w-7xl mx-auto px-12">
                     <SectionHeader 
-                        subtitle="LỢI ÍCH TẠI AMT"
+                        subtitle="LỢI ÍCH TẠI ALMUS TECH"
                         title="Tư duy Đột phá • Môi trường Nhân bản"
                         description="Chúng tôi không chỉ xây dựng phần mềm, chúng tôi nuôi dưỡng đam mê và tạo điều kiện tối đa để mọi cá nhân tỏa sáng."
                     />
@@ -230,7 +231,7 @@ export default function Home() {
             </section>
 
             {/* Mission Section */}
-            <section className="py-40 bg-white relative">
+            <section className="py-40 bg-white dark:bg-slate-950 transition-colors duration-500 relative">
                 <div className="max-w-7xl mx-auto px-12">
                     <div className="bg-[#004D5C] rounded-[80px] p-24 relative overflow-hidden group">
                         <div className="absolute top-0 right-0 w-2/3 h-full bg-gradient-to-l from-[#006D7E]/20 to-transparent blur-3xl opacity-50 group-hover:scale-110 transition duration-1000"></div>
@@ -258,7 +259,7 @@ export default function Home() {
                                     viewport={{ once: true }}
                                     className="text-white/60 text-lg font-medium italic mb-12 leading-relaxed"
                                 >
-                                    Tại AMT, mỗi dòng code bạn viết không chỉ là sản phẩm kỹ thuật, mà là viên gạch xây dựng nên một thế giới thông minh hơn, tiện lợi hơn.
+                                    {company?.history || 'Tại Almus Tech, mỗi dòng code bạn viết không chỉ là sản phẩm kỹ thuật, mà là viên gạch xây dựng nên một thế giới thông minh hơn, tiện lợi hơn.'}
                                 </motion.p>
                                 <motion.div 
                                     initial={{ opacity: 0, y: 20 }}

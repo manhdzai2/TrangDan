@@ -24,12 +24,15 @@ class VacancyController extends Controller
     public function store(\Illuminate\Http\Request $request)
     {
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'location' => 'required|string|max:255',
-            'salary' => 'nullable|string|max:255',
-            'type' => 'required|string|max:255',
-            'is_active' => 'boolean',
+            'title'                => 'required|string|max:255',
+            'description'          => 'nullable|string',
+            'recruitment_process'  => 'nullable|string',
+            'requirements'         => 'nullable|string',
+            'benefits'             => 'nullable|string',
+            'location'             => 'required|string|max:255',
+            'salary'               => 'nullable|string|max:255',
+            'type'                 => 'required|string|max:255',
+            'is_active'            => 'boolean',
         ]);
 
         $validated['user_id'] = auth()->id();
@@ -46,12 +49,15 @@ class VacancyController extends Controller
         }
 
         $validated = $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'location' => 'required|string|max:255',
-            'salary' => 'nullable|string|max:255',
-            'type' => 'required|string|max:255',
-            'is_active' => 'boolean',
+            'title'                => 'required|string|max:255',
+            'description'          => 'nullable|string',
+            'recruitment_process'  => 'nullable|string',
+            'requirements'         => 'nullable|string',
+            'benefits'             => 'nullable|string',
+            'location'             => 'required|string|max:255',
+            'salary'               => 'nullable|string|max:255',
+            'type'                 => 'required|string|max:255',
+            'is_active'            => 'boolean',
         ]);
 
         $vacancy->update($validated);
@@ -68,5 +74,17 @@ class VacancyController extends Controller
         $vacancy->delete();
 
         return redirect()->back()->with('success', 'Tin tuyển dụng đã được xóa.');
+    }
+
+    public function generateJD(\Illuminate\Http\Request $request, \App\Services\GeminiService $gemini)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'requirements' => 'nullable|array',
+        ]);
+
+        $jd = $gemini->generateJD($request->title, $request->requirements ?? []);
+
+        return response()->json(['jd' => $jd]);
     }
 }
