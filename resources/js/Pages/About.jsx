@@ -7,7 +7,7 @@ import {
     ClipboardCheck, ShieldCheck, FileBarChart, AlertCircle, 
     Lock, GraduationCap, CheckCircle2, ArrowRight, FileText, 
     Globe, Building, Scale, Users, History, Cpu, Clock, Image as ImageIcon,
-    HelpCircle
+    HelpCircle, Mail, Phone, MapPin, Eye
 } from 'lucide-react';
 import * as LucideIcons from 'lucide-react';
 import { useTranslation } from '@/Hooks/useTranslation';
@@ -105,7 +105,7 @@ const SectionHeader = ({ subtitle, title, description, dark = false }) => (
     </div>
 );
 
-export default function About({ oqcSteps = [], qualityStandards = [] }) {
+export default function About({ companyInfo, oqcSteps = [], qualityStandards = [] }) {
     const containerVariants = {
         hidden: { opacity: 0 },
         visible: {
@@ -165,7 +165,7 @@ export default function About({ oqcSteps = [], qualityStandards = [] }) {
                             </motion.h1>
 
                             <motion.p variants={itemVariants} className="text-xl text-slate-500 dark:text-slate-400 font-medium italic mb-12 leading-relaxed max-w-xl">
-                                {__('About Intro Summary')}
+                                {companyInfo?.history || __('About Intro Summary')}
                             </motion.p>
 
                             <motion.div variants={itemVariants} className="flex gap-4">
@@ -200,10 +200,10 @@ export default function About({ oqcSteps = [], qualityStandards = [] }) {
                                 </motion.div>
 
                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
-                                    <InfoRow icon={Building} label={__('About Biz Name Label')} value={__('About Biz Name')} />
-                                    <InfoRow icon={FileText} label={__('About Tax ID Label')} value={__('About Tax ID')} />
-                                    <InfoRow icon={Scale} label={__('About Biz Type Label')} value={__('About Biz Type')} />
-                                    <InfoRow icon={Users} label={__('About Representative Label')} value={__('About Representative')} />
+                                    <InfoRow icon={Building} label={__('About Biz Name Label')} value={companyInfo?.name || __('About Biz Name')} />
+                                    <InfoRow icon={Mail} label={__('Staff Email Label')} value={companyInfo?.email || 'contact@almustech.com'} />
+                                    <InfoRow icon={Phone} label={__('Staff Phone Label')} value={companyInfo?.phone || '0222 123 000'} />
+                                    <InfoRow icon={MapPin} label={__('About Headquarter')} value={companyInfo?.address || __('About Headquarter')} />
                                 </div>
                             </div>
                         </motion.div>
@@ -226,25 +226,25 @@ export default function About({ oqcSteps = [], qualityStandards = [] }) {
                         >
                             <div className="absolute top-0 left-0 w-2 h-full bg-[#006D7E]/20"></div>
                             <div className="flex items-center gap-6 mb-8 text-[#006D7E]">
-                                <History className="h-10 w-10" />
-                                <h3 className="text-2xl font-black italic tracking-tight">{__('About History Phase 1 Title')}</h3>
+                                <Target className="h-10 w-10 text-emerald-500" />
+                                <h3 className="text-2xl font-black italic tracking-tight">{__('Admin Mission')}</h3>
                             </div>
                             <p className="text-slate-500 dark:text-slate-400 text-lg italic leading-relaxed font-medium">
-                                {__('About History Phase 1 Detail')}
+                                {companyInfo?.mission || __('About Mission Detail')}
                             </p>
                         </motion.div>
-
+ 
                         <motion.div 
                             initial={{ opacity: 0, x: 30 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }}
                             className="bg-[#004D5C] p-12 rounded-[60px] shadow-xl relative group overflow-hidden text-white"
                         >
                             <div className="absolute top-0 left-0 w-2 h-full bg-white/20"></div>
                             <div className="flex items-center gap-6 mb-8 text-white">
-                                <Rocket className="h-10 w-10 text-amber-300" />
-                                <h3 className="text-2xl font-black italic tracking-tight">{__('About History Phase 2 Title')}</h3>
+                                <Eye className="h-10 w-10 text-amber-300" />
+                                <h3 className="text-2xl font-black italic tracking-tight">{__('Admin Vision')}</h3>
                             </div>
                             <p className="text-slate-200 text-lg italic leading-relaxed font-medium">
-                                {__('About History Phase 2 Detail')}
+                                {companyInfo?.vision || __('About Vision Detail')}
                             </p>
                         </motion.div>
                     </div>

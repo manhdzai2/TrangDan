@@ -8,19 +8,21 @@ import {
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from '@/Hooks/useTranslation';
 
-export default function SettingsPage() {
+export default function SettingsPage({ settings }) {
     const { __ } = useTranslation();
     const { data, setData, post, processing, wasSuccessful } = useForm({
-        company_name: 'AMT SOLUTIONS',
-        admin_email: 'admin@amt.com',
-        notifications: true,
-        two_factor: true,
-        maintenance_mode: false,
+        company_name: settings?.company_name || 'AMT SOLUTIONS',
+        admin_email: settings?.admin_email || 'admin@amt.com',
+        notifications: settings?.notifications ?? true,
+        two_factor: settings?.two_factor ?? true,
+        maintenance_mode: settings?.maintenance_mode ?? false,
     });
 
     const submit = (e) => {
         e.preventDefault();
-        // Simulation for UI demo
+        post(route('admin.settings.update'), {
+            preserveScroll: true,
+        });
     };
 
     return (

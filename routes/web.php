@@ -25,6 +25,7 @@ Route::get('/culture', function () {
 
 Route::get('/about', function () {
     return Inertia::render('About', [
+        'companyInfo' => \App\Models\CompanyInfo::first(),
         'oqcSteps' => \App\Models\OQCStep::orderBy('order')->get(),
         'qualityStandards' => \App\Models\QualityStandard::orderBy('order')->get()
     ]);
@@ -106,9 +107,8 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     
     Route::get('/reports', [\App\Http\Controllers\Admin\ReportController::class, 'index'])->name('admin.reports.index');
     
-    Route::get('/settings', function() {
-        return inertia('Admin/Settings');
-    })->name('admin.settings');
+    Route::get('/settings', [\App\Http\Controllers\Admin\SettingsController::class, 'index'])->name('admin.settings');
+    Route::post('/settings', [\App\Http\Controllers\Admin\SettingsController::class, 'update'])->name('admin.settings.update');
 
     // Company Information
     Route::get('/company-info', [\App\Http\Controllers\Admin\CompanyInfoController::class, 'index'])->name('admin.company.index');
