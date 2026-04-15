@@ -24,7 +24,10 @@ Route::get('/culture', function () {
 
 
 Route::get('/about', function () {
-    return Inertia::render('About');
+    return Inertia::render('About', [
+        'oqcSteps' => \App\Models\OQCStep::orderBy('order')->get(),
+        'qualityStandards' => \App\Models\QualityStandard::orderBy('order')->get()
+    ]);
 })->name('about');
 
 Route::get('/jobs', [JobController::class, 'index'])->name('jobs.index');
@@ -113,6 +116,24 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
 
     // Enhanced Application Features
     Route::post('/applications/{application}/contact', [\App\Http\Controllers\Admin\ApplicationController::class, 'contact'])->name('admin.applications.contact');
+
+    // CMS Content Management
+    Route::get('/cms/oqc', [\App\Http\Controllers\Admin\CMS\OQCStepController::class, 'index'])->name('admin.cms.oqc.index');
+    Route::post('/cms/oqc', [\App\Http\Controllers\Admin\CMS\OQCStepController::class, 'store'])->name('admin.cms.oqc.store');
+    Route::put('/cms/oqc/{oqcStep}', [\App\Http\Controllers\Admin\CMS\OQCStepController::class, 'update'])->name('admin.cms.oqc.update');
+    Route::delete('/cms/oqc/{oqcStep}', [\App\Http\Controllers\Admin\CMS\OQCStepController::class, 'destroy'])->name('admin.cms.oqc.destroy');
+    Route::post('/cms/oqc/reorder', [\App\Http\Controllers\Admin\CMS\OQCStepController::class, 'reorder'])->name('admin.cms.oqc.reorder');
+
+    Route::get('/cms/defects', [\App\Http\Controllers\Admin\CMS\QualityStandardController::class, 'index'])->name('admin.cms.defects.index');
+    Route::post('/cms/defects', [\App\Http\Controllers\Admin\CMS\QualityStandardController::class, 'store'])->name('admin.cms.defects.store');
+    Route::post('/cms/defects/{qualityStandard}', [\App\Http\Controllers\Admin\CMS\QualityStandardController::class, 'update'])->name('admin.cms.defects.update'); // POST due to multipart/form-data with PUT issues in Laravel
+    Route::delete('/cms/defects/{qualityStandard}', [\App\Http\Controllers\Admin\CMS\QualityStandardController::class, 'destroy'])->name('admin.cms.defects.destroy');
+
+    // Team Management
+    Route::get('/team', [\App\Http\Controllers\Admin\TeamManagementController::class, 'index'])->name('admin.team.index');
+    Route::post('/team', [\App\Http\Controllers\Admin\TeamManagementController::class, 'store'])->name('admin.team.store');
+    Route::put('/team/{user}', [\App\Http\Controllers\Admin\TeamManagementController::class, 'update'])->name('admin.team.update');
+    Route::delete('/team/{user}', [\App\Http\Controllers\Admin\TeamManagementController::class, 'destroy'])->name('admin.team.destroy');
 
     // System Features
     Route::post('/system/backup', function() {

@@ -3,31 +3,13 @@ import RecruitmentLayout from '../Layouts/RecruitmentLayout';
 import { Head, usePage, Link } from '@inertiajs/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
-    Target, 
-    Rocket, 
-    Shield, 
-    Zap, 
-    Award,
-    Maximize2,
-    X,
-    Search,
-    ClipboardCheck,
-    ShieldCheck,
-    FileBarChart,
-    AlertCircle,
-    Lock,
-    GraduationCap,
-    CheckCircle2,
-    ArrowRight,
-    FileText,
-    Globe,
-    Building,
-    Scale,
-    Users,
-    History,
-    Cpu,
-    Clock
+    Target, Rocket, Shield, Zap, Award, Maximize2, X, Search, 
+    ClipboardCheck, ShieldCheck, FileBarChart, AlertCircle, 
+    Lock, GraduationCap, CheckCircle2, ArrowRight, FileText, 
+    Globe, Building, Scale, Users, History, Cpu, Clock, Image as ImageIcon,
+    HelpCircle
 } from 'lucide-react';
+import * as LucideIcons from 'lucide-react';
 import { useTranslation } from '@/Hooks/useTranslation';
 
 const ImageModal = ({ src, isOpen, onClose }) => (
@@ -123,21 +105,13 @@ const SectionHeader = ({ subtitle, title, description, dark = false }) => (
     </div>
 );
 
-export default function About() {
+export default function About({ oqcSteps, qualityStandards }) {
     const { __ } = useTranslation();
     const [selectedImage, setSelectedImage] = React.useState(null);
 
-    const containerVariants = {
-        hidden: { opacity: 0 },
-        visible: {
-            opacity: 1,
-            transition: { staggerChildren: 0.1, delayChildren: 0.3 }
-        }
-    };
-
-    const itemVariants = {
-        hidden: { opacity: 0, y: 20 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
+    const DynamicIcon = ({ name, ...props }) => {
+        const Icon = LucideIcons[name] || LucideIcons.HelpCircle;
+        return <Icon {...props} />;
     };
 
     return (
@@ -482,13 +456,7 @@ export default function About() {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-40">
-                        {[
-                            { id: 1, title: __('About OQC Step 1 Title'), desc: __('About OQC Step 1 Desc'), icon: <Target className="h-6 w-6" /> },
-                            { id: 2, title: __('About OQC Step 2 Title'), desc: __('About OQC Step 2 Desc'), icon: <Search className="h-6 w-6" /> },
-                            { id: 3, title: __('About OQC Step 3 Title'), desc: __('About OQC Step 3 Desc'), icon: <ClipboardCheck className="h-6 w-6" /> },
-                            { id: 4, title: __('About OQC Step 4 Title'), desc: __('About OQC Step 4 Desc'), icon: <ShieldCheck className="h-6 w-6" /> },
-                            { id: 5, title: __('About OQC Step 5 Title'), desc: __('About OQC Step 5 Desc'), icon: <FileBarChart className="h-6 w-6" /> }
-                        ].map((step, index) => (
+                        {oqcSteps.map((step, index) => (
                             <motion.div 
                                 key={step.id}
                                 initial={{ opacity: 0, y: 20 }}
@@ -497,11 +465,11 @@ export default function About() {
                                 className="p-8 bg-slate-50 dark:bg-slate-900 rounded-[40px] border border-slate-100 dark:border-white/5 relative group cursor-default"
                             >
                                 <div className="h-12 w-12 bg-white dark:bg-slate-800 rounded-2xl flex items-center justify-center text-[#006D7E] mb-6 shadow-sm group-hover:bg-[#006D7E] group-hover:text-white transition duration-500">
-                                    {step.icon}
+                                    <DynamicIcon name={step.icon} className="h-6 w-6" />
                                 </div>
-                                <div className="text-[10px] font-black text-[#006D7E] opacity-40 mb-4 tracking-widest">STEP 0{step.id}</div>
-                                <h4 className="text-lg font-black text-[#004D5C] dark:text-[#CCEBF0] italic tracking-tight mb-4">{step.title}</h4>
-                                <p className="text-slate-500 dark:text-slate-400 text-xs font-medium italic leading-relaxed">{step.desc}</p>
+                                <div className="text-[9px] font-black text-[#006D7E] uppercase tracking-widest mb-3 opacity-40">STEP 0{index + 1}</div>
+                                <h4 className="text-lg font-black text-[#004D5C] dark:text-[#CCEBF0] italic tracking-tight mb-4 group-hover:text-[#006D7E] transition-colors">{step.title}</h4>
+                                <p className="text-slate-500 dark:text-slate-400 text-xs font-medium italic leading-relaxed">{step.description}</p>
                             </motion.div>
                         ))}
                     </div>
@@ -524,18 +492,32 @@ export default function About() {
                                     <div className="h-12 w-12 bg-emerald-50 dark:bg-emerald-950/30 rounded-full flex items-center justify-center text-emerald-600">
                                         <CheckCircle2 className="h-6 w-6" />
                                     </div>
-                                    <h3 className="text-2xl font-black italic text-[#004D5C] dark:text-[#CCEBF0]">{__('About QC Pass Label')}</h3>
+                                    <h3 className="text-2xl font-black italic text-[#004D5C] dark:text-[#CCEBF0] tracking-tight">{__('About QC Pass Label')}</h3>
                                 </div>
-                                <ul className="space-y-4">
-                                    {[__('About QC Pass Item 1'), __('About QC Pass Item 2')].map((item, i) => (
-                                        <li key={i} className="flex gap-4 items-start text-slate-500 dark:text-slate-400 font-medium italic">
-                                            <div className="h-5 w-5 rounded-full bg-emerald-50 dark:bg-emerald-950/30 flex items-center justify-center shrink-0 mt-1">
-                                                <div className="h-1.5 w-1.5 rounded-full bg-emerald-600"></div>
+                                <div className="space-y-6">
+                                    {qualityStandards.filter(s => s.type === 'pass').map((item, i) => (
+                                        <div key={item.id} className="group">
+                                            <div className="flex gap-6 items-start">
+                                                <div 
+                                                    className="h-20 w-20 bg-slate-50 dark:bg-slate-800 rounded-2xl overflow-hidden shrink-0 border border-slate-100 dark:border-white/5 cursor-zoom-in"
+                                                    onClick={() => item.image_path && setSelectedImage(`/storage/${item.image_path}`)}
+                                                >
+                                                    {item.image_path ? (
+                                                        <img src={`/storage/${item.image_path}`} className="w-full h-full object-cover group-hover:scale-110 transition duration-500" />
+                                                    ) : (
+                                                        <div className="w-full h-full flex items-center justify-center text-slate-300">
+                                                            <LucideIcons.Image className="h-8 w-8" />
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                <div>
+                                                    <h4 className="font-black text-[#004D5C] dark:text-white italic text-lg mb-1">{item.title}</h4>
+                                                    <p className="text-sm text-slate-500 dark:text-slate-400 font-medium italic leading-relaxed">{item.description}</p>
+                                                </div>
                                             </div>
-                                            {item}
-                                        </li>
+                                        </div>
                                     ))}
-                                </ul>
+                                </div>
                             </motion.div>
 
                             <motion.div 
@@ -546,18 +528,32 @@ export default function About() {
                                     <div className="h-12 w-12 bg-rose-50 dark:bg-rose-950/30 rounded-full flex items-center justify-center text-rose-600">
                                         <AlertCircle className="h-6 w-6" />
                                     </div>
-                                    <h3 className="text-2xl font-black italic text-[#004D5C] dark:text-[#CCEBF0]">{__('About QC Fail Label')}</h3>
+                                    <h3 className="text-2xl font-black italic text-[#004D5C] dark:text-[#CCEBF0] tracking-tight">{__('About QC Fail Label')}</h3>
                                 </div>
-                                <ul className="space-y-4">
-                                    {[__('About QC Fail Item 1'), __('About QC Fail Item 2'), __('About QC Fail Item 3'), __('About QC Fail Item 4'), __('About QC Fail Item 5')].map((item, i) => (
-                                        <li key={i} className="flex gap-4 items-start text-slate-500 dark:text-slate-400 font-medium italic">
-                                            <div className="h-5 w-5 rounded-full bg-rose-50 dark:bg-rose-950/30 flex items-center justify-center shrink-0 mt-1">
-                                                <div className="h-1.5 w-1.5 rounded-full bg-rose-600"></div>
+                                <div className="space-y-6">
+                                    {qualityStandards.filter(s => s.type === 'fail').map((item, i) => (
+                                        <div key={item.id} className="group">
+                                            <div className="flex gap-6 items-start">
+                                                <div 
+                                                    className="h-20 w-20 bg-slate-50 dark:bg-slate-800 rounded-2xl overflow-hidden shrink-0 border border-slate-100 dark:border-white/5 cursor-zoom-in"
+                                                    onClick={() => item.image_path && setSelectedImage(`/storage/${item.image_path}`)}
+                                                >
+                                                    {item.image_path ? (
+                                                        <img src={`/storage/${item.image_path}`} className="w-full h-full object-cover group-hover:scale-110 transition duration-500" />
+                                                    ) : (
+                                                        <div className="w-full h-full flex items-center justify-center text-slate-300">
+                                                            <LucideIcons.Image className="h-8 w-8" />
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                <div>
+                                                    <h4 className="font-black text-[#004D5C] dark:text-white italic text-lg mb-1">{item.title}</h4>
+                                                    <p className="text-sm text-slate-500 dark:text-slate-400 font-medium italic leading-relaxed">{item.description}</p>
+                                                </div>
                                             </div>
-                                            {item}
-                                        </li>
+                                        </div>
                                     ))}
-                                </ul>
+                                </div>
                             </motion.div>
                         </div>
                     </div>

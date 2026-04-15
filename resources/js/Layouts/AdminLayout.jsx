@@ -124,22 +124,35 @@ export default function AdminLayout({ children }) {
                         transition={{ delay: 0.7 }}
                         className="pt-8 pb-4 text-white/30 text-[10px] font-black uppercase tracking-[0.2em] px-4"
                     >
+                        {__('CMS & Content')}
+                    </motion.div>
+
+                    <div className="space-y-1">
+                        {[
+                            { href: route('admin.cms.oqc.index'), active: route().current('admin.cms.oqc.index'), icon: <FileText className="h-5 w-5" />, label: __('Nav CMS OQC') },
+                            { href: route('admin.cms.defects.index'), active: route().current('admin.cms.defects.index'), icon: <Award className="h-5 w-5" />, label: __('Nav CMS Defects') },
+                        ].map((link, i) => (
+                            <SidebarLink key={link.label} {...link} isDark={isDark} />
+                        ))}
+                    </div>
+
+                    <motion.div 
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.8 }}
+                        className="pt-8 pb-4 text-white/30 text-[10px] font-black uppercase tracking-[0.2em] px-4"
+                    >
                         {__('Nav System')}
                     </motion.div>
                     
-                    <motion.div
-                        initial={{ opacity: 0, x: -10 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.8 }}
-                    >
-                        <SidebarLink 
-                            href={route('admin.settings')} 
-                            active={route().current('admin.settings')} 
-                            icon={<Settings className="h-5 w-5" />} 
-                            label={__('Nav Settings')} 
-                            isDark={isDark}
-                        />
-                    </motion.div>
+                    <div className="space-y-1">
+                        {[
+                            { href: route('admin.team.index'), active: route().current('admin.team.index'), icon: <Users className="h-5 w-5" />, label: __('Nav Team') },
+                            { href: route('admin.settings'), active: route().current('admin.settings'), icon: <Settings className="h-5 w-5" />, label: __('Nav Settings') }
+                        ].map((link, i) => (
+                            <SidebarLink key={link.label} {...link} isDark={isDark} />
+                        ))}
+                    </div>
                 </nav>
 
                 {/* Sidebar Footer removed as it moved to header */}

@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 
 use App\Models\Vacancy;
 use App\Models\Application;
+use App\Models\OQCStep;
+use App\Models\QualityStandard;
 use Inertia\Inertia;
 use Illuminate\Support\Carbon;
 
@@ -25,7 +27,11 @@ class DashboardController extends Controller
             'trends' => [
                 'openings' => '+5%',
                 'candidates' => '+12%',
-            ]
+            ],
+            // New Manufacturing KPIs
+            'yield_rate' => 98.4,
+            'oqc_steps_count' => OQCStep::count(),
+            'defect_types' => QualityStandard::where('type', 'fail')->count(),
         ];
 
         // Group applications by day for the last 30 days (Daily)
@@ -83,6 +89,16 @@ class DashboardController extends Controller
                 ['name' => 'Admin Funnel Applied', 'value' => $stats['total_candidates'], 'color' => '#66B2BD'],
                 ['name' => 'Admin Funnel Reviewed', 'value' => $stats['interviews'], 'color' => '#006D7E'],
                 ['name' => 'Admin Funnel Hired', 'value' => $stats['hired'], 'color' => '#004D5C'],
+            ],
+            // Simulated Production Data
+            'production_efficiency' => [
+                ['name' => 'Mon', 'value' => 92],
+                ['name' => 'Tue', 'value' => 95],
+                ['name' => 'Wed', 'value' => 91],
+                ['name' => 'Thu', 'value' => 98],
+                ['name' => 'Fri', 'value' => 94],
+                ['name' => 'Sat', 'value' => 89],
+                ['name' => 'Sun', 'value' => 96],
             ]
         ];
 
