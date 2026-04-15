@@ -1,8 +1,9 @@
 import InputError from '@/Components/InputError';
 import { useForm } from '@inertiajs/react';
 import { useRef } from 'react';
-import { motion, Transition } from 'framer-motion';
-import { Lock, key as KeyIcon, Eye, Save, CheckCircle } from 'lucide-react';
+import { motion } from 'framer-motion';
+import { Transition } from '@headlessui/react';
+import { Lock, Key as KeyIcon, Eye, Save, CheckCircle } from 'lucide-react';
 import { useTranslation } from '@/Hooks/useTranslation';
 
 export default function UpdatePasswordForm({ className = '' }) {

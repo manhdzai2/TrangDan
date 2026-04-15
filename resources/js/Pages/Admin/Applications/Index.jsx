@@ -465,12 +465,6 @@ export default function Index({ applications, filters }) {
                         </motion.div>
                     </div>
                 )}
-            </AnimatePresence>ence>
-                                </div>
-                            </div>
-                        </motion.div>
-                    </div>
-                )}
             </AnimatePresence>
 
             {/* AI Insight Report Overlay */}

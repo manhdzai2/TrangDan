@@ -13,16 +13,17 @@ import {
 } from 'lucide-react';
 import { useTranslation } from '@/Hooks/useTranslation';
 
-export default function Dashboard({ stats, charts, recent_applications }) {
+export default function Dashboard({ stats = {}, charts = {}, recent_applications = [] }) {
     const { __ } = useTranslation();
     const [timeScale, setTimeScale] = useState('daily');
     const PIE_COLORS = ['#006D7E', '#66B2BD', '#99D6E0', '#CCEBF0'];
 
     const getActiveChartData = () => {
+        if (!charts) return [];
         switch(timeScale) {
-            case 'monthly': return charts.application_monthly;
-            case 'yearly': return charts.application_yearly;
-            default: return charts.application_daily;
+            case 'monthly': return charts.application_monthly || [];
+            case 'yearly': return charts.application_yearly || [];
+            default: return charts.application_daily || [];
         }
     };
 
@@ -89,28 +90,28 @@ export default function Dashboard({ stats, charts, recent_applications }) {
                 <KPICard 
                     icon={<Briefcase />} 
                     title={__('Dash Openings')} 
-                    value={stats.total_openings} 
-                    trend={stats.trends.openings}
+                    value={stats?.total_openings || 0} 
+                    trend={stats?.trends?.openings || '0%'}
                     color="cyan"
                 />
                 <KPICard 
                     icon={<Users />} 
                     title={__('Dash Total Apps')} 
-                    value={stats.total_candidates} 
-                    trend={stats.trends.candidates}
+                    value={stats?.total_candidates || 0} 
+                    trend={stats?.trends?.candidates || '0%'}
                     color="orange"
                 />
                 <KPICard 
                     icon={<Award />} 
                     title={__('Yield Rate')} 
-                    value={`${stats.yield_rate}%`} 
+                    value={`${stats?.yield_rate || 0}%`} 
                     trend="+0.4%"
                     color="emerald"
                 />
                 <KPICard 
                     icon={<ShieldCheck />} 
                     title={__('Defect Types')} 
-                    value={stats.defect_types} 
+                    value={stats?.defect_types || 0} 
                     trend="Stable"
                     color="rose"
                     dark
@@ -167,7 +168,7 @@ export default function Dashboard({ stats, charts, recent_applications }) {
                     <div className="relative z-10 flex flex-col h-full">
                         <h3 className="text-2xl font-black italic mb-10">{__('Operations Funnel')}</h3>
                         <div className="flex-1 space-y-8">
-                            {charts.funnel.map((step, i) => (
+                            {(charts?.funnel || []).map((step, i) => (
                                 <div key={step.name}>
                                     <div className="flex justify-between items-end mb-2">
                                         <span className="text-[10px] font-black uppercase tracking-widest text-white/60">{__(step.name)}</span>
@@ -176,7 +177,7 @@ export default function Dashboard({ stats, charts, recent_applications }) {
                                     <div className="h-3 w-full bg-white/10 rounded-full overflow-hidden">
                                         <motion.div 
                                             initial={{ width: 0 }}
-                                            whileInView={{ width: `${(step.value / (stats.total_candidates || 1)) * 100}%` }}
+                                            whileInView={{ width: `${(step.value / (stats?.total_candidates || 1)) * 100}%` }}
                                             transition={{ duration: 1.5, ease: "easeOut", delay: i * 0.2 }}
                                             className="h-full bg-white rounded-full"
                                         />
@@ -189,7 +190,7 @@ export default function Dashboard({ stats, charts, recent_applications }) {
                                 <div className="h-10 w-10 bg-emerald-400 rounded-full flex items-center justify-center text-[#004D5C]"><Target className="h-5 w-5" /></div>
                                 <div>
                                     <div className="text-[10px] font-black text-white/40 uppercase tracking-widest">{__('Success Rate')}</div>
-                                    <div className="text-lg font-black italic">{stats.total_candidates > 0 ? Math.round((stats.hired / stats.total_candidates) * 100) : 0}%</div>
+                                    <div className="text-lg font-black italic">{stats?.total_candidates > 0 ? Math.round(((stats?.hired || 0) / stats.total_candidates) * 100) : 0}%</div>
                                 </div>
                             </div>
                         </div>
@@ -204,15 +205,15 @@ export default function Dashboard({ stats, charts, recent_applications }) {
                     <div className="h-[200px] mb-8">
                         <ResponsiveContainer width="100%" height="100%">
                             <PieChart>
-                                <Pie data={charts.application_sources} innerRadius={65} outerRadius={90} paddingAngle={8} dataKey="value" stroke="none">
-                                    {charts.application_sources.map((_, i) => <Cell key={i} fill={PIE_COLORS[i % PIE_COLORS.length]} />)}
+                                <Pie data={charts?.application_sources || []} innerRadius={65} outerRadius={90} paddingAngle={8} dataKey="value" stroke="none">
+                                    {(charts?.application_sources || []).map((_, i) => <Cell key={i} fill={PIE_COLORS[i % PIE_COLORS.length]} />)}
                                 </Pie>
                                 <Tooltip />
                             </PieChart>
                         </ResponsiveContainer>
                     </div>
                     <div className="space-y-4">
-                        {charts.application_sources.map((source, i) => (
+                        {(charts?.application_sources || []).map((source, i) => (
                             <div key={source.name} className="flex justify-between items-center bg-white/40 dark:bg-slate-800/40 p-3 px-4 rounded-2xl border border-white/60 dark:border-white/5">
                                 <div className="flex items-center gap-3">
                                     <div className="h-2 w-2 rounded-full" style={{backgroundColor: PIE_COLORS[i % PIE_COLORS.length]}} />
@@ -242,7 +243,7 @@ export default function Dashboard({ stats, charts, recent_applications }) {
                                 </tr>
                             </thead>
                             <tbody>
-                                {recent_applications.map((app, i) => (
+                                {(recent_applications || []).map((app, i) => (
                                     <tr key={app.id} className="group">
                                         <td className="px-6 py-5 rounded-l-[32px] bg-white dark:bg-slate-800/40 group-hover:bg-[#EEF8F9] dark:group-hover:bg-slate-800 transition-all font-black italic text-[#004D5C] dark:text-white">
                                             {app.name}

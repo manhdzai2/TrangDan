@@ -19,7 +19,7 @@ class ApplicationSeeder extends Seeder
         $vacancies = Vacancy::all();
         if ($vacancies->isEmpty()) return;
 
-        $sources = ['LinkedIn', 'Facebook', 'Referral', 'Direct', 'Indeed', 'Google Jobs', 'Headhunter', 'GitHub'];
+        $sources = ['Facebook', 'Zalo', 'Người quen giới thiệu', 'Trực tiếp tại cổng', 'TopCV', 'TikTok', 'Trang tuyển dụng công ty'];
         $statuses = ['pending', 'reviewed', 'accepted', 'rejected'];
 
         foreach ($vacancies as $vacancy) {

@@ -105,7 +105,23 @@ const SectionHeader = ({ subtitle, title, description, dark = false }) => (
     </div>
 );
 
-export default function About({ oqcSteps, qualityStandards }) {
+export default function About({ oqcSteps = [], qualityStandards = [] }) {
+    const containerVariants = {
+        hidden: { opacity: 0 },
+        visible: {
+            opacity: 1,
+            transition: { staggerChildren: 0.1 }
+        }
+    };
+    
+    const itemVariants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: { 
+            opacity: 1, y: 0,
+            transition: { type: "spring", stiffness: 100 }
+        }
+    };
+
     const { __ } = useTranslation();
     const [selectedImage, setSelectedImage] = React.useState(null);
 

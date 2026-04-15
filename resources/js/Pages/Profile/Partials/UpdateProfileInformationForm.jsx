@@ -1,6 +1,7 @@
 import InputError from '@/Components/InputError';
 import { Link, useForm, usePage } from '@inertiajs/react';
-import { motion, Transition } from 'framer-motion';
+import { motion } from 'framer-motion';
+import { Transition } from '@headlessui/react';
 import { Mail, User as UserIcon, CheckCircle, AlertCircle, Save } from 'lucide-react';
 import { useTranslation } from '@/Hooks/useTranslation';
 

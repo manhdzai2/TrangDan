@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { LayoutDashboard, Briefcase, Users, Settings, Building,
     FileText, LogOut, User, Bell, Search, Plus, Menu, X as CloseIcon,
-    Sun, Moon
+    Sun, Moon, Award
 } from 'lucide-react';
 import { ToastContainer } from '@/Components/Toast';
 import { useTranslation } from '@/Hooks/useTranslation';
@@ -12,17 +12,17 @@ import { useTranslation } from '@/Hooks/useTranslation';
 
 export default function AdminLayout({ children }) {
     const { __ } = useTranslation();
-    const { auth, url, unreadApplicationsCount, locale } = usePage().props;
-    const user = auth.user;
+    const { auth = {}, url = '', unreadApplicationsCount = 0, locale = 'vi' } = usePage().props || {};
+    const user = auth?.user;
     const [isSidebarOpen, setIsSidebarOpen] = useState(true);
     const [toasts, setToasts] = useState([]);
-    const { flash } = usePage().props;
+    const { flash = {} } = usePage().props || {};
 
     useEffect(() => {
-        if (flash.success) {
+        if (flash?.success) {
             addToast(flash.success, 'success');
         }
-        if (flash.error) {
+        if (flash?.error) {
             addToast(flash.error, 'error');
         }
     }, [flash]);
