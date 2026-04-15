@@ -8,11 +8,25 @@
     --glass-border: rgba(255, 255, 255, 0.6);
 }
 
+.dark {
+    --glass-bg: rgba(15, 23, 42, 0.8);
+    --glass-border: rgba(255, 255, 255, 0.05);
+}
+
+.dark .glass-effect {
+    box-shadow: 0 20px 50px -12px rgba(0, 0, 0, 0.8);
+}
+
 body {
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
     color: #0f172a;
     background: #f8fafc;
+}
+
+.dark body {
+    color: #f1f5f9;
+    background: #020617;
 }
 
 .font-inter { font-family: 'Inter', sans-serif; }

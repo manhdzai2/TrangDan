@@ -84,8 +84,8 @@ const InfoRow = ({ label, value, icon: IconComponent }) => (
             {IconComponent && <IconComponent className="h-5 w-5" />}
         </div>
         <div>
-            <div className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-1">{typeof label === 'string' ? label : ''}</div>
-            <div className="text-slate-700 dark:text-slate-300 font-bold italic text-sm">{typeof value === 'string' ? value : ''}</div>
+            <div className="text-[10px] font-black text-slate-400 dark:text-slate-400 uppercase tracking-widest mb-1">{typeof label === 'string' ? label : ''}</div>
+            <div className="text-slate-700 dark:text-slate-200 font-bold italic text-sm">{typeof value === 'string' ? value : ''}</div>
         </div>
     </div>
 );
@@ -374,9 +374,9 @@ export default function About() {
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
                             className="relative aspect-square rounded-[80px] overflow-hidden shadow-2xl group cursor-zoom-in border-4 border-white/5"
-                            onClick={() => setSelectedImage('/images/Picture7.png')}
+                            onClick={() => setSelectedImage('https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop')}
                         >
-                            <img src="/images/Picture7.png" alt="OQC Process" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700" />
+                            <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop" alt="OQC Process" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700" />
                             <div className="absolute inset-0 bg-gradient-to-tr from-[#004D5C] via-transparent to-transparent opacity-60"></div>
                             <div className="absolute top-10 right-10 h-16 w-16 bg-black/40 backdrop-blur-md rounded-full flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
                                 <Maximize2 className="h-6 w-6" />
@@ -390,8 +390,7 @@ export default function About() {
             <section className="py-40 bg-white dark:bg-slate-950 transition-colors duration-500">
                 <div className="max-w-7xl mx-auto px-12">
                     <SectionHeader 
-                        subtitle={__('About Org Chart Title')}
-                        title={__('About Org CEO')}
+                        title={__('About Org Chart Title')}
                     />
 
                     <div className="max-w-5xl mx-auto relative group">
