@@ -2,15 +2,15 @@ import React from 'react';
 import RecruitmentLayout from '../Layouts/RecruitmentLayout';
 import { Head, Link, usePage } from '@inertiajs/react';
 import { motion } from 'framer-motion';
-import { 
-    ArrowRight, Star, Cpu, Users, 
-    TrendingUp, Globe, Shield, Zap, 
+import {
+    ArrowRight, Star, Cpu, Users,
+    TrendingUp, Globe, Shield, Zap,
     Sparkles, Heart, Rocket, Target
 } from 'lucide-react';
 import { useTranslation } from '@/Hooks/useTranslation';
 
 const Card = ({ title, description, icon, delay = 0 }) => (
-    <motion.div 
+    <motion.div
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
@@ -29,7 +29,7 @@ const Card = ({ title, description, icon, delay = 0 }) => (
 
 const SectionHeader = ({ subtitle, title, description }) => (
     <div className="text-center mb-24">
-        <motion.div 
+        <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
@@ -37,7 +37,7 @@ const SectionHeader = ({ subtitle, title, description }) => (
         >
             {subtitle}
         </motion.div>
-        <motion.h2 
+        <motion.h2
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -46,7 +46,7 @@ const SectionHeader = ({ subtitle, title, description }) => (
         >
             {title}
         </motion.h2>
-        <motion.p 
+        <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -74,8 +74,8 @@ export default function Home() {
 
     const itemVariants = {
         hidden: { opacity: 0, y: 20 },
-        visible: { 
-            opacity: 1, 
+        visible: {
+            opacity: 1,
             y: 0,
             transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] }
         }
@@ -88,13 +88,13 @@ export default function Home() {
             {/* Hero Section */}
             <section className="min-h-screen relative flex items-center pt-20 overflow-hidden bg-white dark:bg-slate-950 transition-colors duration-500">
                 <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
-                    <motion.div 
+                    <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 0.05 }}
                         transition={{ duration: 2 }}
                         className="absolute top-0 right-0 w-1/2 h-full bg-[#006D7E] blur-[160px] rounded-full translate-x-1/2"
                     ></motion.div>
-                    <motion.div 
+                    <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 0.03 }}
                         transition={{ duration: 2, delay: 0.5 }}
@@ -104,7 +104,7 @@ export default function Home() {
 
                 <div className="max-w-7xl mx-auto px-12 w-full relative z-10">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
-                        <motion.div 
+                        <motion.div
                             variants={containerVariants}
                             initial="hidden"
                             animate="visible"
@@ -112,7 +112,7 @@ export default function Home() {
                             <motion.div variants={itemVariants} className="inline-flex items-center gap-3 px-6 py-2.5 bg-[#EEF8F9] dark:bg-[#002B33] text-[#006D7E] rounded-full text-[10px] font-black uppercase tracking-[0.3em] mb-10 border border-[#006D7E]/10 animate-pulse">
                                 <Sparkles className="h-4 w-4" /> {__('Home Hero Sparkle')}
                             </motion.div>
-                            
+
                             <motion.h1 variants={itemVariants} className="text-8xl font-black text-[#004D5C] dark:text-[#CCEBF0] tracking-tighter italic leading-[0.85] mb-10">
                                 {__('Home Hero Title 1')} <br /> <span className="text-[#006D7E]">{__('Home Hero Title 2')}</span> <br /> {__('Home Hero Title 3')}
                             </motion.h1>
@@ -123,33 +123,33 @@ export default function Home() {
 
                             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-6">
                                 <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
-                                    <Link 
-                                        href="/jobs" 
+                                    <Link
+                                        href="/jobs"
                                         className="px-12 py-5 bg-[#004D5C] text-white rounded-[24px] text-[10px] font-black uppercase tracking-[0.2em] shadow-2xl shadow-[#004D5C]/30 flex items-center justify-center gap-3 hover:bg-[#003540] transition-all duration-500"
                                     >
                                         {__('Home Hero CTA Primary')} <ArrowRight className="h-4 w-4" />
                                     </Link>
                                 </motion.div>
-                                <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                                {/* <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
                                     <Link 
                                         href="/process" 
                                         className="px-12 py-5 bg-white dark:bg-slate-900 text-[#004D5C] dark:text-[#CCEBF0] border border-slate-100 dark:border-white/5 rounded-[24px] text-[10px] font-black uppercase tracking-[0.2em] shadow-xl hover:shadow-2xl transition-all duration-500 flex items-center justify-center gap-3"
                                     >
                                         {__('Home Hero CTA Secondary')}
                                     </Link>
-                                </motion.div>
+                                </motion.div> */}
                             </motion.div>
                         </motion.div>
 
                         <div className="relative">
-                            <motion.div 
+                            <motion.div
                                 initial={{ opacity: 0, scale: 0.8 }}
                                 animate={{ opacity: 1, scale: 1 }}
                                 transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
                                 className="grid grid-cols-2 gap-8"
                             >
                                 <div className="space-y-8">
-                                    <motion.div 
+                                    <motion.div
                                         whileHover={{ y: -10 }}
                                         className="bg-white dark:bg-slate-900 p-10 rounded-[60px] shadow-2xl border border-white/50 dark:border-white/5 relative overflow-hidden group"
                                     >
@@ -160,7 +160,7 @@ export default function Home() {
                                         <div className="text-5xl font-black text-[#004D5C] dark:text-[#CCEBF0] italic mb-3 tracking-tighter">200+</div>
                                         <p className="text-slate-500 dark:text-slate-400 text-[10px] font-black uppercase tracking-widest">{__('Home Stat Engineers')}</p>
                                     </motion.div>
-                                    <motion.div 
+                                    <motion.div
                                         whileHover={{ y: -10 }}
                                         className="bg-[#004D5C] p-10 rounded-[60px] shadow-2xl text-white relative overflow-hidden group"
                                     >
@@ -170,14 +170,14 @@ export default function Home() {
                                     </motion.div>
                                 </div>
                                 <div className="space-y-8 pt-16">
-                                    <motion.div 
+                                    <motion.div
                                         whileHover={{ y: -10 }}
                                         className="bg-[#006D7E] p-10 rounded-[60px] shadow-2xl text-white relative overflow-hidden group"
                                     >
                                         <div className="text-5xl font-black mb-4 italic">500+</div>
                                         <p className="text-white/60 text-[10px] font-black uppercase tracking-widest">{__('Home Stat Members')}</p>
                                     </motion.div>
-                                    <motion.div 
+                                    <motion.div
                                         whileHover={{ y: -10 }}
                                         className="bg-white dark:bg-slate-900 p-10 rounded-[60px] shadow-2xl border border-white/50 dark:border-white/5 relative overflow-hidden group"
                                     >
@@ -197,32 +197,32 @@ export default function Home() {
             {/* Why Work with Us */}
             <section className="py-40 bg-slate-50 dark:bg-slate-950 border-t border-slate-100 dark:border-white/5 relative overflow-hidden transition-colors duration-500">
                 <div className="max-w-7xl mx-auto px-12">
-                    <SectionHeader 
+                    <SectionHeader
                         subtitle={__('Home Hero Subtitle')}
                         title={__('Home Benefits Title')}
                         description={__('Home Benefits Description')}
                     />
 
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10">
-                        <Card 
+                        <Card
                             icon={<Zap className="h-8 w-8" />}
                             title={__('Home Benefit 1 Title')}
                             description={__('Home Benefit 1 Desc')}
                             delay={0.1}
                         />
-                        <Card 
+                        <Card
                             icon={<Shield className="h-8 w-8" />}
                             title={__('Home Benefit 2 Title')}
                             description={__('Home Benefit 2 Desc')}
                             delay={0.2}
                         />
-                        <Card 
+                        <Card
                             icon={<Heart className="h-8 w-8" />}
                             title={__('Home Benefit 3 Title')}
                             description={__('Home Benefit 3 Desc')}
                             delay={0.3}
                         />
-                        <Card 
+                        <Card
                             icon={<Globe className="h-8 w-8" />}
                             title={__('Home Benefit 4 Title')}
                             description={__('Home Benefit 4 Desc')}
@@ -239,7 +239,7 @@ export default function Home() {
                         <div className="absolute top-0 right-0 w-2/3 h-full bg-gradient-to-l from-[#006D7E]/20 to-transparent blur-3xl opacity-50 group-hover:scale-110 transition duration-1000"></div>
                         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
                             <div>
-                                <motion.div 
+                                <motion.div
                                     initial={{ opacity: 0, x: -30 }}
                                     whileInView={{ opacity: 1, x: 0 }}
                                     viewport={{ once: true }}
@@ -247,7 +247,7 @@ export default function Home() {
                                 >
                                     {__('Home Mission Subtitle')}
                                 </motion.div>
-                                <motion.h2 
+                                <motion.h2
                                     initial={{ opacity: 0, y: 30 }}
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
@@ -255,7 +255,7 @@ export default function Home() {
                                 >
                                     {__('Home Mission Title')}
                                 </motion.h2>
-                                <motion.p 
+                                <motion.p
                                     initial={{ opacity: 0 }}
                                     whileInView={{ opacity: 1 }}
                                     viewport={{ once: true }}
@@ -263,7 +263,7 @@ export default function Home() {
                                 >
                                     {company?.history || __('Home Mission Description Default')}
                                 </motion.p>
-                                <motion.div 
+                                <motion.div
                                     initial={{ opacity: 0, y: 20 }}
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
@@ -279,7 +279,7 @@ export default function Home() {
                                     </div>
                                 </motion.div>
                             </div>
-                            <motion.div 
+                            <motion.div
                                 initial={{ opacity: 0, rotate: 5, scale: 0.9 }}
                                 whileInView={{ opacity: 1, rotate: 0, scale: 1 }}
                                 viewport={{ once: true }}

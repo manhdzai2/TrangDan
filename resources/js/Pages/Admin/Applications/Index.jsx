@@ -239,14 +239,6 @@ export default function Index({ applications, filters }) {
                                             >
                                                 <Eye className="h-5 w-5" />
                                             </motion.button>
-                                            <motion.button 
-                                                whileHover={{ scale: 1.1 }}
-                                                whileTap={{ scale: 0.9 }}
-                                                onClick={() => updateStatus(app.id, 'accepted')}
-                                                className="p-3 text-slate-300 hover:text-emerald-600 hover:bg-emerald-50 rounded-2xl transition-all shadow-sm bg-white dark:bg-slate-900 border border-slate-50 dark:border-white/5"
-                                            >
-                                                <CheckCircle className="h-5 w-5" />
-                                            </motion.button>
                                         </div>
                                     </td>
                                     </motion.tr>
