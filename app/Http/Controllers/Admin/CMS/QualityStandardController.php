@@ -24,7 +24,7 @@ class QualityStandardController extends Controller
             'type' => 'required|in:pass,fail',
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'image' => 'nullable|image|max:2048',
+            'image' => 'nullable|image|max:10240',
             'order' => 'integer'
         ]);
 
@@ -43,7 +43,7 @@ class QualityStandardController extends Controller
             'type' => 'required|in:pass,fail',
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'image' => 'nullable|image|max:2048',
+            'image' => 'nullable|image|max:10240',
             'order' => 'integer'
         ]);
 
@@ -67,5 +67,14 @@ class QualityStandardController extends Controller
         }
         $qualityStandard->delete();
         return back()->with('success', 'Xóa tiêu chuẩn thành công.');
+    }
+
+    public function reorder(Request $request)
+    {
+        $orderedIds = $request->input('ids');
+        foreach ($orderedIds as $index => $id) {
+            QualityStandard::where('id', $id)->update(['order' => $index]);
+        }
+        return back()->with('success', 'Sắp xếp lại thành công.');
     }
 }

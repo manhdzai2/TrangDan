@@ -128,6 +128,7 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::post('/cms/defects', [\App\Http\Controllers\Admin\CMS\QualityStandardController::class, 'store'])->name('admin.cms.defects.store');
     Route::post('/cms/defects/{qualityStandard}', [\App\Http\Controllers\Admin\CMS\QualityStandardController::class, 'update'])->name('admin.cms.defects.update'); // POST due to multipart/form-data with PUT issues in Laravel
     Route::delete('/cms/defects/{qualityStandard}', [\App\Http\Controllers\Admin\CMS\QualityStandardController::class, 'destroy'])->name('admin.cms.defects.destroy');
+    Route::post('/cms/defects/reorder', [\App\Http\Controllers\Admin\CMS\QualityStandardController::class, 'reorder'])->name('admin.cms.defects.reorder');
 
     // Team Management
     Route::get('/team', [\App\Http\Controllers\Admin\TeamManagementController::class, 'index'])->name('admin.team.index');
