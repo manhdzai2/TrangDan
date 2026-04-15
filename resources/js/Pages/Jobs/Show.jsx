@@ -113,6 +113,27 @@ export default function Show({ vacancy }) {
                                         <div className="flex items-center gap-3"><Clock className="h-5 w-5 text-[#006D7E]" /> {vacancy.type}</div>
                                         <div className="flex items-center gap-3"><Briefcase className="h-5 w-5 text-[#006D7E]" /> {vacancy.salary || __('Jobs Salary Negotiable')}</div>
                                     </div>
+
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+                                        {vacancy.factory && (
+                                            <div className="p-6 bg-amber-50/30 dark:bg-amber-950/20 rounded-3xl border border-amber-200/20">
+                                                <div className="text-[9px] font-black text-amber-600/60 uppercase tracking-widest mb-1">{__('Admin Vacancy Factory')}</div>
+                                                <div className="text-sm font-black text-amber-700 dark:text-amber-400 italic font-black uppercase tracking-widest">{vacancy.factory}</div>
+                                            </div>
+                                        )}
+                                        {vacancy.level && (
+                                            <div className="p-6 bg-indigo-50/30 dark:bg-indigo-950/20 rounded-3xl border border-indigo-200/20">
+                                                <div className="text-[9px] font-black text-indigo-600/60 uppercase tracking-widest mb-1">{__('Admin Vacancy Level')}</div>
+                                                <div className="text-sm font-black text-indigo-700 dark:text-indigo-400 italic font-black uppercase tracking-widest">{vacancy.level}</div>
+                                            </div>
+                                        )}
+                                        {vacancy.kpi_target && (
+                                            <div className="p-6 bg-emerald-50/30 dark:bg-emerald-950/20 rounded-3xl border border-emerald-200/20">
+                                                <div className="text-[9px] font-black text-emerald-600/60 uppercase tracking-widest mb-1">{__('Admin Vacancy KPI Target')}</div>
+                                                <div className="text-sm font-black text-emerald-700 dark:text-emerald-400 italic font-black uppercase tracking-widest">{vacancy.kpi_target}</div>
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
 
                                 <div className="prose prose-slate dark:prose-invert prose-lg max-w-none prose-headings:text-[#004D5C] dark:prose-headings:text-[#CCEBF0] prose-headings:font-black prose-headings:italic">

@@ -161,6 +161,16 @@ export default function Index({ vacancies }) {
                                                     <div className="px-3 py-1 bg-[#EEF8F9] dark:bg-[#002B33] text-[#006D7E] rounded-full text-[9px] font-black uppercase tracking-widest border border-[#006D7E]/5">
                                                         {job.type}
                                                     </div>
+                                                    {job.factory && (
+                                                        <div className="px-3 py-1 bg-amber-50 dark:bg-amber-950/30 text-amber-600 dark:text-amber-400 rounded-full text-[9px] font-black uppercase tracking-widest border border-amber-200/50">
+                                                            {job.factory}
+                                                        </div>
+                                                    )}
+                                                    {job.level && (
+                                                        <div className="px-3 py-1 bg-indigo-50 dark:bg-indigo-950/30 text-indigo-600 dark:text-indigo-400 rounded-full text-[9px] font-black uppercase tracking-widest border border-indigo-200/50">
+                                                            {job.level}
+                                                        </div>
+                                                    )}
                                                     <div className="text-[10px] font-bold text-slate-300 uppercase tracking-widest italic">{__('Jobs Card Posted')}</div>
                                                 </div>
                                                 <h3 className="text-3xl font-black text-[#004D5C] dark:text-[#CCEBF0] italic tracking-tight group-hover:text-[#006D7E] transition-colors duration-500 mb-6">{job.title}</h3>

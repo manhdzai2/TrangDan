@@ -33,6 +33,9 @@ class VacancyController extends Controller
             'salary'               => 'nullable|string|max:255',
             'type'                 => 'required|string|max:255',
             'is_active'            => 'boolean',
+            'factory'              => 'nullable|string|max:255',
+            'level'                => 'nullable|string|max:255',
+            'kpi_target'           => 'nullable|string|max:255',
         ]);
 
         $validated['user_id'] = auth()->id();
@@ -58,6 +61,9 @@ class VacancyController extends Controller
             'salary'               => 'nullable|string|max:255',
             'type'                 => 'required|string|max:255',
             'is_active'            => 'boolean',
+            'factory'              => 'nullable|string|max:255',
+            'level'                => 'nullable|string|max:255',
+            'kpi_target'           => 'nullable|string|max:255',
         ]);
 
         $vacancy->update($validated);

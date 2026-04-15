@@ -20,6 +20,9 @@ export default function Index({ vacancies }) {
         salary: '',
         type: 'Full-time',
         is_active: true,
+        factory: '',
+        level: '',
+        kpi_target: '',
     });
 
     const openCreateModal = () => {
@@ -40,6 +43,9 @@ export default function Index({ vacancies }) {
             salary: job.salary || '',
             type: job.type || 'Full-time',
             is_active: !!job.is_active,
+            factory: job.factory || '',
+            level: job.level || '',
+            kpi_target: job.kpi_target || '',
         });
         setShowModal(true);
     };
@@ -289,24 +295,65 @@ export default function Index({ vacancies }) {
                                             />
                                         </div>
                                         <div>
-                                            <label className="text-[10px] font-black text-[#004D5C] uppercase tracking-[0.2em] block mb-4">{__('Admin Vacancy Expect Salary')}</label>
+                                            <label className="text-[10px] font-black text-[#004D5C] dark:text-[#CCEBF0] uppercase tracking-[0.2em] block mb-4">{__('Admin Vacancy Expect Salary')}</label>
                                             <input 
                                                 type="text" 
                                                 value={data.salary}
                                                 onChange={e => setData('salary', e.target.value)}
                                                 placeholder="Ví dụ: 20M - 40M" 
-                                                className="w-full bg-[#F3F7F8] border-none rounded-[24px] px-8 py-5 text-sm font-black text-[#004D5C] focus:ring-4 focus:ring-[#006D7E]/10 transition-all shadow-inner placeholder:text-slate-300 italic" 
+                                                className="w-full bg-[#F3F7F8] dark:bg-slate-800 border-none rounded-[24px] px-8 py-5 text-sm font-black text-[#004D5C] dark:text-white focus:ring-4 focus:ring-[#006D7E]/10 transition-all shadow-inner placeholder:text-slate-300 dark:placeholder:text-slate-600 italic" 
                                             />
                                         </div>
                                     </div>
 
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                         <div>
-                                            <label className="text-[10px] font-black text-[#004D5C] uppercase tracking-[0.2em] block mb-4">{__('Admin Vacancy Job Type')}</label>
+                                            <label className="text-[10px] font-black text-[#004D5C] dark:text-[#CCEBF0] uppercase tracking-[0.2em] block mb-4">{__('Admin Vacancy Factory')}</label>
+                                            <select 
+                                                value={data.factory}
+                                                onChange={e => setData('factory', e.target.value)}
+                                                className="w-full bg-[#F3F7F8] dark:bg-slate-800 border-none rounded-[24px] px-8 py-5 text-sm font-black text-[#004D5C] dark:text-white focus:ring-4 focus:ring-[#006D7E]/10 transition-all shadow-inner cursor-pointer"
+                                            >
+                                                <option value="">-- {__('Select Factory')} --</option>
+                                                <option value="CRADLE">CRADLE</option>
+                                                <option value="BUDS">BUDS</option>
+                                                <option value="WATCH">WATCH</option>
+                                                <option value="CNC">CNC</option>
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label className="text-[10px] font-black text-[#004D5C] dark:text-[#CCEBF0] uppercase tracking-[0.2em] block mb-4">{__('Admin Vacancy Level')}</label>
+                                            <select 
+                                                value={data.level}
+                                                onChange={e => setData('level', e.target.value)}
+                                                className="w-full bg-[#F3F7F8] dark:bg-slate-800 border-none rounded-[24px] px-8 py-5 text-sm font-black text-[#004D5C] dark:text-white focus:ring-4 focus:ring-[#006D7E]/10 transition-all shadow-inner cursor-pointer"
+                                            >
+                                                <option value="">-- {__('Select Level')} --</option>
+                                                <option value="Engineer">{__('Engineer')}</option>
+                                                <option value="Worker">{__('Worker')}</option>
+                                                <option value="QC">{__('QC')}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <label className="text-[10px] font-black text-[#004D5C] dark:text-[#CCEBF0] uppercase tracking-[0.2em] block mb-4">{__('Admin Vacancy KPI Target')}</label>
+                                        <input 
+                                            type="text" 
+                                            value={data.kpi_target}
+                                            onChange={e => setData('kpi_target', e.target.value)}
+                                            placeholder="Ví dụ: Upper 50 sp/h" 
+                                            className="w-full bg-[#F3F7F8] dark:bg-slate-800 border-none rounded-[24px] px-8 py-5 text-sm font-black text-[#004D5C] dark:text-white focus:ring-4 focus:ring-[#006D7E]/10 transition-all shadow-inner placeholder:text-slate-300 dark:placeholder:text-slate-600 italic" 
+                                        />
+                                    </div>
+
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                        <div>
+                                            <label className="text-[10px] font-black text-[#004D5C] dark:text-[#CCEBF0] uppercase tracking-[0.2em] block mb-4">{__('Admin Vacancy Job Type')}</label>
                                             <select 
                                                 value={data.type}
                                                 onChange={e => setData('type', e.target.value)}
-                                                className="w-full bg-[#F3F7F8] border-none rounded-[24px] px-8 py-5 text-sm font-black text-[#004D5C] focus:ring-4 focus:ring-[#006D7E]/10 transition-all shadow-inner cursor-pointer"
+                                                className="w-full bg-[#F3F7F8] dark:bg-slate-800 border-none rounded-[24px] px-8 py-5 text-sm font-black text-[#004D5C] dark:text-white focus:ring-4 focus:ring-[#006D7E]/10 transition-all shadow-inner cursor-pointer"
                                             >
                                                 <option value="Full-time">Full-time</option>
                                                 <option value="Part-time">Part-time</option>
@@ -315,8 +362,8 @@ export default function Index({ vacancies }) {
                                             </select>
                                         </div>
                                         <div className="flex items-end">
-                                            <label className="flex items-center gap-4 cursor-pointer group bg-[#F3F7F8] px-8 py-5 rounded-[24px] w-full border border-transparent hover:border-[#006D7E]/10 transition-all">
-                                                <div className="flex-1 text-[10px] font-black text-[#004D5C] uppercase tracking-[0.2em] italic">{__('Admin Vacancy Recruit Status')}</div>
+                                            <label className="flex items-center gap-4 cursor-pointer group bg-[#F3F7F8] dark:bg-slate-800 px-8 py-5 rounded-[24px] w-full border border-transparent hover:border-[#006D7E]/10 transition-all">
+                                                <div className="flex-1 text-[10px] font-black text-[#004D5C] dark:text-[#CCEBF0] uppercase tracking-[0.2em] italic">{__('Admin Vacancy Recruit Status')}</div>
                                                 <div className="relative">
                                                     <input 
                                                         type="checkbox" 
@@ -324,7 +371,7 @@ export default function Index({ vacancies }) {
                                                         onChange={e => setData('is_active', e.target.checked)}
                                                         className="sr-only peer" 
                                                     />
-                                                    <div className="w-14 h-7 bg-slate-200 rounded-full peer peer-checked:bg-[#006D7E] transition-all duration-500 after:content-[''] after:absolute after:top-1 after:left-1 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all after:duration-500 peer-checked:after:translate-x-7 shadow-sm"></div>
+                                                    <div className="w-14 h-7 bg-slate-200 dark:bg-slate-700 rounded-full peer peer-checked:bg-[#006D7E] transition-all duration-500 after:content-[''] after:absolute after:top-1 after:left-1 after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all after:duration-500 peer-checked:after:translate-x-7 shadow-sm"></div>
                                                 </div>
                                             </label>
                                         </div>

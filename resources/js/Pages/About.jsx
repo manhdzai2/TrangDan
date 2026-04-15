@@ -14,7 +14,19 @@ import {
     ClipboardCheck,
     ShieldCheck,
     FileBarChart,
-    AlertCircle
+    AlertCircle,
+    Lock,
+    GraduationCap,
+    CheckCircle2,
+    ArrowRight,
+    FileText,
+    Globe,
+    Building,
+    Scale,
+    Users,
+    History,
+    Cpu,
+    Clock
 } from 'lucide-react';
 import { useTranslation } from '@/Hooks/useTranslation';
 
@@ -66,14 +78,14 @@ const Card = ({ title, description, icon, delay = 0 }) => (
     </motion.div>
 );
 
-const InfoRow = ({ label, value, icon: Icon }) => (
+const InfoRow = ({ label, value, icon: IconComponent }) => (
     <div className="flex items-start gap-4 py-4 border-b border-slate-100 dark:border-white/5 last:border-0 group">
-        <div className="h-10 w-10 bg-[#EEF8F9] dark:bg-[#002B33] rounded-xl flex items-center justify-center text-[#006D7E] shrink-0 group-hover:bg-[#006D7E] group-hover:text-white transition-all duration-500 shadow-sm">
-            <Icon className="h-5 w-5" />
+        <div className="h-10 w-10 bg-[#EEF8F9] dark:bg-[#002B33] rounded-xl flex items-center justify-center text-[#006D7E] dark:text-[#CCEBF0] shrink-0 group-hover:bg-[#006D7E] group-hover:text-white transition-all duration-500 shadow-sm">
+            {IconComponent && <IconComponent className="h-5 w-5" />}
         </div>
         <div>
-            <div className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-1">{label}</div>
-            <div className="text-slate-700 dark:text-slate-300 font-bold italic text-sm">{value}</div>
+            <div className="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest mb-1">{typeof label === 'string' ? label : ''}</div>
+            <div className="text-slate-700 dark:text-slate-300 font-bold italic text-sm">{typeof value === 'string' ? value : ''}</div>
         </div>
     </div>
 );
@@ -167,7 +179,7 @@ export default function About() {
                             </motion.p>
 
                             <motion.div variants={itemVariants} className="flex gap-4">
-                                <div className="px-6 py-3 bg-[#006D7E] text-white rounded-2xl text-[10px] font-black uppercase tracking-widest italic flex items-center gap-2">
+                                <div className="px-6 py-3 bg-[#006D7E] text-white rounded-2xl text-[10px] font-black uppercase tracking-widest italic flex items-center gap-2 shadow-lg shadow-[#006D7E]/20">
                                     <Globe className="h-4 w-4" /> {__('About Strategic Partner')}
                                 </div>
                             </motion.div>
@@ -238,10 +250,10 @@ export default function About() {
                         >
                             <div className="absolute top-0 left-0 w-2 h-full bg-white/20"></div>
                             <div className="flex items-center gap-6 mb-8 text-white">
-                                <Rocket className="h-10 w-10" />
+                                <Rocket className="h-10 w-10 text-amber-300" />
                                 <h3 className="text-2xl font-black italic tracking-tight">{__('About History Phase 2 Title')}</h3>
                             </div>
-                            <p className="text-white/60 text-lg italic leading-relaxed font-medium">
+                            <p className="text-slate-200 text-lg italic leading-relaxed font-medium">
                                 {__('About History Phase 2 Detail')}
                             </p>
                         </motion.div>
@@ -538,7 +550,7 @@ export default function About() {
                                     <h3 className="text-2xl font-black italic text-[#004D5C] dark:text-[#CCEBF0]">{__('About QC Fail Label')}</h3>
                                 </div>
                                 <ul className="space-y-4">
-                                    {[__('About QC Fail Item 1'), __('About QC Fail Item 2')].map((item, i) => (
+                                    {[__('About QC Fail Item 1'), __('About QC Fail Item 2'), __('About QC Fail Item 3'), __('About QC Fail Item 4'), __('About QC Fail Item 5')].map((item, i) => (
                                         <li key={i} className="flex gap-4 items-start text-slate-500 dark:text-slate-400 font-medium italic">
                                             <div className="h-5 w-5 rounded-full bg-rose-50 dark:bg-rose-950/30 flex items-center justify-center shrink-0 mt-1">
                                                 <div className="h-1.5 w-1.5 rounded-full bg-rose-600"></div>
