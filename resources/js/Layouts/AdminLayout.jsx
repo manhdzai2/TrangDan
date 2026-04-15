@@ -180,6 +180,15 @@ export default function AdminLayout({ children }) {
                     </div>
                     <div className="flex items-center gap-6">
                         <div className="flex gap-2">
+                             {/* Language Toggle Button */}
+                             <Link 
+                                href={route('language.switch', locale === 'vi' ? 'en' : 'vi')} 
+                                className="font-black p-3 bg-white dark:bg-slate-800 rounded-2xl shadow-sm text-[#004D5C] hover:text-[#006D7E] dark:text-[#CCEBF0] dark:hover:text-amber-400 hover:shadow-xl transition-all border border-slate-100 dark:border-white/5 flex items-center justify-center min-w-[44px] text-[10px]"
+                                preserveScroll
+                             >
+                                {locale === 'vi' ? 'EN' : 'VI'}
+                             </Link>
+
                              {/* Theme Toggle Button */}
                              <motion.button
                                 onClick={toggleTheme}

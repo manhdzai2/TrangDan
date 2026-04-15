@@ -225,42 +225,37 @@ export default function Dashboard({ stats = {}, charts = {}, recent_applications
                     </div>
                 </div>
 
-                <div className="xl:col-span-3 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl rounded-[48px] border border-white/80 dark:border-white/5 shadow-xl overflow-hidden">
-                    <div className="px-10 py-8 border-b border-white/60 dark:border-white/5 flex justify-between items-center">
-                        <h3 className="text-2xl font-black text-[#004D5C] dark:text-white italic">{__('Recent Applications')}</h3>
-                        <Link href={route('admin.applications.index')} className="bg-[#006D7E] text-white text-[10px] font-black px-8 py-4 rounded-[20px] shadow-lg uppercase tracking-widest">
-                            {__('View All')}
-                        </Link>
+                <div className="xl:col-span-3 bg-white/60 dark:bg-slate-900/60 backdrop-blur-xl p-10 rounded-[48px] border border-white/80 dark:border-white/5 shadow-xl flex flex-col">
+                    <div className="flex justify-between items-center mb-8">
+                        <div>
+                            <h3 className="text-2xl font-black text-[#004D5C] dark:text-white italic">{__('Production Efficiency')}</h3>
+                            <p className="text-slate-400 dark:text-slate-500 text-[10px] font-black uppercase tracking-[0.2em] mt-1">{__('Weekly KPI Tracking')}</p>
+                        </div>
+                        <div className="p-4 bg-emerald-50 dark:bg-emerald-500/10 rounded-2xl border border-emerald-100 dark:border-emerald-500/20 shadow-inner">
+                            <Activity className="h-6 w-6 text-emerald-500" />
+                        </div>
                     </div>
-                    <div className="p-6 overflow-x-auto">
-                        <table className="w-full text-left border-separate border-spacing-y-4">
-                            <thead>
-                                <tr className="text-slate-300 dark:text-slate-700 text-[9px] font-black uppercase tracking-[0.4em]">
-                                    <th className="px-6 pb-2">{__('Candidate')}</th>
-                                    <th className="px-6 pb-2">{__('Position')}</th>
-                                    <th className="px-6 pb-2 text-center">{__('Status')}</th>
-                                    <th className="px-6 pb-2 text-right">{__('Action')}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {(recent_applications || []).map((app, i) => (
-                                    <tr key={app.id} className="group">
-                                        <td className="px-6 py-5 rounded-l-[32px] bg-white dark:bg-slate-800/40 group-hover:bg-[#EEF8F9] dark:group-hover:bg-slate-800 transition-all font-black italic text-[#004D5C] dark:text-white">
-                                            {app.name}
-                                        </td>
-                                        <td className="px-6 py-5 bg-white dark:bg-slate-800/40 group-hover:bg-[#EEF8F9] dark:group-hover:bg-slate-800 transition-all text-[#004D5C] dark:text-slate-300 font-black text-xs uppercase tracking-wider">
-                                            {app.job}
-                                        </td>
-                                        <td className="px-6 py-5 text-center bg-white dark:bg-slate-800/40 group-hover:bg-[#EEF8F9] dark:group-hover:bg-slate-800 transition-all">
-                                            <span className="bg-emerald-50 dark:bg-emerald-500/10 text-emerald-600 px-4 py-1.5 rounded-full text-[9px] font-black uppercase tracking-widest">{__(app.status)}</span>
-                                        </td>
-                                        <td className="px-6 py-5 rounded-r-[32px] text-right bg-white dark:bg-slate-800/40 group-hover:bg-[#EEF8F9] dark:group-hover:bg-slate-800 transition-all">
-                                            <Eye className="h-4 w-4 inline text-slate-400 group-hover:text-[#006D7E]" />
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
+                    
+                    <div className="flex-1 min-h-[250px] w-full">
+                        <ResponsiveContainer width="100%" height="100%">
+                            <AreaChart data={charts?.production_efficiency || []}>
+                                <defs>
+                                    <linearGradient id="colorOEE" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="5%" stopColor="#10b981" stopOpacity={0.4}/>
+                                        <stop offset="95%" stopColor="#10b981" stopOpacity={0}/>
+                                    </linearGradient>
+                                </defs>
+                                <CartesianGrid strokeDasharray="4 4" vertical={false} stroke="currentColor" className="text-slate-200/50 dark:text-white/5" />
+                                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{fill: 'currentColor', fontSize: 10, fontWeight: 900}} className="text-slate-400 dark:text-slate-500" dy={15}/>
+                                <YAxis domain={[80, 100]} axisLine={false} tickLine={false} tick={{fill: 'currentColor', fontSize: 10, fontWeight: 900}} className="text-slate-400 dark:text-slate-500"/>
+                                <Tooltip 
+                                    contentStyle={{ borderRadius: '24px', border: 'none', boxShadow: '0 25px 50px -12px rgb(0 0 0 / 0.15)', padding: '20px', backgroundColor: 'rgba(255, 255, 255, 0.95)' }} 
+                                    itemStyle={{ color: '#10b981', fontWeight: 900, fontSize: '14px' }}
+                                    cursor={{ stroke: '#10b981', strokeWidth: 1, strokeDasharray: '4 4' }}
+                                />
+                                <Area type="monotone" dataKey="value" stroke="#10b981" strokeWidth={5} fillOpacity={1} fill="url(#colorOEE)" animationDuration={1800}/>
+                            </AreaChart>
+                        </ResponsiveContainer>
                     </div>
                 </div>
             </div>
