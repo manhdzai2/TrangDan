@@ -2,7 +2,8 @@ import AdminLayout from '@/Layouts/AdminLayout';
 import { Head, useForm } from '@inertiajs/react';
 import { 
     Building, History, Target, Eye, MapPin, 
-    Mail, Phone, Save, Upload, Sparkles, Check
+    Mail, Phone, Save, Upload, Sparkles, Check,
+    Briefcase, Banknote, Heart
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from '@/Hooks/useTranslation';
@@ -18,6 +19,9 @@ export default function CompanyInfo({ info }) {
         address: info.address || '',
         email: info.email || '',
         phone: info.phone || '',
+        general_job_description: info.general_job_description || '',
+        salary_range: info.salary_range || '',
+        benefits: info.benefits || '',
         logo: null,
     });
 
@@ -102,13 +106,40 @@ export default function CompanyInfo({ info }) {
                                 error={errors.history}
                                 icon={<History className="h-4 w-4" />}
                             />
+                            <TextAreaField 
+                                label={__('Admin General Job')} 
+                                value={data.general_job_description} 
+                                onChange={e => setData('general_job_description', e.target.value)}
+                                error={errors.general_job_description}
+                                icon={<Briefcase className="h-4 w-4" />}
+                                placeholder="Tham gia sản xuất, lắp ráp phụ kiện điện tử hoặc làm việc tại văn phòng"
+                                helperText="Gợi ý: Tham gia sản xuất, lắp ráp phụ kiện điện tử hoặc làm việc tại văn phòng"
+                            />
+                            <InputField 
+                                label={__('Admin Salary Range')} 
+                                value={data.salary_range} 
+                                onChange={e => setData('salary_range', e.target.value)}
+                                error={errors.salary_range}
+                                icon={<Banknote className="h-4 w-4" />}
+                                placeholder="7-20 triệu/tháng (tuỳ vị trí) + thưởng + phụ cấp"
+                                helperText="Gợi ý: 7-20 triệu/tháng (tuỳ vị trí) + thưởng + phụ cấp"
+                            />
+                            <TextAreaField 
+                                label={__('Admin General Benefits')} 
+                                value={data.benefits} 
+                                onChange={e => setData('benefits', e.target.value)}
+                                error={errors.benefits}
+                                icon={<Heart className="h-4 w-4 text-rose-500" />}
+                            />
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                                 <TextAreaField 
-                                    label={__('Admin Mission')} 
+                                    label={__('Admin Mission') + " (Môi trường làm việc)"} 
                                     value={data.mission} 
                                     onChange={e => setData('mission', e.target.value)}
                                     error={errors.mission}
                                     icon={<Target className="h-4 w-4" />}
+                                    placeholder="Tại Almus Tech, bạn sẽ được làm việc trong môi trường trẻ trung..."
+                                    helperText="Gợi ý: Tại Almus Tech, bạn sẽ được làm việc trong môi trường trẻ trung, thân thiện, được đào tạo từ đầu (đối với người chưa có kinh nghiệm) và có lộ trình phát triển rõ ràng. Đây là cơ hội phù hợp cho những ai muốn gắn bó lâu dài và nâng cao kỹ năng."
                                 />
                                 <TextAreaField 
                                     label={__('Admin Vision')} 
@@ -201,7 +232,7 @@ function Section({ title, icon, children }) {
     );
 }
 
-function InputField({ label, value, onChange, error, type = "text", icon }) {
+function InputField({ label, value, onChange, error, type = "text", icon, placeholder, helperText }) {
     return (
         <div className="space-y-4">
             <label className="text-[10px] font-black text-[#004D5C] dark:text-white uppercase tracking-[0.2em] block ml-2 flex items-center gap-2 transition-colors">
@@ -211,14 +242,16 @@ function InputField({ label, value, onChange, error, type = "text", icon }) {
                 type={type} 
                 value={value}
                 onChange={onChange}
+                placeholder={placeholder}
                 className={`w-full bg-[#F3F7F8] dark:bg-slate-800 border-none rounded-[24px] p-6 text-sm font-black text-[#004D5C] dark:text-white focus:ring-4 focus:ring-[#006D7E]/10 transition-all shadow-inner italic ${error ? 'ring-2 ring-rose-500/20' : ''}`}
             />
+            {helperText && <p className="text-[10px] text-slate-400 italic ml-4 leading-relaxed">{helperText}</p>}
             {error && <div className="text-rose-500 text-[10px] font-black uppercase tracking-widest ml-4">{error}</div>}
         </div>
     );
 }
 
-function TextAreaField({ label, value, onChange, error, icon }) {
+function TextAreaField({ label, value, onChange, error, icon, placeholder, helperText }) {
     return (
         <div className="space-y-4">
             <label className="text-[10px] font-black text-[#004D5C] dark:text-white uppercase tracking-[0.2em] block ml-2 flex items-center gap-2 transition-colors">
@@ -227,9 +260,11 @@ function TextAreaField({ label, value, onChange, error, icon }) {
             <textarea 
                 value={value}
                 onChange={onChange}
+                placeholder={placeholder}
                 rows={4}
                 className={`w-full bg-[#F3F7F8] dark:bg-slate-800 border-none rounded-[32px] p-8 text-sm font-black text-[#004D5C] dark:text-white focus:ring-4 focus:ring-[#006D7E]/10 transition-all shadow-inner italic leading-relaxed ${error ? 'ring-2 ring-rose-500/20' : ''}`}
             />
+            {helperText && <p className="text-[10px] text-slate-400 italic ml-4 leading-relaxed">{helperText}</p>}
             {error && <div className="text-rose-500 text-[10px] font-black uppercase tracking-widest ml-4">{error}</div>}
         </div>
     );

@@ -7,7 +7,8 @@ import {
     ClipboardCheck, ShieldCheck, FileBarChart, AlertCircle, 
     Lock, GraduationCap, CheckCircle2, ArrowRight, FileText, 
     Globe, Building, Scale, Users, History, Cpu, Clock, Image as ImageIcon,
-    HelpCircle, Mail, Phone, MapPin, Eye
+    HelpCircle, Mail, Phone, MapPin, Eye,
+    Briefcase, Banknote
 } from 'lucide-react';
 import * as LucideIcons from 'lucide-react';
 import { useTranslation } from '@/Hooks/useTranslation';
@@ -204,6 +205,30 @@ export default function About({ companyInfo, oqcSteps = [], qualityStandards = [
                                     <InfoRow icon={Mail} label={__('Staff Email Label')} value={companyInfo?.email || 'contact@almustech.com'} />
                                     <InfoRow icon={Phone} label={__('Staff Phone Label')} value={companyInfo?.phone || '0222 123 000'} />
                                     <InfoRow icon={MapPin} label={__('About Headquarter')} value={companyInfo?.address || __('About Headquarter')} />
+                                    <Link href="/jobs" className="block transition-transform hover:scale-[1.01] active:scale-[0.99]">
+                                        <InfoRow icon={Briefcase} label={__('Admin General Job')} value={companyInfo?.general_job_description || __('About Activity Production Detail')} />
+                                    </Link>
+                                    <div className="transition-transform hover:scale-[1.01]">
+                                        <InfoRow icon={Banknote} label={__('Admin Salary Range')} value={companyInfo?.salary_range || '7.000.000 - 12.000.000 VND'} />
+                                    </div>
+                                    {companyInfo?.benefits && (
+                                        <div className="col-span-1 md:col-span-2 mt-4 p-6 bg-rose-50/50 dark:bg-rose-950/20 rounded-3xl border border-rose-100 dark:border-rose-900/20">
+                                            <div className="flex items-center gap-3 mb-4 text-rose-600 dark:text-rose-400">
+                                                <Heart className="h-5 w-5" />
+                                                <div className="text-[10px] font-black uppercase tracking-widest">{__('Admin General Benefits')}</div>
+                                            </div>
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                                {companyInfo.benefits.split('\n').filter(line => line.trim()).map((benefit, i) => (
+                                                    <div key={i} className="flex items-start gap-2">
+                                                        <CheckCircle2 className="h-4 w-4 text-rose-500 mt-0.5 shrink-0" />
+                                                        <p className="text-xs font-bold text-slate-700 dark:text-slate-300 italic">
+                                                            {benefit.trim()}
+                                                        </p>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </motion.div>

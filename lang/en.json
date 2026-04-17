@@ -98,6 +98,8 @@
     "Jobs Form Name": "Full Name",
     "Jobs Form Email": "Email",
     "Jobs Form Expected Salary": "Expected Salary",
+    "Admin Vacancy Highlight": "Job Highlight / Tagline",
+    "Admin Vacancy Highlight Placeholder": "e.g., Join our elite AI team and build the future...",
     "Jobs Form CV": "Upload CV",
     "Jobs Form CV Hint": "Support PDF, DOCX up to 5MB",
     "Jobs Submit": "SUBMIT APPLICATION",
@@ -627,5 +629,8 @@
     "Select Level": "Select Level",
     "Engineer": "Engineer/Technician",
     "Worker": "Operator/Worker",
-    "QC": "Quality Controller (QC)"
+    "QC": "Quality Controller (QC)",
+    "Admin General Job": "General Job Description",
+    "Admin Salary Range": "Salary Range",
+    "Admin General Benefits": "General Benefits"
 }

@@ -1,16 +1,36 @@
 import RecruitmentLayout from '@/Layouts/RecruitmentLayout';
 import { Head, useForm, Link, usePage } from '@inertiajs/react';
+import { useState } from 'react';
 import { 
-    ChevronLeft, MapPin, Clock, Briefcase, 
+    ChevronLeft, MapPin, Clock, Briefcase, Users,
     CheckCircle, FileText, Send, Sparkles, Phone, Home, Calendar, User as UserIcon,
-    UploadCloud, X, FileDigit
+    UploadCloud, X, FileDigit, Banknote, Heart, GraduationCap, Star, Zap, TrendingUp
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from '@/Hooks/useTranslation';
 
-export default function Show({ vacancy }) {
+const PERK_DETAILS = {
+    training: {
+        title: "Đào tạo từ đầu",
+        desc: "Chúng tôi xây dựng lộ trình đào tạo bài bản từ ngày đầu tiên. Bạn sẽ được hướng dẫn bởi các chuyên gia giàu kinh nghiệm, không áp lực về trình độ đầu vào.",
+        color: "blue"
+    },
+    environment: {
+        title: "Môi trường trẻ",
+        desc: "Văn hóa làm việc năng động, không khoảng cách. Các hoạt động Teambuilding, phong trào nội bộ sôi nổi giúp bạn luôn tràn đầy năng lượng.",
+        color: "amber"
+    },
+    growth: {
+        title: "Lộ trình thăng tiến",
+        desc: "Cơ hội thăng tiến rõ ràng sau mỗi 6-12 tháng. Almus Tech ưu tiên phát triển đội ngũ quản lý từ nguồn lực nội bộ.",
+        color: "emerald"
+    }
+};
+
+export default function Show({ vacancy, companyInfo }) {
     const { auth } = usePage().props;
     const { __ } = useTranslation();
+    const [activePerk, setActivePerk] = useState(null);
 
     // JSON-LD for Google Jobs
     const jobSchema = {
@@ -147,6 +167,144 @@ export default function Show({ vacancy }) {
                                         <p className="leading-loose mb-10 text-slate-400">{__('Jobs Desc Placeholder')}</p>
                                     )}
 
+                                        {/* General Intro & Benefits (from CompanyInfo) */}
+                                        <div className="mb-16 space-y-10">
+                                            {companyInfo?.general_job_description && (
+                                                <motion.div 
+                                                    initial={{ opacity: 0, y: 20 }}
+                                                    whileInView={{ opacity: 1, y: 0 }}
+                                                    viewport={{ once: true }}
+                                                    className="bg-[#001D24] dark:bg-black p-12 md:p-16 rounded-[60px] shadow-2xl relative overflow-hidden group border border-white/5"
+                                                >
+                                                    <div className="absolute top-0 right-0 w-64 h-64 bg-[#006D7E]/10 rounded-full -translate-y-1/2 translate-x-1/2 blur-[100px] group-hover:bg-[#006D7E]/20 transition-all duration-700"></div>
+                                                    <div className="relative z-10 space-y-12">
+                                                        <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+                                                            <div className="flex items-center gap-3">
+                                                                <div className="h-10 w-10 bg-[#006D7E]/20 rounded-2xl flex items-center justify-center text-[#CCEBF0]">
+                                                                    <Sparkles className="h-5 w-5 animate-pulse" />
+                                                                </div>
+                                                                <h2 className="text-3xl font-black text-white italic tracking-tighter uppercase">{__('Premium Recruitment')}</h2>
+                                                            </div>
+                                                            <div className="px-6 py-2 bg-emerald-500/20 text-emerald-400 rounded-full text-[10px] font-black uppercase tracking-[0.2em] border border-emerald-500/30">
+                                                                Hiring Priority: High
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+                                                            {/* Salary */}
+                                                            <motion.div whileHover={{ y: -5 }} className="bg-white/5 p-8 rounded-[40px] border border-white/10 hover:bg-white/10 transition-all">
+                                                                <div className="h-12 w-12 bg-emerald-500/20 rounded-2xl flex items-center justify-center text-emerald-400 mb-6">
+                                                                    <Banknote className="h-6 w-6" />
+                                                                </div>
+                                                                <div className="text-[10px] font-black text-emerald-500/50 uppercase tracking-widest mb-2 italic">Thu nhập hấp dẫn</div>
+                                                                <p className="text-2xl md:text-3xl font-black text-white italic leading-none tracking-tight">
+                                                                    {companyInfo?.salary_range || "7-20 triệu/tháng"}
+                                                                </p>
+                                                                <p className="text-white/40 text-xs mt-3 font-bold italic">+ thưởng & phụ cấp hậu hĩnh</p>
+                                                            </motion.div>
+
+                                                            {/* Job */}
+                                                            <motion.div whileHover={{ y: -5 }} className="bg-white/5 p-8 rounded-[40px] border border-white/10 hover:bg-white/10 transition-all">
+                                                                <div className="h-12 w-12 bg-blue-500/20 rounded-2xl flex items-center justify-center text-blue-400 mb-6">
+                                                                    <Zap className="h-6 w-6" />
+                                                                </div>
+                                                                <div className="text-[10px] font-black text-blue-500/50 uppercase tracking-widest mb-2 italic">Công việc chính</div>
+                                                                <p className="text-xl font-bold text-white italic leading-tight">
+                                                                    {vacancy.highlight || companyInfo?.general_job_description || "Tham gia sản xuất, lắp ráp phụ kiện điện tử cao cấp"}
+                                                                </p>
+                                                            </motion.div>
+                                                        </div>
+
+                                                        {/* Environment & Growth - Interactive */}
+                                                        <div className="space-y-6">
+                                                            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                                                                {[
+                                                                    { id: 'training', icon: <GraduationCap className="h-5 w-5" />, title: "Đào tạo", desc: "Đào tạo từ đầu." },
+                                                                    { id: 'growth', icon: <TrendingUp className="h-5 w-5" />, title: "Thăng tiến", desc: "Lộ trình rõ ràng." },
+                                                                    { id: 'environment', icon: <Users className="h-5 w-5" />, title: "Văn hóa", desc: "Môi trường trẻ." }
+                                                                ].map((item) => (
+                                                                    <button 
+                                                                        key={item.id}
+                                                                        onClick={() => setActivePerk(activePerk === item.id ? null : item.id)}
+                                                                        className={`flex gap-4 p-4 rounded-3xl border transition-all duration-500 items-center text-left ${
+                                                                            activePerk === item.id
+                                                                            ? `bg-${PERK_DETAILS[item.id].color}-500/20 border-${PERK_DETAILS[item.id].color}-500/50 scale-[1.02]`
+                                                                            : 'bg-white/5 border-white/5 hover:bg-white/10'
+                                                                        }`}
+                                                                    >
+                                                                        <div className={`h-10 w-10 rounded-xl flex items-center justify-center text-white shrink-0 ${
+                                                                            activePerk === item.id ? `bg-${PERK_DETAILS[item.id].color}-500` : 'bg-white/10'
+                                                                        }`}>
+                                                                            {item.icon}
+                                                                        </div>
+                                                                        <div>
+                                                                            <div className="text-xs font-black text-white italic">{item.title}</div>
+                                                                            <div className="text-[10px] text-white/50 font-medium italic">{item.desc}</div>
+                                                                        </div>
+                                                                    </button>
+                                                                ))}
+                                                            </div>
+
+                                                            <AnimatePresence>
+                                                                {activePerk && (
+                                                                    <motion.div
+                                                                        initial={{ height: 0, opacity: 0 }}
+                                                                        animate={{ height: 'auto', opacity: 1 }}
+                                                                        exit={{ height: 0, opacity: 0 }}
+                                                                        className="overflow-hidden"
+                                                                    >
+                                                                        <div className={`p-8 rounded-[40px] bg-${PERK_DETAILS[activePerk].color}-500/10 border border-${PERK_DETAILS[activePerk].color}-500/20 shadow-2xl shadow-${PERK_DETAILS[activePerk].color}-500/5`}>
+                                                                            <div className="flex gap-4">
+                                                                                <div className={`h-12 w-12 rounded-2xl bg-${PERK_DETAILS[activePerk].color}-500/20 flex items-center justify-center text-${PERK_DETAILS[activePerk].color}-400 shrink-0`}>
+                                                                                    <Sparkles className="h-6 w-6" />
+                                                                                </div>
+                                                                                <div>
+                                                                                    <div className={`text-[10px] font-black text-${PERK_DETAILS[activePerk].color}-400 uppercase tracking-widest mb-2 italic`}>{PERK_DETAILS[activePerk].title}</div>
+                                                                                    <p className="text-white text-base font-bold italic leading-relaxed">
+                                                                                        {PERK_DETAILS[activePerk].desc}
+                                                                                    </p>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </motion.div>
+                                                                )}
+                                                            </AnimatePresence>
+                                                        </div>
+
+                                                        <div className="bg-slate-900/50 p-8 rounded-[40px] border border-white/5">
+                                                            <div className="flex gap-4 items-start">
+                                                                <Star className="h-6 w-6 text-amber-400 fill-amber-400 shrink-0" />
+                                                                <p className="text-white/70 text-base font-bold italic leading-relaxed">
+                                                                    {vacancy.highlight || companyInfo?.mission || "Tại Almus Tech, mỗi cá nhân đều là một nhân tố quan trọng để cùng nhau viết nên những điều phi thường."}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </motion.div>
+                                            )}
+
+                                            {companyInfo?.benefits && (
+                                            <div className="flex items-start gap-4">
+                                                <div className="h-10 w-10 bg-rose-50 dark:bg-rose-950/30 text-rose-600 dark:text-rose-400 rounded-xl flex items-center justify-center shrink-0">
+                                                    <Heart className="h-5 w-5" />
+                                                </div>
+                                                <div className="flex-1">
+                                                    <div className="text-[10px] font-black text-rose-400 uppercase tracking-widest mb-2 italic">{__('Admin General Benefits')}</div>
+                                                    <div className="space-y-3">
+                                                        {companyInfo.benefits.split('\n').filter(line => line.trim()).map((benefit, i) => (
+                                                            <div key={i} className="flex items-start gap-3 group/item">
+                                                                <CheckCircle className="h-4 w-4 text-emerald-500 mt-1 shrink-0 opacity-60 group-hover/item:opacity-100 transition-opacity" />
+                                                                <p className="text-base font-bold text-[#004D5C] dark:text-slate-300 italic leading-tight">
+                                                                    {benefit.trim().replace(/^[•\-\*]\s*/, '')}
+                                                                </p>
+                                                            </div>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+
                                     {vacancy.requirements && (
                                         <>
                                             <h3 className="text-2xl mb-6 tracking-tighter">{__('Jobs Requirements Title')}</h3>
@@ -176,6 +334,34 @@ export default function Show({ vacancy }) {
                                 <div className="bg-[#004D5C] dark:bg-slate-900 p-10 rounded-[60px] shadow-2xl relative overflow-hidden text-white transition-colors duration-500">
                                     <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl"></div>
                                     
+                                    {auth.user && !wasSuccessful && (
+                                        <div className="mb-8 p-6 bg-white/5 border border-white/10 rounded-[32px] space-y-4 shadow-inner animate-in slide-in-from-top-4 duration-700">
+                                            <div className="flex items-center gap-3">
+                                                <div className="h-8 w-8 bg-white/10 rounded-xl flex items-center justify-center text-white">
+                                                    <Send className="h-4 w-4" />
+                                                </div>
+                                                <div className="text-[10px] font-black uppercase tracking-[0.2em]">{__('Jobs Apply Title')}</div>
+                                            </div>
+                                            <div className="space-y-2">
+                                                {companyInfo?.benefits?.split('\n').filter(line => line.trim()).slice(0, 4).map((benefit, i) => (
+                                                    <div key={i} className="flex items-start gap-2">
+                                                        <div className="h-3 w-3 bg-emerald-400/20 rounded-full flex items-center justify-center mt-1 shrink-0">
+                                                            <div className="h-1.5 w-1.5 bg-emerald-400 rounded-full"></div>
+                                                        </div>
+                                                        <p className="text-white/70 text-[11px] font-bold italic leading-tight">
+                                                            {benefit.trim().replace(/^[•\-\*]\s*/, '')}
+                                                        </p>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                            {companyInfo?.salary_range && (
+                                                <div className="pt-2 border-t border-white/5 flex items-center gap-2 text-emerald-400 text-[10px] font-black uppercase tracking-widest italic">
+                                                    <Banknote className="h-4 w-4" /> {__('Admin Salary Range')}: {companyInfo.salary_range}
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+
                                     {!auth.user ? (
                                         <div className="text-center py-12 px-6">
                                             <div className="h-20 w-20 bg-white/10 rounded-[32px] flex items-center justify-center text-white mx-auto mb-8 shadow-xl border border-white/20">

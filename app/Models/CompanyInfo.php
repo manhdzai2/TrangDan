@@ -11,6 +11,9 @@ class CompanyInfo extends Model
     protected $fillable = [
         'name',
         'history',
+        'general_job_description',
+        'salary_range',
+        'benefits',
         'mission',
         'vision',
         'address',

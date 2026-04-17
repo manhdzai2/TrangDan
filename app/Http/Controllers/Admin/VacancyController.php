@@ -25,6 +25,7 @@ class VacancyController extends Controller
     {
         $validated = $request->validate([
             'title'                => 'required|string|max:255',
+            'highlight'            => 'nullable|string',
             'description'          => 'nullable|string',
             'recruitment_process'  => 'nullable|string',
             'requirements'         => 'nullable|string',
@@ -53,6 +54,7 @@ class VacancyController extends Controller
 
         $validated = $request->validate([
             'title'                => 'required|string|max:255',
+            'highlight'            => 'nullable|string',
             'description'          => 'nullable|string',
             'recruitment_process'  => 'nullable|string',
             'requirements'         => 'nullable|string',

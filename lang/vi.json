@@ -98,6 +98,8 @@
     "Jobs Form Name": "Họ và tên",
     "Jobs Form Email": "Email",
     "Jobs Form Expected Salary": "Lương mong muốn",
+    "Admin Vacancy Highlight": "Câu nói ấn tượng (Highlight)",
+    "Admin Vacancy Highlight Placeholder": "VD: Gia nhập đội ngũ AI tinh hoa để cùng kiến tạo tương lai...",
     "Jobs Form CV": "Tải hồ sơ (CV)",
     "Jobs Form CV Hint": "Hỗ trợ PDF, DOCX tối đa 5MB",
     "Jobs Submit": "GỬI HỒ SƠ NGAY",
@@ -627,5 +629,8 @@
     "Select Level": "Chọn cấp bậc",
     "Engineer": "Kỹ thuật viên",
     "Worker": "Công nhân",
-    "QC": "Kiểm soát viên (QC)"
+    "QC": "Kiểm soát viên (QC)",
+    "Admin General Job": "Công việc chính",
+    "Admin Salary Range": "Mức lương",
+    "Admin General Benefits": "Đãi ngộ & Quyền lợi"
 }

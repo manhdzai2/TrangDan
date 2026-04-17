@@ -25,6 +25,9 @@ class CompanyInfoController extends Controller
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'history' => 'nullable|string',
+            'general_job_description' => 'nullable|string',
+            'salary_range' => 'nullable|string|max:255',
+            'benefits' => 'nullable|string',
             'mission' => 'nullable|string',
             'vision' => 'nullable|string',
             'address' => 'nullable|string|max:255',

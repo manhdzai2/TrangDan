@@ -12,6 +12,7 @@ export default function Index({ vacancies }) {
 
     const { data, setData, post, put, delete: destroy, processing, reset, errors } = useForm({
         title: '',
+        highlight: '',
         description: '',
         recruitment_process: '',
         requirements: '',
@@ -35,6 +36,7 @@ export default function Index({ vacancies }) {
         setEditingJob(job);
         setData({
             title: job.title,
+            highlight: job.highlight || '',
             description: job.description || '',
             recruitment_process: job.recruitment_process || '',
             requirements: job.requirements || '',
@@ -375,6 +377,17 @@ export default function Index({ vacancies }) {
                                                 </div>
                                             </label>
                                         </div>
+                                    </div>
+
+                                    <div>
+                                        <label className="text-[10px] font-black text-[#004D5C] dark:text-[#CCEBF0] uppercase tracking-[0.2em] block mb-4">{__('Admin Vacancy Highlight')}</label>
+                                        <textarea 
+                                            value={data.highlight}
+                                            onChange={e => setData('highlight', e.target.value)}
+                                            rows="3"
+                                            placeholder={__('Admin Vacancy Highlight Placeholder')} 
+                                            className="w-full bg-[#F3F7F8] dark:bg-slate-800 border-none rounded-[32px] px-8 py-6 text-sm font-black text-[#004D5C] dark:text-white focus:ring-4 focus:ring-[#006D7E]/10 transition-all shadow-inner resize-none placeholder:text-slate-300 italic"
+                                        ></textarea>
                                     </div>
 
                                     <div>
