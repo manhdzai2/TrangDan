@@ -27,7 +27,7 @@ export default function Register() {
 
     return (
         <RecruitmentLayout>
-            <Head title={`${__('Register')} - AMT Careers`} />
+            <Head title={`${__('Register')} - ALMUS TECH`} />
 
             <section className="min-h-screen pt-40 pb-20 bg-slate-50 dark:bg-slate-950 transition-colors duration-500 relative overflow-hidden flex items-center justify-center">
                 {/* Background Blobs */}

@@ -26,7 +26,7 @@ export default function Login({ status, canResetPassword }) {
 
     return (
         <RecruitmentLayout>
-            <Head title={`${__('Login')} - AMT Careers`} />
+            <Head title={`${__('Login')} - ALMUS TECH`} />
             
             <section className="min-h-screen pt-40 pb-20 bg-slate-50 dark:bg-slate-950 transition-colors duration-500 relative overflow-hidden flex items-center justify-center">
                 {/* Background Blobs */}
@@ -52,7 +52,7 @@ export default function Login({ status, canResetPassword }) {
                                 animate={{ opacity: 1, scale: 1 }}
                                 className="inline-flex items-center gap-2 px-4 py-2 bg-[#EEF8F9] dark:bg-[#002B33] text-[#006D7E] rounded-full text-[10px] font-black uppercase tracking-[0.3em] mb-8 border border-[#006D7E]/10"
                             >
-                                <Sparkles className="h-3 w-3 fill-current" /> AMT CAREERS
+                                <Sparkles className="h-3 w-3 fill-current" /> ALMUS TECH
                             </motion.div>
                             <h2 className="text-5xl font-black text-[#004D5C] dark:text-[#CCEBF0] tracking-tighter italic mb-4 leading-none">{__('Auth Login Title')}</h2>
                             <p className="text-slate-500 dark:text-slate-400 font-medium italic leading-relaxed">{__('Auth Login Sub')}</p>

@@ -33,7 +33,7 @@ export default function StaffLayout({ children }) {
                         <div className="h-10 w-10 bg-[#6366F1] rounded-xl flex items-center justify-center shadow-lg shadow-indigo-200 group-hover:rotate-12 transition-transform duration-500">
                             <Sparkles className="h-6 w-6 text-white" />
                         </div>
-                        <span className="text-xl font-black tracking-tighter text-[#1E293B]">AMT <span className="text-[#6366F1]">STAFF</span></span>
+                        <span className="text-xl font-black tracking-tighter text-[#1E293B]">ALMUS TECH <span className="text-[#6366F1]">STAFF</span></span>
                     </Link>
                 </div>
 
@@ -85,7 +85,7 @@ export default function StaffLayout({ children }) {
                             </div>
                             <div className="overflow-hidden">
                                 <div className="text-sm font-bold text-slate-800 truncate">{user.name}</div>
-                                <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Nhân sự AMT</div>
+                                <div className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Nhân sự ALMUS TECH</div>
                             </div>
                         </div>
                         <Link 

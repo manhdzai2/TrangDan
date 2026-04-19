@@ -178,7 +178,7 @@ export default function MyApplications({ applications }) {
                             <div className="relative p-10 pb-6 flex justify-between items-start border-b border-slate-50 dark:border-white/5 bg-slate-50/50 dark:bg-white/5">
                                 <div>
                                     <div className="inline-flex items-center gap-2 px-3 py-1 bg-[#EEF8F9] dark:bg-[#002B33] text-[#006D7E] rounded-full text-[9px] font-black uppercase tracking-widest mb-3">
-                                        <Briefcase className="h-3 w-3" /> {selectedApp.vacancy?.title || 'AMT Application'}
+                                        <Briefcase className="h-3 w-3" /> {selectedApp.vacancy?.title || 'ALMUS TECH Application'}
                                     </div>
                                     <h2 className="text-3xl font-black text-[#004D5C] dark:text-[#CCEBF0] tracking-tighter italic leading-none">
                                         {selectedApp.applied_position || selectedApp.vacancy?.title}

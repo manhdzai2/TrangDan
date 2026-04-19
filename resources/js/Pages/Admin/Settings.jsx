@@ -11,8 +11,8 @@ import { useTranslation } from '@/Hooks/useTranslation';
 export default function SettingsPage({ settings }) {
     const { __ } = useTranslation();
     const { data, setData, post, processing, wasSuccessful } = useForm({
-        company_name: settings?.company_name || 'AMT SOLUTIONS',
-        admin_email: settings?.admin_email || 'admin@amt.com',
+        company_name: settings?.company_name || 'ALMUS TECH',
+        admin_email: settings?.admin_email || 'admin@almustech.com',
         notifications: settings?.notifications ?? true,
         two_factor: settings?.two_factor ?? true,
         maintenance_mode: settings?.maintenance_mode ?? false,

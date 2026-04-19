@@ -198,7 +198,7 @@ export default function Show({ vacancy, companyInfo }) {
                                                                 </div>
                                                                 <div className="text-[10px] font-black text-emerald-500/50 uppercase tracking-widest mb-2 italic">Thu nhập hấp dẫn</div>
                                                                 <p className="text-2xl md:text-3xl font-black text-white italic leading-none tracking-tight">
-                                                                    {companyInfo?.salary_range || "7-20 triệu/tháng"}
+                                                                    {companyInfo?.salary_range || "7-12 triệu/tháng"}
                                                                 </p>
                                                                 <p className="text-white/40 text-xs mt-3 font-bold italic">+ thưởng & phụ cấp hậu hĩnh</p>
                                                             </motion.div>

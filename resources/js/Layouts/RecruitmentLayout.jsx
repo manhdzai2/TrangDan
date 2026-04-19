@@ -208,7 +208,7 @@ export default function RecruitmentLayout({ children }) {
                         <div className="bg-[#EEF8F9] dark:bg-[#002B33] p-8 rounded-[40px] border border-[#006D7E]/10 flex flex-col items-center text-center">
                             <Sparkles className="h-8 w-8 text-[#006D7E] mb-4 animate-pulse" />
                             <div className="text-[10px] font-black text-[#006D7E] uppercase tracking-widest mb-2">{__('Vacancies')}</div>
-                            <div className="text-sm font-black text-[#004D5C] dark:text-[#CCEBF0] italic">hr@amt-solutions.vn</div>
+                            <div className="text-sm font-black text-[#004D5C] dark:text-[#CCEBF0] italic">hr@almustech.com</div>
                         </div>
                     </div>
                 </div>

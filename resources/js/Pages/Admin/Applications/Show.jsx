@@ -183,7 +183,7 @@ export default function Show({ application }) {
                         <div className="space-y-6">
                             <div>
                                 <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">{__('Admin System ID')}</div>
-                                <div className="font-mono text-[11px] font-black text-slate-300">#AMT-APP-{application.id.toString().padStart(4, '0')}</div>
+                                <div className="font-mono text-[11px] font-black text-slate-300">#ALMUS-APP-{application.id.toString().padStart(4, '0')}</div>
                             </div>
                             {application.cv_path && (
                                 <motion.a 

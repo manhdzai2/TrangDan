@@ -21,6 +21,8 @@ class CompanyInfoSeeder extends Seeder
                 'address' => 'Lô G3, Khu công nghiệp Quế Võ, P. Nam Sơn, TP. Bắc Ninh, Tỉnh Bắc Ninh',
                 'email' => 'contact@almustech.com',
                 'phone' => '0222 123 456',
+                'general_job_description' => 'Tham gia sản xuất, lắp ráp linh kiện điện tử cao cấp (Buds, Watch, Cradle)...',
+                'salary_range' => '7 - 12 triệu/tháng',
                 'logo' => null,
                 'images' => []
             ]
